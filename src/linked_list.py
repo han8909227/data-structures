@@ -29,7 +29,7 @@ class Node(object):
 class LinkedList(object):
     """Linked-List class."""
 
-    def __init__(self, iterable):
+    def __init__(self, iterable=()):
         """Initialize the LinkedList as an instance."""
         self.head = None
         if isinstance(iterable, (str, tuple, list)):
