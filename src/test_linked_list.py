@@ -24,7 +24,7 @@ display_test = [(221, '(221, )'), ('word', '(word, )'), ([1, 2], '([1, 2], )'), 
 
 @pytest.mark.parametrize('head, result', display_test)
 def test_display(head, result):
-    """."""
+    """Test display method."""
     a = LinkedList(head)
     assert a.display() == result
 
@@ -33,7 +33,7 @@ starter_0 = LinkedList('pos_one')
 
 @pytest.mark.parametrize('insert, result', init_and_insert)
 def test_insert(insert, result):
-    """."""
+    """Test insert method."""
     starter_0.insert(insert)
     assert isinstance(starter_0.head, Node)
     assert starter_0.head.data == result
@@ -49,7 +49,7 @@ starter_1.insert('pos_five')
 
 @pytest.mark.parametrize('n', range(50))
 def test_size(n):
-    """."""
+    """Test size method."""
     l = LinkedList()
     for num in range(n):
         l.insert(num)
@@ -60,7 +60,7 @@ def test_size(n):
 
 @pytest.mark.parametrize('one, two, three, search, result', [('1', 4, [33], [33], True), ('word', 33, 3, 88, False), ('po', (22), ('w'), 'pos', True)])
 def test_search(one, two, three, search, result):
-    """."""
+    """Test search method."""
     starter_2 = LinkedList(one)
     starter_2.insert(two)
     starter_2.insert(three)
@@ -75,7 +75,7 @@ def test_search(one, two, three, search, result):
 
 @pytest.mark.parametrize('one, two, result', [(88, '22', '(88, )'), ([22,33], 'hello', '([22, 33], )'), (99, 192, '(99, )')])
 def test_pop(one, two, result):
-    """."""
+    """Test pop method."""
     starter_3 = LinkedList(one)
     starter_3.insert(two)
     starter_3.pop()
@@ -90,7 +90,7 @@ def test_pop(one, two, result):
 
 @pytest.mark.parametrize('one, two, de, exist, result', [(77, 'cat', 'cat', True,  '(77, )'), ([3], 1, [33], False, '([3], 1, )')])
 def test_delete(one, two, de, exist, result):
-    """."""
+    """Test delete method."""
     starter_3 = LinkedList(one)
     starter_3.insert(two)
     assert hasattr(starter_3, 'delete')

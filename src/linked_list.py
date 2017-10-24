@@ -29,9 +29,12 @@ class Node(object):
 class LinkedList(object):
     """Linked-List class."""
 
-    def __init__(self, head=None):
+    def __init__(self, iterable):
         """Initialize the LinkedList as an instance."""
-        self.head = Node(head)
+        self.head = None
+        if isinstance(iterable, (str, tuple, list)):
+            for item in iterable:
+                self.insert(item)
 
     def insert(self, data):
         """Insert or push a value into the linked-list."""
@@ -92,8 +95,10 @@ class LinkedList(object):
     def pop(self):
         """Pop the head of the linked-list."""
         try:
+            output = self.head.data
             self.head = self.head.get_next()
-        except ValueError:
+            return output
+        except AttributeError:
             raise Exception('No value left to pop!')
 
     def __len__(self):
