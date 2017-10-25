@@ -3,23 +3,18 @@ import pytest
 from linked_list import LinkedList
 from linked_list import Node
 
-init_and_insert = [(221, 221), ('word', 'word'), ([1, 2], [1, 2]), (('hi'), ('hi'))]
 
-
-@pytest.mark.parametrize('head, result', init_and_insert)
-def test_noe_and_ll_class_init(head, result):
+def test_noe_and_ll_class_init():
     """Test the instance is initialized."""
-
-    t = LinkedList(head)
-    n = Node(head)
-    assert n.data == head
+    t = LinkedList()
+    n = Node()
+    assert not n.data
     assert hasattr(n, 'get_next')
     assert isinstance(t, LinkedList)
-    assert isinstance(t.head, Node)
-    assert t.head.data == result
+    assert t.head is None
 
 
-display_test = [(221, '(221, )'), ('word', '(word, )'), ([1, 2], '([1, 2], )'), ('hi', ('(hi, )'))]
+display_test = [('20', '(0, 2, )'), ('wo', '(o, w, )'), ([1, 2], '(2, 1, )'), ('hi', ('(i, h, )'))]
 
 
 @pytest.mark.parametrize('head, result', display_test)
@@ -28,23 +23,15 @@ def test_display(head, result):
     a = LinkedList(head)
     assert a.display() == result
 
-starter_0 = LinkedList('pos_one')
+s_1 = LinkedList()
 
 
-@pytest.mark.parametrize('insert, result', init_and_insert)
-def test_insert(insert, result):
+@pytest.mark.parametrize('n', range(1, 51))
+def test_insert(n):
     """Test insert method."""
-    starter_0.insert(insert)
-    assert isinstance(starter_0.head, Node)
-    assert starter_0.head.data == result
-    assert starter_0.size() > 1
-
-
-starter_1 = LinkedList('pos_one')
-starter_1.insert('pos_two')
-starter_1.insert('pos_three')
-starter_1.insert('pos_four')
-starter_1.insert('pos_five')
+    s_1.insert(str(n))
+    assert s_1.head.data == str(n)
+    assert s_1.size() == n
 
 
 @pytest.mark.parametrize('n', range(50))
@@ -53,52 +40,48 @@ def test_size(n):
     l = LinkedList()
     for num in range(n):
         l.insert(num)
-    assert l.size() == n + 1
+    assert l.size() == n
     assert hasattr(l, 'size')
-    assert len(l) == n + 1
+    assert len(l) == n
 
 
-@pytest.mark.parametrize('one, two, three, search, result', [('1', 4, [33], [33], True), ('word', 33, 3, 88, False), ('po', (22), ('w'), 'pos', True)])
-def test_search(one, two, three, search, result):
+@pytest.mark.parametrize('n, search, exist', [(10, 5, True), (5, 6, False), (100, 888, False), (8, -2, False), (20, 10, True)])
+def test_search(n, search, exist):
     """Test search method."""
-    starter_2 = LinkedList(one)
-    starter_2.insert(two)
-    starter_2.insert(three)
-
-    assert hasattr(starter_2, 'search')
+    s_2 = LinkedList()
+    for num in range(n):
+        s_2.insert(num)
+    assert hasattr(s_2, 'search')
     try:
-        assert starter_2.search(search)
-    except ValueError:
-        if not result:
-            pass
-
-
-@pytest.mark.parametrize('one, two, result', [(88, '22', '(88, )'), ([22,33], 'hello', '([22, 33], )'), (99, 192, '(99, )')])
-def test_pop(one, two, result):
-    """Test pop method."""
-    starter_3 = LinkedList(one)
-    starter_3.insert(two)
-    starter_3.pop()
-    assert starter_3.size() == 1
-    assert not starter_3.head.next_node
-    assert starter_3.display() == result
-    try:
-        starter_3.pop()
-    except ValueError:
-        pass
-
-
-@pytest.mark.parametrize('one, two, de, exist, result', [(77, 'cat', 'cat', True,  '(77, )'), ([3], 1, [33], False, '([3], 1, )')])
-def test_delete(one, two, de, exist, result):
-    """Test delete method."""
-    starter_3 = LinkedList(one)
-    starter_3.insert(two)
-    assert hasattr(starter_3, 'delete')
-    try:
-        starter_3.delete(de)
-        assert starter_3.display() == result
+        assert s_2.search(search) == search
     except ValueError:
         if not exist:
             pass
 
 
+@pytest.mark.parametrize('n', [num ** 2 for num in range(10)])
+def test_pop(n):
+    """Test pop method."""
+    s_3 = LinkedList()
+
+    try:
+        for num in range(n):
+            s_3.insert(num)
+        for i in range(n):
+            pop = s_3.pop()
+            assert type(pop) == int
+    except AttributeError:
+        if s_3.head is None:
+            pass
+
+
+@pytest.mark.parametrize('n', [i ** 2 for i in range(10)])
+def test_delete(n):
+    """Test delete method."""
+    s_4 = LinkedList()
+    for num in range(n):
+        s_4.insert(num)
+    for num in range(n):
+        assert s_4.search(num) == num
+        s_4.delete(num)
+    assert s_4.size() == 0
