@@ -29,7 +29,7 @@ class Node(object):
 class LinkedList(object):
     """Linked-List class."""
 
-    def __init__(self, iterable):
+    def __init__(self, iterable=None):
         """Initialize the LinkedList as an instance."""
         self.head = None
         if isinstance(iterable, (str, tuple, list)):
@@ -73,7 +73,7 @@ class LinkedList(object):
                 current = current.get_next()
         if current is None:
             raise ValueError('Value not in the linked-list')
-        return current
+        return current.data
 
     def delete(self, data):
         """Delete an value from the linked-list."""
