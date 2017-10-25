@@ -30,6 +30,7 @@ class LinkedList(object):
     """Linked-List class."""
 
     def __init__(self, iterable=None):
+
         """Initialize the LinkedList as an instance."""
         self.head = None
         if isinstance(iterable, (str, tuple, list)):
