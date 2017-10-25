@@ -48,3 +48,15 @@ def test_stack_can_use_len_function():
     """Will test that the len function will return proper length."""
     a = Stack()
     assert len(a) == a._linked_list.size()
+
+
+def test_stack_exception_pop_empty():
+    """."""
+    a = Stack()
+    try:
+        a.pop()
+    except ValueError:
+        pass
+
+
+
