@@ -96,9 +96,11 @@ class LinkedList(object):
     def pop(self):
         """Pop the head of the linked-list."""
         try:
-            output = self.head.data
+            output = self.head
+            if not self.head:
+                raise ValueError("Nothing left to pop")
             self.head = self.head.get_next()
-            return output
+            return output.data
         except AttributeError:
             raise Exception('No value left to pop!')
 
