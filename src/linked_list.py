@@ -30,7 +30,6 @@ class LinkedList(object):
     """Linked-List class."""
 
     def __init__(self, iterable=None):
-
         """Initialize the LinkedList as an instance."""
         self.head = None
         if isinstance(iterable, (str, tuple, list)):
@@ -95,14 +94,11 @@ class LinkedList(object):
 
     def pop(self):
         """Pop the head of the linked-list."""
-        try:
-            output = self.head
-            if not self.head:
-                raise ValueError("Nothing left to pop")
-            self.head = self.head.get_next()
-            return output.data
-        except AttributeError:
-            raise Exception('No value left to pop!')
+        output = self.head
+        if not self.head:
+            raise ValueError("Nothing left to pop")
+        self.head = self.head.get_next()
+        return output.data
 
     def __len__(self):
         """Return the length of linked-list."""

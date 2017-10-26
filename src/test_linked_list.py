@@ -26,7 +26,7 @@ def test_display(head, result):
 s_1 = LinkedList()
 
 
-@pytest.mark.parametrize('n', range(1, 51))
+@pytest.mark.parametrize('n', range(1, 21))
 def test_insert(n):
     """Test insert method."""
     s_1.insert(str(n))
@@ -34,7 +34,7 @@ def test_insert(n):
     assert s_1.size() == n
 
 
-@pytest.mark.parametrize('n', range(50))
+@pytest.mark.parametrize('n', range(21))
 def test_size(n):
     """Test size method."""
     l = LinkedList()
@@ -70,7 +70,7 @@ def test_pop(n):
         for i in range(n):
             pop = s_3.pop()
             assert type(pop) == int
-    except AttributeError:
+    except ValueError:
         if s_3.head is None:
             pass
 
