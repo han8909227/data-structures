@@ -1,17 +1,18 @@
 """."""
+from linked_list import LinkedList
 
 
 class Node(object):
     """."""
 
-    def __init__(self, data, next=None, previous=None):
+    def __init__(self, data, next_data=None, previous_data=None):
         """."""
         self.data = data
-        self.next = next
-        self.previous = previous
+        self.next = next_data
+        self.previous = previous_data
 
 
-class DoublyLinkedList(object):
+class DoubleLinkedList(LinkedList):
     """."""
 
     def __init__(self):
@@ -60,43 +61,46 @@ class DoublyLinkedList(object):
 
     def append(self, data):
         """."""
-        new_node = Node(data)
-        temp = self.head
-        while temp.next:
-            temp = temp.next
-        temp.next = new_node
-        new_node.previous = temp
+        if not self.head:
+            new_node = Node(data)
+            self.head = new_node
+            self.tail = new_node
+        else:
+            new_node = Node(data)
+            temp = self.head
+            while temp.next:
+                temp = temp.next
+            temp.next = new_node
+            new_node.previous = temp
 
     def delete(self, data):
         """."""
         temp = self.head
-        if temp.next:
-            if(temp.data == data):
-                temp.next.previous = None
-                self.head = temp.next
-                temp.next = None
+        if temp.data == data:
+            self.head = None
+            self.tail = None
+            return
+        else:
+            while temp.next:
+                if(temp.data == data):
+                    break
+                temp = temp.next
+            if temp.next:
+                temp.previous.next = temp.next
+                temp.next.previous = temp.previous
                 return
             else:
-                while temp.next:
-                    if(temp.data == data):
-                        break
-                    temp = temp.next
-                if(temp.next):
-                    temp.previous.next = temp.next
-                    temp.next.previous = temp.previous
-                    temp.next = None
-                    temp.previous = None
-                else:
-                    temp.previous.next = None
-                    temp.previous = None
+                temp.previous.next = None
                 return
-
         if not temp:
-            return
+            raise IndexError('Delete value does not exist in DLL')
 
     def printdll(self):
         """."""
         temp = self.head
+        final_str = '('
         while temp:
-            print(temp.data)
+            final_str += '{}, '.format(temp.data)
             temp = temp.next
+        final_str += ')'
+        return final_str
