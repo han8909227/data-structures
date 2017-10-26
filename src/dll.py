@@ -1,70 +1,102 @@
+"""."""
+
 
 class Node(object):
-    # Each node has its data and a pointer that points to next node in the Linked List
+    """."""
+
     def __init__(self, data, next=None, previous=None):
+        """."""
         self.data = data
         self.next = next
         self.previous = previous
 
 
 class DoublyLinkedList(object):
+    """."""
+
     def __init__(self):
         """."""
         self.head = None
+        self.tail = None
 
-    # for inserting at beginning of linked list
-    def insertAtStart(self, data):
-        if self.head == None:
-            newNode = Node(data)
-            self.head = newNode
+    def push(self, data):
+        """."""
+        if not self.head:
+            new_node = Node(data)
+            self.head = new_node
+            self.tail = new_node
         else:
-            newNode = Node(data)
-            self.head.previous = newNode
-            newNode.next = self.head
-            self.head = newNode
+            new_node = Node(data)
+            self.head.previous = new_node
+            new_node.next = self.head
+            self.head = new_node
 
-    # for inserting at end of linked list
-    def insertAtEnd(self, data):
-        newNode = Node(data)
+    def pop(self):
+        """."""
+        if not self.head:
+            raise ValueError('No val to pop')
+        else:
+            result = self.head.data
+            self.head = self.head.next
+            return result
+
+    def shift(self):
+        """."""
+        if not self.tail:
+            raise ValueError('No tail to shift')
+        else:
+            temp = self.head
+            if not temp.next:
+                result = self.head.data
+                self.tail = None
+                self.head = None
+            else:
+                while temp.next:
+                    temp = temp.next
+                result = temp.data
+                self.tail = temp.previous
+                temp.previous.next = None
+            return result
+
+    def append(self, data):
+        """."""
+        new_node = Node(data)
         temp = self.head
-        while(temp.next != None):
+        while temp.next:
             temp = temp.next
-        temp.next = newNode
-        newNode.previous = temp
+        temp.next = new_node
+        new_node.previous = temp
 
-    # deleting a node from linked list
     def delete(self, data):
+        """."""
         temp = self.head
-        if(temp.next != None):
-            # if head node is to be deleted
+        if temp.next:
             if(temp.data == data):
                 temp.next.previous = None
                 self.head = temp.next
                 temp.next = None
                 return
             else:
-                while(temp.next != None):
+                while temp.next:
                     if(temp.data == data):
                         break
                     temp = temp.next
                 if(temp.next):
-                    # if element to be deleted is in between
                     temp.previous.next = temp.next
                     temp.next.previous = temp.previous
                     temp.next = None
                     temp.previous = None
                 else:
-                    # if element to be deleted is the last element
                     temp.previous.next = None
                     temp.previous = None
                 return
 
-        if (temp == None):
+        if not temp:
             return
 
-    # for printing the contents of linked lists
     def printdll(self):
+        """."""
         temp = self.head
-        while(temp != None):
-            print(temp.data, end=' ')
+        while temp:
+            print(temp.data)
             temp = temp.next
