@@ -1,5 +1,4 @@
 """Create a queue class."""
-from dll import Node
 
 
 class Queue(object):
@@ -18,14 +17,13 @@ class Queue(object):
 
     def dequeue(self):
         """Will remove the first element in the Queue."""
-        self._counter -= 1
+        if self._dll.head:
+            self._counter -= 1
         return self._dll.pop()
-        
 
     def peek(self):
         """Will return the next value in the Queue."""
         return self._dll.head.data
-
 
     def __len__(self):
         """Will return the length of the stack using len()."""

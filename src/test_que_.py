@@ -1,37 +1,58 @@
 """Will test the Queue module."""
+import pytest
 from que_ import Queue
 
-def test_queue_class_init():
+
+@pytest.fixture(scope='function')
+def q():
+    """Making one mt queue instance per test."""
+    from que_ import Queue
+    return Queue()
+
+
+@pytest.fixture(scope='function')
+def q_20():
+    """Making one queue instance with len of 20 per test."""
+    from que_ import Queue
+    q = Queue()
+    for num in range(20):
+        q.enqueue(num)
+    return q
+
+
+def test_queue_class_init(q):
     """Will test that an instance of Queue is created."""
-    q = Queue()
-    assert q._dll.head == None
+    assert isinstance(q, Queue)
+    assert hasattr(q, '_dll')
 
-def test_enqueue_adds_to_the_queue():
+
+def test_enqueue_adds_to_the_queue(q):
     """Will test that a value is added to the queue."""
-    q = Queue()
-    q.enqueue(1)
-    assert len(q) == 1
+    for num in range(20):
+        old_tail = q._dll.tail
+        q.enqueue(num)
+        assert old_tail == q._dll.tail.previous
 
-def test_dequeue_removes_first_in_item():
+
+def test_dequeue_removes_first_in_item(q_20):
     """Will test that the first in item is removed from the queue."""
-    q = Queue()
-    q.enqueue(1)
-    q.enqueue(2)
-    q.dequeue()
-    assert len(q) == 1
+    for num in range(20):
+        new_head = q_20._dll.head.next
+        q_20.dequeue()
+        assert q_20._dll.head == new_head
 
-def test_that_peek_returns_the_next_value():
+
+def test_that_peek_returns_the_next_value(q_20):
     """Will test that the peek method returns the next value, the next to be dequeued."""
-    q = Queue()
-    q.enqueue(1)
-    q.enqueue(2)
-    q.enqueue(3)
-    assert q.peek() == 1
+    for num in range(20):
+        peek = q_20.peek()
+        dequeued = q_20.dequeue()
+        assert peek == dequeued
 
-def test___len___returns_length_using_len():
+
+def test___len___returns_length_using_len(q_20):
     """Will test that you can use the len() on the instance of Queue to find the length."""
-    q = Queue()
-    q.enqueue(1)
-    q.enqueue(2)
-    q.enqueue(3)
-    assert len(q) == 3
+    for num in range(20):
+        q_20.dequeue()
+        length = 19 - num
+        assert len(q_20) == length
