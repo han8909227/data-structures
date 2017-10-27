@@ -22,8 +22,6 @@ def dll_20():
 
 def test_init_new_dll(dll):
     """Will test that the instance is initialized."""
-    assert hasattr(dll, 'head')
-    assert hasattr(dll, 'tail')
     assert isinstance(dll, DoubleLinkedList)
 
 
