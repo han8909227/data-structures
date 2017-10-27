@@ -1,8 +1,8 @@
-"""."""
+"""Doubly Linked List Data Structure."""
 
 
 class Node(object):
-    """."""
+    """Create a Node class."""
 
     def __init__(self, data, next_data=None, previous_data=None):
         """Initialize a Node instance."""
@@ -12,7 +12,7 @@ class Node(object):
 
 
 class DoubleLinkedList(object):
-    """."""
+    """Create a doubly linked list class."""
 
     def __init__(self):
         """Initialize a double link list instance."""
@@ -50,17 +50,14 @@ class DoubleLinkedList(object):
         if not self.tail:
             raise ValueError('No tail to shift')
         else:
-            temp = self.head
-            if not temp.next:
-                result = self.head.data
+            if self.head == self.tail:
+                result = self.tail
                 self.tail = None
                 self.head = None
             else:
-                while temp.next:
-                    temp = temp.next
-                result = temp.data
-                self.tail = temp.previous
-                temp.previous.next = None
+                result = self.tail
+                self.tail = self.tail.previous
+                self.tail.next = None
             return result
 
     def append(self, data):
