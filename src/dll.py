@@ -1,27 +1,26 @@
 """."""
-from linked_list import LinkedList
 
 
 class Node(object):
     """."""
 
     def __init__(self, data, next_data=None, previous_data=None):
-        """."""
+        """Initialize a Node instance."""
         self.data = data
         self.next = next_data
         self.previous = previous_data
 
 
-class DoubleLinkedList(LinkedList):
+class DoubleLinkedList(object):
     """."""
 
     def __init__(self):
-        """."""
+        """Initialize a double link list instance."""
         self.head = None
         self.tail = None
 
     def push(self, data):
-        """."""
+        """Add a value to the head of the dll."""
         if not self.head:
             new_node = Node(data)
             self.head = new_node
@@ -33,7 +32,7 @@ class DoubleLinkedList(LinkedList):
             self.head = new_node
 
     def pop(self):
-        """."""
+        """Pop the first value from the dll."""
         if not self.head:
             raise ValueError('No val to pop')
         else:
@@ -42,7 +41,7 @@ class DoubleLinkedList(LinkedList):
             return result
 
     def shift(self):
-        """."""
+        """Pop the last value from the dll."""
         if not self.tail:
             raise ValueError('No tail to shift')
         else:
@@ -60,7 +59,7 @@ class DoubleLinkedList(LinkedList):
             return result
 
     def append(self, data):
-        """."""
+        """Add a value to the end of dll."""
         if not self.head:
             new_node = Node(data)
             self.head = new_node
@@ -74,7 +73,7 @@ class DoubleLinkedList(LinkedList):
             new_node.previous = temp
 
     def delete(self, data):
-        """."""
+        """Delete a specific value from the dll."""
         temp = self.head
         if temp.data == data:
             self.head = None
@@ -96,7 +95,7 @@ class DoubleLinkedList(LinkedList):
             raise IndexError('Delete value does not exist in DLL')
 
     def printdll(self):
-        """."""
+        """Print the dll."""
         temp = self.head
         final_str = '('
         while temp:
