@@ -4,10 +4,11 @@
 class Node(object):
     """Node class."""
 
-    def __init__(self, data=None, next_data=None):
+    def __init__(self, data=None, next_data=None, previous_data=None):
         """Initialize the node structure."""
         self.data = data
         self.next_node = next_data
+        self.previous = previous_data
 
     def get_data(self):
         """Return current data."""
