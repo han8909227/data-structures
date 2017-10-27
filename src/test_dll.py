@@ -27,17 +27,15 @@ def test_init_new_dll(dll):
     assert isinstance(dll, DoubleLinkedList)
 
 
-@pytest.mark.parametrize('n', range(20))
-def test_dll_push(n):
+def test_dll_push(dll):
     """Will test the .push() function of dll."""
-    l = DoubleLinkedList()
-    for num in range(n):
-        old_head = l.head
-        l.push(num)
-        assert l.head.data == num
-        assert l.head.next == old_head
+    for num in range(20):
+        old_head = dll.head
+        dll.push(num)
+        assert dll.head.data == num
+        assert dll.head.next == old_head
         try:
-            assert old_head.previous == l.head
+            assert old_head.previous == dll.head
         except AttributeError:
             if num == 0:
                 pass
@@ -55,17 +53,15 @@ def test_dll_pop(dll_20):
         pass
 
 
-@pytest.mark.parametrize('n', range(20))
-def test_dll_append(n):
+def test_dll_append(dll):
     """Will test the append() function of dll."""
-    l = DoubleLinkedList()
-    for num in range(n):
-        old_tail = l.tail
-        l.append(num)
+    for num in range(20):
+        old_tail = dll.tail
+        dll.append(num)
         try:
-            l.tail.previous == old_tail
+            dll.tail.previous == old_tail
         except AttributeError:
-            if l.tail == l.head:
+            if dll.tail == dll.head:
                 pass
 
 
