@@ -35,6 +35,11 @@ class DoubleLinkedList(object):
         """Pop the first value from the dll."""
         if not self.head:
             raise ValueError('No val to pop')
+        elif self.head == self.tail:
+            result = self.head.data
+            self.head = None
+            self.tail = None
+            return result
         else:
             result = self.head.data
             self.head = self.head.next
@@ -71,6 +76,7 @@ class DoubleLinkedList(object):
                 temp = temp.next
             temp.next = new_node
             new_node.previous = temp
+            self.tail = new_node
 
     def delete(self, data):
         """Delete a specific value from the dll."""
