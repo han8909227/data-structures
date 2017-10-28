@@ -58,7 +58,7 @@ class DoubleLinkedList(object):
                 result = self.tail
                 self.tail = self.tail.previous
                 self.tail.next = None
-            return result
+            return result.data
 
     def append(self, data):
         """Add a value to the end of dll."""
