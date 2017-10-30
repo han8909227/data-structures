@@ -2,7 +2,6 @@
 Various data structure written in python by Han Bao and Phillip Werner
 
 
-
 # Linked-Lists
 
 Ordered list, where each node has a one way reference to the next.
