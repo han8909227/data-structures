@@ -78,3 +78,32 @@ FIFO (First In First Out), where the first node enqueued is the first node that 
 
 - \__len\__: O(1)
     - Declare len() method which returns the value from self.size()
+
+
+# Deque
+
+Ordered list, where each node has two way reference to its previous and next node.
+
+- Append: O(1)
+    - Insert given value to the tail
+
+- Append_Left : 0(1)
+    - Insert given value to the head
+
+- Pop: O(1)
+    - Remove the tail value
+
+- Pop_Left: 0(1)
+    - Remove the head value
+
+- Peek: O(1)
+    - Returns the tail value
+
+- Peek_Left: O(1)
+    - Returns the head value
+
+- Size: 0(1)
+    - Returns the size of the deque
+
+- \__len\__: O(1)
+    - Declare len() method which returns the value from self._counter
