@@ -27,3 +27,33 @@ class Binheap(object):
                 self.list[i // 2] = self.list[i]
                 self.list[i] = tmp
             i = i // 2
+
+    def _perc_down(self, i):
+        """."""
+        while (i * 2) <= self.size:
+            min_child = self._min_child(i)
+            if self.list[i] > self.list[min_child]:
+                temp = self.list[i]
+                self.list[i] = self.list[min_child]
+                self.list[min_child] = temp
+            i = min_child
+
+    def _min_child(self, i):
+        if i * 2 + 1 > self.size:
+            return i * 2
+        else:
+            if self.list[i * 2] < self.list[i * 2 + 1]:
+                return i * 2
+            else:
+                return i * 2 + 1
+
+    def pop(self):
+        """."""
+        if self.size == 0:
+            raise IndexError
+        root_val = self.list[1]
+        self.list[1] = self.list[self.size]
+        self.size = self.size - 1
+        self.list.pop()
+        self._perc_down(1)
+        return root_val
