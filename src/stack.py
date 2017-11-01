@@ -1,4 +1,4 @@
-"""."""
+"""Create a Stack class."""
 
 
 class Stack(object):
