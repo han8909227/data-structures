@@ -2,10 +2,10 @@
 
 
 class Binheap(object):
-    """Binheap class."""
+    """Binheap class for min heap."""
 
     def __init__(self, iterable=None):
-        """Will init a new instance of the Binheap class."""
+        """Will init a new instance of the min heap."""
         self.list = [None]
         self.size = 0
 
@@ -53,7 +53,7 @@ class Binheap(object):
             raise IndexError
         root_val = self.list[1]
         self.list[1] = self.list[self.size]
-        self.size = self.size - 1
+        self.size -= 1
         self.list.pop()
         self._perc_down(1)
         return root_val

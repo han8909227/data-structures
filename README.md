@@ -106,4 +106,15 @@ Ordered list, where each node has two way reference to its previous and next nod
     - Returns the size of the deque
 
 - \__len\__: O(1)
-    - Declare len() method which returns the value from self._counter
+    - Declare len() method which returns the value from self._counter.
+
+
+# Binheap
+
+Min heap that stores value using min-heap artictiure
+
+- Push: O(N)
+    - Insert a value into the heap, perculate up to proper node.
+
+- Pop: O(N)
+    - Pop the top value from the heap(min value for min heap)
