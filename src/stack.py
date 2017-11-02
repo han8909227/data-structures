@@ -24,3 +24,4 @@ class Stack(object):
     def __len__(self):
         """Will return the length of the stack using len()."""
         return self._linked_list.size()
+
