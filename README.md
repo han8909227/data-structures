@@ -2,7 +2,6 @@
 Various data structure written in python by Han Bao and Phillip Werner
 
 
-
 # Linked-Lists
 
 Ordered list, where each node has a one way reference to the next.
@@ -118,3 +117,4 @@ Min heap that stores value using min-heap artictiure
 
 - Pop: O(N)
     - Pop the top value from the heap(min value for min heap)
+
