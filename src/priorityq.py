@@ -5,7 +5,7 @@ class Priorityq:
     """Priority Que class."""
 
     def __init__(self, value=None, pri=0):
-        """Creates a instance of the priority class."""
+        """Create a instance of the priority class."""
         self.q = {}
 
     def insert(self, data, pri=0):
@@ -32,7 +32,7 @@ class Priorityq:
         return q_pop
 
     def peek(self):
-        """Returns the next priority item that will be popped without popping the item."""
+        """Return the next priority item that will be popped without popping the item."""
         if self.q == {}:
             raise ValueError('no values available')
         pri_to_peek = sorted(self.q.keys())[-1]
