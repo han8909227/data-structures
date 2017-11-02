@@ -3,6 +3,7 @@
 
 class Graph:
     """Directive graph."""
+
     def __init__(self):
         """Create a instance of the priority class."""
         self.graph = {}
@@ -49,6 +50,7 @@ class Graph:
         return nodes
 
     def edges(self):
+        """."""
         edges = []
         for edge in self.graph.values():
             if edge != []:
@@ -57,16 +59,21 @@ class Graph:
 
     def neighbors(self, data):
         """."""
-        for node in self.graph:
-            for
+        try:
+            return self.graph[data]
+        except KeyError:
+            raise KeyError('no such node exists')
 
-"""
-g.nodes(): return a list of all nodes in the graph
-g.edges(): return a list of all edges in the graph
-g.add_node(val): adds a new node with value ‘n’ to the graph
-g.add_edge(val1, val2): adds a new edge to the graph connecting the node containing ‘val1’ and the node containing ‘val2’. If either val1 or val2 are not already present in the graph, they should be added. If an edge already exists, overwrite it.
-g.del_node(val): deletes the node containing ‘val’ from the graph; raises an error if no such node exists
-g.del_edge(val1, val2): deletes the edge connecting ‘val1’ and ‘val2’ from the graph; raises an error if no such edge exists
-g.has_node(val): True if node containing ‘val’ is contained in the graph, False if not.
-g.neighbors(val): returns the list of all nodes connected to the node containing ‘val’ by edges; raises an error if val is not in g
-g.adjacent(val1, val2): returns True if there is an edge connecting val1 and val2, False if not; raises an error if either of the supplied values are not in g
+    def adjacent(self, data_1, data_2):
+        """."""
+        try:
+            for edge in self.graph[data_1]:
+                if data_2 == edge:
+                    return True
+            for edge in self.graph[data_2]:
+                if data_1 == edge:
+                    return True
+            return False
+        except KeyError as err:
+            raise KeyError('node ' + str(err.args[0]) + ' does not exist')
+
