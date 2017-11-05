@@ -118,3 +118,15 @@ Min heap that stores value using min-heap artictiure
 - Pop: O(N)
     - Pop the top value from the heap(min value for min heap)
 
+# Priority Queues
+An queue where data is sorted by the priority level which it was passed in with, the one with highest priority and earliest entered is removed first. (FIFO with priority)
+
+- Insert: O(1)
+    - Insert the value into the priority queue with the priority level passed in.
+
+- Pop: O(n log(n))
+    - Pop off a value from the highest priority bin, the one that entered that bin firsted.
+
+- Peek: O(n log(n))
+    - Peek at the value that is about to be popped.
+
