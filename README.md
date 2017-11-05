@@ -118,6 +118,38 @@ Min heap that stores value using min-heap artictiure
 - Pop: O(N)
     - Pop the top value from the heap(min value for min heap)
 
+
+# Graph (unweighted & directional)
+
+A graph structure where each node can be direct/point to another node.
+
+- nodes: O(n)
+    - return a list of all nodes in the graph.
+
+- edges: O(n^2)
+    - return a list of all edges in the graph.
+
+- add_node: O(1)
+    - add a new node to the graph if not already existed.
+
+- add_edge: O(1)
+    - add a new directed edge from the two nodes inputted, add node(s) if not existed.
+
+- del_node: O(n)
+    - delete the given node from the graph, raise error if no such node exists.
+
+- del_edge: O(1)
+    - delete the edge from inputted nodes(1 to 2), raise error if no such edge exists.
+
+- has_node: O(1)
+    - return true if given node is in the graph, false if it's not.
+
+- neighbors: O(1)
+    - return a list of all nodes the given node can reach(directed to).
+
+- adjacent: O(1):
+    - return true if an edge exist between node 1 and node 2 (either direction), false otherwise.
+
 # Priority Queues
 An queue where data is sorted by the priority level which it was passed in with, the one with highest priority and earliest entered is removed first. (FIFO with priority)
 
@@ -129,4 +161,3 @@ An queue where data is sorted by the priority level which it was passed in with,
 
 - Peek: O(n log(n))
     - Peek at the value that is about to be popped.
-
