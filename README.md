@@ -2,7 +2,6 @@
 Various data structure written in python by Han Bao and Phillip Werner
 
 
-
 # Linked-Lists
 
 Ordered list, where each node has a one way reference to the next.
@@ -130,3 +129,4 @@ An queue where data is sorted by the priority level which it was passed in with,
 
 - Peek: O(n log(n))
     - Peek at the value that is about to be popped.
+
