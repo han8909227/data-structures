@@ -1,4 +1,4 @@
-"""Test for Binheap."""
+"""Test for Priority Queue."""
 import pytest
 from priorityq import Priorityq
 

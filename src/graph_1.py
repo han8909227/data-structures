@@ -1,4 +1,4 @@
-"""Priority Queue data strcture."""
+"""Graph_1 data strcture."""
 
 
 class Graph:
@@ -22,7 +22,7 @@ class Graph:
         self.graph[data_1].append(data_2)
 
     def del_node(self, data):
-        """."""
+        """Delete a particular node from the graph."""
         try:
             del self.graph[data]
         except KeyError:
@@ -32,7 +32,7 @@ class Graph:
         """."""
         for edge in self.graph[data_1]:
             if data_2 == edge:
-                return edge.remove(edge)
+                return self.graph[data_1].remove(edge)
         raise KeyError('no such edge exists')
 
     def has_node(self, data):
@@ -44,28 +44,25 @@ class Graph:
 
     def nodes(self):
         """Return a list of all nodes in the graph."""
-        nodes = []
-        for node in self.graph:
-            nodes.append(node)
-        return nodes
+        return list(self.graph.keys())
 
     def edges(self):
-        """."""
-        edges = []
-        for edge in self.graph.values():
-            if edge != []:
-                edges.append(edge)
-        return edges
+        """Return a list of tuples showing the relations."""
+        result = []
+        for node, edges in self.graph.items():
+            for edge in edges:
+                result.append((node, edge))
+        return result
 
     def neighbors(self, data):
-        """."""
+        """Return all the nodes the data is pointing to."""
         try:
             return self.graph[data]
         except KeyError:
             raise KeyError('no such node exists')
 
     def adjacent(self, data_1, data_2):
-        """."""
+        """Return all adjacent nodes."""
         try:
             for edge in self.graph[data_1]:
                 if data_2 == edge:

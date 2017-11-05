@@ -1,22 +1,74 @@
-"""Priority Queue data strcture."""
+"""Test for Graph_1."""
+import pytest
+from graph_1 import Graph
 
 
-class Graph:
-    """Directive graph."""
-    def __init__(self, value=None, pri=0):
-        """Create a instance of the priority class."""
-        self.q = {}
+@pytest.fixture(scope='function')
+def graph_1():
+    """Making one mt priority queue instance per test."""
+    return Graph()
 
 
+@pytest.fixture(scope='function')
+def graph_5():
+    """Making one priority queue instance with len of 5 per test."""
+    g = Graph()
+    g.add_edge(1, 2)
+    g.add_edge(2, 3)
+    g.add_edge(3, 4)
+    g.add_edge(4, 5)
+    g.add_edge(5, 6)
+    return g
 
 
-"""
-g.nodes(): return a list of all nodes in the graph
-g.edges(): return a list of all edges in the graph
-g.add_node(val): adds a new node with value ‘n’ to the graph
-g.add_edge(val1, val2): adds a new edge to the graph connecting the node containing ‘val1’ and the node containing ‘val2’. If either val1 or val2 are not already present in the graph, they should be added. If an edge already exists, overwrite it.
-g.del_node(val): deletes the node containing ‘val’ from the graph; raises an error if no such node exists
-g.del_edge(val1, val2): deletes the edge connecting ‘val1’ and ‘val2’ from the graph; raises an error if no such edge exists
-g.has_node(val): True if node containing ‘val’ is contained in the graph, False if not.
-g.neighbors(val): returns the list of all nodes connected to the node containing ‘val’ by edges; raises an error if val is not in g
-g.adjacent(val1, val2): returns True if there is an edge connecting val1 and val2, False if not; raises an error if either of the supplied values are not in g
+def test_add_node(graph_1):
+    """Test the add_node method."""
+    for num in range(1, 7):
+        graph_1.add_node(num)
+    assert graph_1.nodes() == [1, 2, 3, 4, 5, 6]
+
+
+def test_add_edges(graph_5):
+    """Test the add edges method."""
+    assert graph_5.nodes() == [1, 2, 3, 4, 5, 6]
+
+
+def test_del_node(graph_5):
+    """Test if del node method works."""
+    for num in range(1, 7):
+        graph_5.del_node(num)
+    assert graph_5.nodes() == []
+
+
+def test_del_edges(graph_5):
+    """Test if the del edge method works."""
+    for num in range(1, 5):
+        graph_5.del_edge(num, num + 1)
+
+
+def test_has_node(graph_5):
+    """Test if the has_node method works."""
+    for num in range(1, 6):
+        assert graph_5.has_node(num)
+
+
+def test_nodes(graph_1):
+    """Test if the node method works."""
+    graph_1.add_node(200)
+    graph_1.add_node(300)
+    assert graph_1.nodes() == [200, 300]
+
+
+def test_edges(graph_5):
+    """Test if the edges method works."""
+    assert graph_5.edges() == [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)]
+
+
+def test_neighbors(graph_5):
+    """Test if the neighbors methods works."""
+    assert graph_5.neighbors(1) == [2]
+
+
+def test_adjacent(graph_5):
+    """Test if the adjacent method works."""
+    assert graph_5.adjacent(1, 2)
