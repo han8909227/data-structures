@@ -16,11 +16,11 @@ class Binheap(object):
         self._perc_up(self.size)
 
     def _swap(self, last, parent):
-        """."""
+        """Swap function for swapping parent and child(internal use)."""
         self.list[last], self.list[parent] = self.list[parent], self.list[last]
 
     def _perc_up(self, i):
-        """."""
+        """Bubble up the heap."""
         while i // 2 > 0:
             if self.list[i] < self.list[i // 2]:
                 tmp = self.list[i // 2]
@@ -29,7 +29,7 @@ class Binheap(object):
             i = i // 2
 
     def _perc_down(self, i):
-        """."""
+        """Bubble down the heap."""
         while (i * 2) <= self.size:
             min_child = self._min_child(i)
             if self.list[i] > self.list[min_child]:
@@ -39,6 +39,7 @@ class Binheap(object):
             i = min_child
 
     def _min_child(self, i):
+        """Find the min child amount all children."""
         if i * 2 + 1 > self.size:
             return i * 2
         else:
@@ -48,7 +49,7 @@ class Binheap(object):
                 return i * 2 + 1
 
     def pop(self):
-        """."""
+        """Pop from the heap."""
         if self.size == 0:
             raise IndexError
         root_val = self.list[1]
