@@ -97,7 +97,7 @@ class LinkedList(object):
         """Pop the head of the linked-list."""
         output = self.head
         if not self.head:
-            raise ValueError("Nothing left to pop")
+            raise IndexError("Nothing left to pop")
         self.head = self.head.get_next()
         return output.data
 
