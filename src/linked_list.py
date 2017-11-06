@@ -27,9 +27,7 @@ class LinkedList(object):
 
     def push(self, data):
         """Push a value into the linked-list."""
-        old_head = self.head
         self.head = Node(data, self.head)
-        self.head.next_node = old_head
         self.count += 1
 
     def display(self):

@@ -15,7 +15,7 @@ class Stack(object):
 
     def push(self, new_stack):
         """Will push a new element into the Stack and add to the counter."""
-        self._linked_list.insert(new_stack)
+        self._linked_list.push(new_stack)
 
     def pop(self):
         """Will pop the element that is in the top stack position and subtract it from the counter."""
