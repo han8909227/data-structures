@@ -30,6 +30,12 @@ class Graph:
 
     def del_edge(self, data_1, data_2):
         """."""
+        try:
+            self.graph[data_1],
+            self.graph[data_2]
+        except KeyError:
+            raise KeyError('no such nodes exists')
+
         for edge in self.graph[data_1]:
             if data_2 == edge:
                 return self.graph[data_1].remove(edge)
@@ -37,10 +43,7 @@ class Graph:
 
     def has_node(self, data):
         """."""
-        for key in self.graph:
-            if key == data:
-                return True
-        return False
+        return data in self.graph
 
     def nodes(self):
         """Return a list of all nodes in the graph."""
