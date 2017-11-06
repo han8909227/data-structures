@@ -32,11 +32,6 @@ def test_dll_push(dll):
         dll.push(num)
         assert dll.head.data == num
         assert dll.head.next == old_head
-        try:
-            assert old_head.previous == dll.head
-        except AttributeError:
-            if num == 0:
-                pass
 
 
 def test_dll_pop(dll_20):
@@ -45,10 +40,8 @@ def test_dll_pop(dll_20):
         next_head = dll_20.head.next
         dll_20.pop()
         assert dll_20.head == next_head
-    try:
+    with pytest.raises(IndexError):
         dll_20.pop()
-    except ValueError:
-        pass
 
 
 def test_dll_append(dll):
@@ -56,11 +49,7 @@ def test_dll_append(dll):
     for num in range(20):
         old_tail = dll.tail
         dll.append(num)
-        try:
-            dll.tail.previous == old_tail
-        except AttributeError:
-            if dll.tail == dll.head:
-                pass
+        assert dll.tail.previous == old_tail
 
 
 def test_dll_shift(dll_20):
@@ -69,25 +58,34 @@ def test_dll_shift(dll_20):
         new_tail = dll_20.tail.previous
         dll_20.shift()
         assert dll_20.tail == new_tail
-    try:
+    with pytest.raises(IndexError):
         dll_20.shift()
-    except ValueError:
-        pass
 
 
-def test_dll_delete(dll_20):
-    """Testing for the delete() function of dll."""
+def test_dll_remove(dll_20):
+    """Testing for the remove() function of dll."""
     for num in range(20):
-        dll_20.delete(num)
+        dll_20.remove(num)
         temp = dll_20.head
-        try:
-            while temp.next:
-                assert num != temp
-                temp = temp.next
-        except AttributeError:
-            if dll_20.head == dll_20.tail:
-                pass
-    try:
+        while temp:
+            assert num != temp
+            temp = temp.next
+    with pytest.raises(IndexError):
         dll_20.pop()
-    except ValueError:
-        pass
+
+
+def test_dll_remove_tail_val(dll_20):
+    """Assert if tail gets re-assigned after old tail is removed."""
+    dll_20.remove(0)
+    assert dll_20.tail.data == 1
+
+
+def test_dll_remove_head_val(dll_20):
+    """Assert if head gets re-assigned after old head is removed."""
+    dll_20.remove(20)
+    assert dll_20.head.data == 19
+
+
+def test_len_function(dll_20):
+    """Test the length function works."""
+    assert len(dll_20) == 20

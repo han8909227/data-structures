@@ -34,7 +34,7 @@ class DoubleLinkedList(object):
     def pop(self):
         """Pop the first value from the dll."""
         if not self.head:
-            raise ValueError('No val to pop')
+            raise IndexError('No val to pop')
         elif self.head == self.tail:
             result = self.head.data
             self.head = None
@@ -48,17 +48,17 @@ class DoubleLinkedList(object):
     def shift(self):
         """Pop the last value from the dll."""
         if not self.tail:
-            raise ValueError('No tail to shift')
+            raise IndexError('No tail to shift')
         else:
             if self.head == self.tail:
                 result = self.tail
                 self.tail = None
                 self.head = None
             else:
-                result = self.tail
+                result = self.tail.data
                 self.tail = self.tail.previous
                 self.tail.next = None
-            return result.data
+            return result
 
     def append(self, data):
         """Add a value to the end of dll."""
@@ -75,12 +75,17 @@ class DoubleLinkedList(object):
             new_node.previous = temp
             self.tail = new_node
 
-    def delete(self, data):
+    def remove(self, data):
         """Delete a specific value from the dll."""
         temp = self.head
+        if not self.head or not self.tail:
+            raise ValueError('No value in the list to remove.')
         if temp.data == data:
             self.head = None
             self.tail = None
+            return
+        elif self.tail.data == data:
+            self.tail = self.tail.previous
             return
         else:
             while temp.next:
@@ -95,7 +100,7 @@ class DoubleLinkedList(object):
                 temp.previous.next = None
                 return
         if not temp:
-            raise IndexError('Delete value does not exist in DLL')
+            raise ValueError('Delete value does not exist in DLL')
 
     def printdll(self):
         """Print the dll."""
@@ -106,3 +111,12 @@ class DoubleLinkedList(object):
             temp = temp.next
         final_str += ')'
         return final_str
+
+    def __len__(self):
+        """Length of the list."""
+        temp = self.head
+        count = 0
+        while temp:
+            count += 1
+            temp = temp.next
+        return count
