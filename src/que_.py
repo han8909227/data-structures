@@ -25,6 +25,10 @@ class Queue(object):
         """Will return the next value in the Queue."""
         return self._dll.head.data
 
+    def size(self):
+        """Will return the size of the current Queue."""
+        return self._counter
+
     def __len__(self):
         """Will return the length of the stack using len()."""
         return self._counter

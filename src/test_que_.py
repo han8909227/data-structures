@@ -42,6 +42,18 @@ def test_dequeue_removes_first_in_item(q_20):
         assert q_20._dll.head == new_head
 
 
+def test_dequeue_raises_error_if_no_item_left(q):
+    """Will test that an error is raised if no value left to dequeue."""
+    with pytest.raises(ValueError):
+        q.dequeue()
+
+
+def test_peek_raises_error_if_no_item_there(q):
+    """Test if peek raises an error if there is nothing in the queue."""
+    with pytest.raises(AttributeError):
+        q.peek()
+
+
 def test_that_peek_returns_the_next_value(q_20):
     """Will test that the peek method returns the next value, the next to be dequeued."""
     for num in range(20):
@@ -56,3 +68,11 @@ def test___len___returns_length_using_len(q_20):
         q_20.dequeue()
         length = 19 - num
         assert len(q_20) == length
+
+
+def test_size_returns_length(q_20):
+    """Will test that you can use the len() on the instance of Queue to find the length."""
+    for num in range(20):
+        q_20.dequeue()
+        length = 19 - num
+        assert q_20.size() == length

@@ -9,7 +9,6 @@ def test_noe_and_ll_class_init():
     t = LinkedList()
     n = Node()
     assert not n.data
-    assert hasattr(n, 'get_next')
     assert isinstance(t, LinkedList)
     assert t.head is None
 
