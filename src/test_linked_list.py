@@ -1,10 +1,10 @@
-"""Tests for the mailroom module."""
+"""Tests for the linked_list module."""
 import pytest
 from linked_list import LinkedList
 from linked_list import Node
 
 
-def test_noe_and_ll_class_init():
+def test_node_and_ll_class_init():
     """Test the instance is initialized."""
     t = LinkedList()
     n = Node()
@@ -13,7 +13,7 @@ def test_noe_and_ll_class_init():
     assert t.head is None
 
 
-display_test = [('20', '(0, 2, )'), ('wo', '(o, w, )'), ([1, 2], '(2, 1, )'), ('hi', ('(i, h, )'))]
+display_test = [('20', '(0, 2)'), ('wo', '(o, w)'), ([1, 2], '(2, 1)'), ('hi', ('(i, h)'))]
 
 
 @pytest.mark.parametrize('head, result', display_test)
@@ -26,9 +26,9 @@ s_1 = LinkedList()
 
 
 @pytest.mark.parametrize('n', range(1, 21))
-def test_insert(n):
-    """Test insert method."""
-    s_1.insert(str(n))
+def test_push(n):
+    """Test push method."""
+    s_1.push(str(n))
     assert s_1.head.data == str(n)
     assert s_1.size() == n
 
@@ -38,7 +38,7 @@ def test_size(n):
     """Test size method."""
     l = LinkedList()
     for num in range(n):
-        l.insert(num)
+        l.push(num)
     assert l.size() == n
     assert hasattr(l, 'size')
     assert len(l) == n
@@ -49,7 +49,7 @@ def test_search(n, search, exist):
     """Test search method."""
     s_2 = LinkedList()
     for num in range(n):
-        s_2.insert(num)
+        s_2.push(num)
     assert hasattr(s_2, 'search')
     try:
         assert s_2.search(search) == search
@@ -65,7 +65,7 @@ def test_pop(n):
 
     try:
         for num in range(n):
-            s_3.insert(num)
+            s_3.push(num)
         for i in range(n):
             pop = s_3.pop()
             assert type(pop) == int
@@ -75,12 +75,12 @@ def test_pop(n):
 
 
 @pytest.mark.parametrize('n', [i ** 2 for i in range(10)])
-def test_delete(n):
+def test_remove(n):
     """Test delete method."""
     s_4 = LinkedList()
     for num in range(n):
-        s_4.insert(num)
+        s_4.push(num)
     for num in range(n):
         assert s_4.search(num) == num
-        s_4.delete(num)
+        s_4.remove(num)
     assert s_4.size() == 0

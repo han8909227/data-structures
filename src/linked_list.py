@@ -19,14 +19,14 @@ class LinkedList(object):
         self.count = 0
         if isinstance(iterable, (str, tuple, list)):
             for item in iterable:
-                self.insert(item)
+                self.push(item)
         elif iterable is None:
             pass
         else:
             raise TypeError('Either str, tuple or list!')
 
-    def insert(self, data):
-        """Insert or push a value into the linked-list."""
+    def push(self, data):
+        """Push a value into the linked-list."""
         old_head = self.head
         self.head = Node(data, self.head)
         self.head.next_node = old_head
@@ -34,14 +34,16 @@ class LinkedList(object):
 
     def display(self):
         """Display the current lnked-list."""
-        current = self.head
-        final_str = '('
-        while current:
-            current_data = current.data
-            final_str += '{}, '.format(current_data)
-            current = current.next_node
-        final_str += ')'
-        return final_str
+        to_string = "("
+        curr = self.head
+        if curr is not None:
+            to_string += str(curr.data)
+            curr = curr.next_node
+        while curr is not None:
+            to_string += (", " + str(curr.data))
+            curr = curr.next_node
+        to_string += ")"
+        return to_string
 
     def size(self):
         """Return the size of the current linked-list."""
@@ -60,7 +62,7 @@ class LinkedList(object):
             raise ValueError('Value not in the linked-list')
         return current.data
 
-    def delete(self, data):
+    def remove(self, data):
         """Delete an value from the linked-list."""
         current = self.head
         previous = None
