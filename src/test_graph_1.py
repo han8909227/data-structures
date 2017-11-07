@@ -28,9 +28,11 @@ def test_add_node(graph_1):
     assert graph_1.nodes() == [1, 2, 3, 4, 5, 6]
 
 
-def test_add_edges(graph_5):
-    """Test the add edges method."""
-    assert graph_5.nodes() == [1, 2, 3, 4, 5, 6]
+def test_add_edge(graph_1):
+    """Test adding a edge to the graph."""
+    g = graph_1
+    g.add_edge(1, 2)
+    assert 2 in g.graph[1]
 
 
 def test_del_node(graph_5):
@@ -40,10 +42,26 @@ def test_del_node(graph_5):
     assert graph_5.nodes() == []
 
 
+def test_when_node_deleted_removed_from_neighbor(graph_1):
+    """Test that after a node is deleted it is removed from neighbor list."""
+    g = graph_1
+    g.add_edge(1, 2)
+    g.add_edge(1, 3)
+    g.del_node(1)
+    assert g.edges() == []
+
+
+def test_delete_node_from_empty_graph(graph_1):
+    """Test key error is raised when no node to delete."""
+    with pytest.raises(KeyError):
+        graph_1.del_node(3)
+
+
 def test_del_edges(graph_5):
     """Test if the del edge method works."""
-    for num in range(1, 5):
+    for num in range(1, 6):
         graph_5.del_edge(num, num + 1)
+    assert all([graph_5.graph[num] == [] for num in graph_5.graph])
 
 
 def test_has_node(graph_5):
