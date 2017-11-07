@@ -72,25 +72,26 @@ class Graph:
         result = []
         que = [start]
         node = start
-        if self.has_node(node):
-            while len(que):
-                edges = self.neighbors(node)
-                for edge in edges:
-                    if edge in result or edge in que:
-                        edges.remove(edge)
-                result.append(que.pop(0))
-                for edge in edges:
-                    que.append(edge)
-                if len(que):
-                    node = que[0]
-            return result
-        else:
+        if not self.has_node(node):
             raise KeyError('no such node in the graph')
+        while que:
+            edges = self.neighbors(node)
+            for edge in edges:
+                if edge in result or edge in que:
+                    edges.remove(edge)
+            result.append(que.pop(0))
+            for edge in edges:
+                que.append(edge)
+            if len(que):
+                node = que[0]
+        return result
 
     def depth_first_traversal(self, start):
         """."""
         que = [start]
         result = []
+        if not self.has_node(start):
+            raise KeyError('no such node in the graph')
         while que:
             node = que.pop(0)
             if node not in result:
