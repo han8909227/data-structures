@@ -1,4 +1,5 @@
 """Graph_1 data strcture."""
+import sys
 
 
 class Graph:
@@ -7,6 +8,7 @@ class Graph:
     def __init__(self):
         """Create a instance of the graph class."""
         self.graph = {}
+        self.result = []
 
     def add_node(self, *argv):
         """Add a new node with value: data."""
@@ -64,3 +66,54 @@ class Graph:
             return data_2 in self.graph[data_1] or data_1 in self.graph[data_2]
         except KeyError as err:
             raise KeyError('node ' + str(err.args[0]) + ' does not exist')
+
+    def breadth_first_traversal(self, start):
+        """Return all value from the start using breadth first traversal."""
+        result = []
+        que = [start]
+        node = start
+        if self.has_node(node):
+            while len(que):
+                edges = self.neighbors(node)
+                for edge in edges:
+                    if edge in result or edge in que:
+                        edges.remove(edge)
+                result.append(que.pop(0))
+                for edge in edges:
+                    que.append(edge)
+                if len(que):
+                    node = que[0]
+            return result
+        else:
+            raise KeyError('no such node in the graph')
+
+    def depth_first_traversal(self, start):
+        """."""
+        que = [start]
+        result = []
+        while que:
+            node = que.pop(0)
+            if node not in result:
+                result.append(node)
+                que = self.graph[node] + que
+        return result
+
+
+if __name__ == '__main__':
+    g = Graph()
+    g.add_edge('A', 'B')
+    g.add_edge('A', 'C')
+    g.add_edge('B', 'D')
+    g.add_edge('B', 'E')
+    g.add_edge('C', 'F')
+    g.add_edge('C', 'G')
+    g.add_edge('D', 'H')
+    g.add_edge('D', 'C')
+    g.add_edge('H', 'A')
+    g.add_edge('F', 'D')
+
+    print('Graph structure: ' + str(g.graph))
+    print('List of edges: ' + str(g.edges()))
+    print('Path using breadth_first_traversal starting at A:' + str(g.breadth_first_traversal('A')))
+    print('Path using depth_first_traversal starting at A:' + str(g.depth_first_traversal('A')))
+
