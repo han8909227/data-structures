@@ -5,19 +5,16 @@ class Graph:
     """Directive graph."""
 
     def __init__(self):
-        """Create a instance of the priority class."""
+        """Create a instance of the graph class."""
         self.graph = {}
 
     def add_node(self, *argv):
         """Add a new node with value: data."""
         for data in argv:
-            try:
-                self.graph[data]
-            except KeyError:
-                self.graph[data] = []
+            self.graph.setdefault(data, [])
 
     def add_edge(self, data_1, data_2):
-        """Add a new edge between 2 nodes."""
+        """Add a new edge between 2 nodes, creates nodes if not present."""
         self.add_node(data_1, data_2)
         self.graph[data_1].append(data_2)
 
@@ -25,24 +22,21 @@ class Graph:
         """Delete a particular node from the graph."""
         try:
             del self.graph[data]
+            for key in self.graph:
+                if data in self.graph[key]:
+                    self.graph[key].remove(data)
         except KeyError:
             raise KeyError('no such node exists')
 
     def del_edge(self, data_1, data_2):
-        """."""
-        try:
-            self.graph[data_1],
-            self.graph[data_2]
-        except KeyError:
-            raise KeyError('no such nodes exists')
-
+        """Delete a edge between data_1 and data_2."""
         for edge in self.graph[data_1]:
             if data_2 == edge:
                 return self.graph[data_1].remove(edge)
         raise KeyError('no such edge exists')
 
     def has_node(self, data):
-        """."""
+        """Check if node is in graph."""
         return data in self.graph
 
     def nodes(self):
@@ -67,13 +61,6 @@ class Graph:
     def adjacent(self, data_1, data_2):
         """Return all adjacent nodes."""
         try:
-            for edge in self.graph[data_1]:
-                if data_2 == edge:
-                    return True
-            for edge in self.graph[data_2]:
-                if data_1 == edge:
-                    return True
-            return False
+            return data_2 in self.graph[data_1] or data_1 in self.graph[data_2]
         except KeyError as err:
             raise KeyError('node ' + str(err.args[0]) + ' does not exist')
-

@@ -34,6 +34,23 @@ def test_stack_pop():
     assert not a._linked_list.head
     try:
         a.pop()
-    except ValueError:
+    except IndexError:
         pass
 
+
+def test_stack_pop_empty_stack_will_raise_index_error():
+    """Will test that a IndexError is raised when popping from a empty stack."""
+    with pytest.raises(IndexError):
+        a = Stack()
+        a.pop()
+
+
+def test_stack_pop_multiple_times_will_raise_index_error():
+    """Will test that a IndexError is raised after popping multiple times down to empty stck."""
+    with pytest.raises(IndexError):
+        a = Stack((1, 2, 3, 4))
+        a.pop()
+        a.pop()
+        a.pop()
+        a.pop()
+        a.pop()
