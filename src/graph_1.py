@@ -1,5 +1,4 @@
 """Graph_1 data strcture."""
-import sys
 
 
 class Graph:
