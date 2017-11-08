@@ -20,15 +20,16 @@ def graph_5():
     g.add_edge(5, 6)
     return g
 
+
 @pytest.fixture()
 def t_graph():
-    """Make a graph for traversal."""
+    """Make a graph for traversal and weights."""
     g = Graph()
-    g.add_edge(1, 2)
-    g.add_edge(1, 3)
-    g.add_edge(2, 4)
-    g.add_edge(2, 5)
-    g.add_edge(3, 6)
+    g.add_edge(1, 2, 5)
+    g.add_edge(1, 3, 9)
+    g.add_edge(2, 4, 4)
+    g.add_edge(2, 5, 2)
+    g.add_edge(3, 6, 1)
     g.add_edge(3, 7)
     return g
 
@@ -54,13 +55,13 @@ def test_del_node(graph_5):
     assert graph_5.nodes() == []
 
 
-def test_when_node_deleted_removed_from_neighbor(graph_1):
-    """Test that after a node is deleted it is removed from neighbor list."""
+def test_when_node_deleted_removed_from_edges(graph_1):
+    """Test that after a node is deleted it is removed from edges list."""
     g = graph_1
     g.add_edge(1, 2)
     g.add_edge(1, 3)
     g.del_node(1)
-    assert g.edges() == []
+    assert g.edges() == [(2, {}), (3, {})]
 
 
 def test_delete_node_from_empty_graph(graph_1):
@@ -69,11 +70,12 @@ def test_delete_node_from_empty_graph(graph_1):
         graph_1.del_node(3)
 
 
-def test_del_edges(graph_5):
+def test_del_edges(graph_1):
     """Test if the del edge method works."""
-    for num in range(1, 6):
-        graph_5.del_edge(num, num + 1)
-    assert all([graph_5.graph[num] == [] for num in graph_5.graph])
+    graph_1.add_edge(1, 2)
+    graph_1.add_edge(1, 3)
+    graph_1.del_edge(1, 3)
+    assert graph_1.edges() == [(1, {2: 0}), (2, {}), (3, {})]
 
 
 def test_has_node(graph_5):
@@ -91,12 +93,13 @@ def test_nodes(graph_1):
 
 def test_edges(graph_5):
     """Test if the edges method works."""
-    assert graph_5.edges() == [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)]
+    result = [(1, {2: 0}), (2, {3: 0}), (3, {4: 0}), (4, {5: 0}), (5, {6: 0}), (6, {})]
+    assert graph_5.edges() == result
 
 
 def test_neighbors(graph_5):
     """Test if the neighbors methods works."""
-    assert graph_5.neighbors(1) == [2]
+    assert graph_5.neighbors(1) == {2: 0}
 
 
 def test_adjacent(graph_5):
@@ -125,7 +128,7 @@ def test_bft_returns_proper_path(t_graph):
 def test_bft_returns_proper_path_after_adding_new_edge(t_graph):
     """Test bft returns proper path with unique neighbors after adding new edge starting at 1."""
     t_graph.add_edge(1, 9)
-    result = [1, 2, 3, 9, 4, 5, 6, 7]
+    result = [1, 9, 2, 3, 4, 5, 6, 7]
     assert t_graph.breadth_first_traversal(1) == result
 
 
@@ -165,7 +168,7 @@ def test_dft_returns_proper_path(t_graph):
 def test_dft_returns_proper_path_after_adding_new_edge(t_graph):
     """Test dft returns proper path with unique neighbors after adding new edge starting at 1."""
     t_graph.add_edge(2, 9)
-    result = [1, 2, 4, 5, 9, 3, 6, 7]
+    result = [1, 2, 9, 4, 5, 3, 6, 7]
     assert t_graph.depth_first_traversal(1) == result
 
 
@@ -195,3 +198,35 @@ def test_dft_returns_proper_path_after_deleting_node(t_graph):
     result = [1, 2, 4, 3, 6, 7]
     assert t_graph.depth_first_traversal(1) == result
 
+
+def test_non_int_entered_for_weight(graph_1):
+    """Test that value error is raised when A is weight."""
+    with pytest.raises(ValueError):
+        graph_1.add_edge(1, 2, 'A')
+
+
+def test_wieght_defaults_to_zero(graph_1):
+    """Test that the defalut wieght is applied to edge."""
+    graph_1.add_edge(1, 2)
+    assert graph_1.edges() == [(1, {2: 0}), (2, {})]
+
+
+def test_added_weight_displayed(graph_1):
+    """Test weight is added to edge."""
+    graph_1.add_edge(1, 2, 10)
+    assert graph_1.edges() == [(1, {2: 10}), (2, {})]
+
+
+def test_weight_removed_when_edge_deleted(graph_1):
+    """Test that weight is removed after deleting edge."""
+    graph_1.add_edge(1, 2, 9)
+    graph_1.del_edge(1, 2)
+    assert graph_1.edges() == [(1, {}), (2, {})]
+
+
+def test_weight_removed_when_node_deleted(graph_1):
+    """Test that weight is removed after deleting node."""
+    graph_1.add_edge(1, 2, 9)
+    graph_1.add_edge(1, 3, 6)
+    graph_1.del_node(1)
+    assert graph_1.edges() == [(2, {}), (3, {})]

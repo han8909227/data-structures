@@ -27,7 +27,8 @@ class Graph:
             del self.graph[data]
             for key in self.graph:
                 if data in self.graph[key]:
-                    self.graph[key].remove(data)
+                    del self.graph[key][data]
+
         except KeyError:
             raise KeyError('no such node exists')
 
