@@ -1,5 +1,4 @@
 """Graph_1 data strcture."""
-import sys
 
 
 class Graph:
@@ -100,7 +99,7 @@ class Graph:
         return result
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  #pragma: no cover
     g = Graph()
     g.add_edge('A', 'B')
     g.add_edge('A', 'C')
