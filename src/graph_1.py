@@ -1,4 +1,5 @@
 """Graph_1 data strcture."""
+from numbers import Number
 
 
 class Graph:
@@ -7,17 +8,18 @@ class Graph:
     def __init__(self):
         """Create a instance of the graph class."""
         self.graph = {}
-        self.result = []
 
     def add_node(self, *argv):
         """Add a new node with value: data."""
         for data in argv:
-            self.graph.setdefault(data, [])
+            self.graph.setdefault(data, {})
 
-    def add_edge(self, data_1, data_2):
+    def add_edge(self, data_1, data_2, weight=0):
         """Add a new edge between 2 nodes, creates nodes if not present."""
+        if not isinstance(weight, Number):
+            raise ValueError('Weight needs to be a number')
         self.add_node(data_1, data_2)
-        self.graph[data_1].append(data_2)
+        self.graph[data_1][data_2] = weight
 
     def del_node(self, data):
         """Delete a particular node from the graph."""
@@ -33,7 +35,8 @@ class Graph:
         """Delete a edge between data_1 and data_2."""
         for edge in self.graph[data_1]:
             if data_2 == edge:
-                return self.graph[data_1].remove(edge)
+                del self.graph[data_1][data_2]
+                return
         raise KeyError('no such edge exists')
 
     def has_node(self, data):
@@ -46,11 +49,7 @@ class Graph:
 
     def edges(self):
         """Return a list of tuples showing the relations."""
-        result = []
-        for node, edges in self.graph.items():
-            for edge in edges:
-                result.append((node, edge))
-        return result
+        return list(self.graph.items())
 
     def neighbors(self, data):
         """Return all the nodes the data is pointing to."""
@@ -70,23 +69,21 @@ class Graph:
         """Return all value from the start using breadth first traversal."""
         result = []
         que = [start]
-        node = start
-        if not self.has_node(node):
+        repeat = set()
+        if not self.has_node(start):
             raise KeyError('no such node in the graph')
         while que:
-            edges = self.neighbors(node)
+            pop = que.pop(0)
+            edges = self.neighbors(pop)
+            result.append(pop)
+            repeat.add(pop)
             for edge in edges:
-                if edge in result or edge in que:
-                    edges.remove(edge)
-            result.append(que.pop(0))
-            for edge in edges:
-                que.append(edge)
-            if len(que):
-                node = que[0]
+                if edge not in repeat:
+                    que.append(edge)
         return result
 
     def depth_first_traversal(self, start):
-        """."""
+        """Return all values from start using depth first traversal."""
         que = [start]
         result = []
         if not self.has_node(start):
@@ -95,11 +92,11 @@ class Graph:
             node = que.pop(0)
             if node not in result:
                 result.append(node)
-                que = self.graph[node] + que
+                que = [key for key in self.graph[node]] + que
         return result
 
 
-if __name__ == '__main__':  #pragma: no cover
+if __name__ == '__main__':  # pragma: no cover
     g = Graph()
     g.add_edge('A', 'B')
     g.add_edge('A', 'C')
