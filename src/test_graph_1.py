@@ -5,19 +5,31 @@ from graph_1 import Graph
 
 @pytest.fixture(scope='function')
 def graph_1():
-    """Making one mt priority queue instance per test."""
+    """Making one empty graph instance per test."""
     return Graph()
 
 
 @pytest.fixture(scope='function')
 def graph_5():
-    """Making one priority queue instance with len of 5 per test."""
+    """Making one graph instance with len of 5 per test."""
     g = Graph()
     g.add_edge(1, 2)
     g.add_edge(2, 3)
     g.add_edge(3, 4)
     g.add_edge(4, 5)
     g.add_edge(5, 6)
+    return g
+
+@pytest.fixture()
+def t_graph():
+    """Make a graph for traversal."""
+    g = Graph()
+    g.add_edge(1, 2)
+    g.add_edge(1, 3)
+    g.add_edge(2, 4)
+    g.add_edge(2, 5)
+    g.add_edge(3, 6)
+    g.add_edge(3, 7)
     return g
 
 
@@ -90,3 +102,96 @@ def test_neighbors(graph_5):
 def test_adjacent(graph_5):
     """Test if the adjacent method works."""
     assert graph_5.adjacent(1, 2)
+
+
+def test_bft_no_node_exist(graph_1):
+    """Test bft for key error when node doesn't exist."""
+    with pytest.raises(KeyError):
+        graph_1.breadth_first_traversal(3)
+
+
+def test_dft_no_node_exist(graph_1):
+    """Test dft for key error when node doesn't exist."""
+    with pytest.raises(KeyError):
+        graph_1.depth_first_traversal(3)
+
+
+def test_bft_returns_proper_path(t_graph):
+    """Test bft returns proper path with unique neighbors from start point of 1."""
+    result = [1, 2, 3, 4, 5, 6, 7]
+    assert t_graph.breadth_first_traversal(1) == result
+
+
+def test_bft_returns_proper_path_after_adding_new_edge(t_graph):
+    """Test bft returns proper path with unique neighbors after adding new edge starting at 1."""
+    t_graph.add_edge(1, 9)
+    result = [1, 2, 3, 9, 4, 5, 6, 7]
+    assert t_graph.breadth_first_traversal(1) == result
+
+
+def test_bft_returns_proper_path_after_deleting_edge(t_graph):
+    """Test bft returns proper path with unique neighbors after deleting edge starting at 1."""
+    t_graph.del_edge(1, 3)
+    result = [1, 2, 4, 5]
+    assert t_graph.breadth_first_traversal(1) == result
+
+
+def test_bft_returns_proper_path_after_deleting_node(t_graph):
+    """Test bft returns proper path with unique neighbors after deleting node starting at 1."""
+    t_graph.del_node(5)
+    result = [1, 2, 3, 4, 6, 7]
+    assert t_graph.breadth_first_traversal(1) == result
+
+
+def test_bft_returns_proper_path_without_repeating_nodes(t_graph):
+    """Test bft returns proper path with non unique neighbors from start point of 1."""
+    t_graph.add_edge(7, 1)
+    result = [1, 2, 3, 4, 5, 6, 7]
+    assert t_graph.breadth_first_traversal(1) == result
+
+
+def test_bft_returns_only_start_if_no_neighbors(t_graph):
+    """Test that only the start node is returned when no neighbors."""
+    t_graph.add_node(9)
+    assert t_graph.breadth_first_traversal(9) == [9]
+
+
+def test_dft_returns_proper_path(t_graph):
+    """Test dft returns proper path with unique neighbors starting at 1."""
+    result = [1, 2, 4, 5, 3, 6, 7]
+    assert t_graph.depth_first_traversal(1) == result
+
+
+def test_dft_returns_proper_path_after_adding_new_edge(t_graph):
+    """Test dft returns proper path with unique neighbors after adding new edge starting at 1."""
+    t_graph.add_edge(2, 9)
+    result = [1, 2, 4, 5, 9, 3, 6, 7]
+    assert t_graph.depth_first_traversal(1) == result
+
+
+def test_dft_returns_proper_path_without_repeating_nodes(t_graph):
+    """Test dft returns proper path with non unique neighbors from start point of 1."""
+    t_graph.add_edge(7, 1)
+    result = [1, 2, 4, 5, 3, 6, 7]
+    assert t_graph.depth_first_traversal(1) == result
+
+
+def test_dft_returns_only_start_if_no_neighbors(t_graph):
+    """Test that only the start node is returned when no neighbors."""
+    t_graph.add_node(9)
+    assert t_graph.depth_first_traversal(9) == [9]
+
+
+def test_dft_returns_proper_path_after_deleting_edge(t_graph):
+    """Test dft returns proper path with unique neighbors after deleting edge starting at 1."""
+    t_graph.del_edge(1, 3)
+    result = [1, 2, 4, 5]
+    assert t_graph.depth_first_traversal(1) == result
+
+
+def test_dft_returns_proper_path_after_deleting_node(t_graph):
+    """Test dft returns proper path with unique neighbors after deleting node starting at 1."""
+    t_graph.del_node(5)
+    result = [1, 2, 4, 3, 6, 7]
+    assert t_graph.depth_first_traversal(1) == result
+
