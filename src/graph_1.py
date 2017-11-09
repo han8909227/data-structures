@@ -96,6 +96,38 @@ class Graph:
                 que = [key for key in self.graph[node]] + que
         return result
 
+    def sp_dijkstra(self, start, end):
+        """Return shortest path using dijkstra alogorithem."""
+        visted = set()
+        dist = {}
+        pred = {}
+        if not self.has_node(start) or not self.has_node(end):
+            raise KeyError('no such node exist.')
+        if not visted:
+            dist[start] = 0
+            current = start
+        for neighbor in self.graph[current]:
+            if neighbor not in visted:
+                dist.setdefault(neighbor, float('inf'))
+                new_dist = dist[current] + self.graph[current][neighbor]
+                if new_dist < dist[neighbor]:
+                    dist[neighbor] = new_dist
+                    pred[neighbor] = current
+        visted.add(current)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':  # pragma: no cover
     g = Graph()
