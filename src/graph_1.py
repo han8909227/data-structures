@@ -26,14 +26,18 @@ class Graph:
                 if data in self.graph[key]:
                     self.graph[key].remove(data)
         except KeyError:
-            raise KeyError('no such node exists')
+            raise ValueError('no such node exists')
 
     def del_edge(self, data_1, data_2):
         """Delete a edge between data_1 and data_2."""
+        if data_1 not in self.graph:
+            raise ValueError('node ' + str(data_1) + ' does not exist')
+        if data_2 not in self.graph:
+            raise ValueError('node ' + str(data_2) + ' does not exist')
         for edge in self.graph[data_1]:
             if data_2 == edge:
                 return self.graph[data_1].remove(edge)
-        raise KeyError('no such edge exists')
+        raise ValueError('no such edge exists')
 
     def has_node(self, data):
         """Check if node is in graph."""
@@ -56,11 +60,14 @@ class Graph:
         try:
             return self.graph[data]
         except KeyError:
-            raise KeyError('no such node exists')
+            raise ValueError('no such node exists')
 
     def adjacent(self, data_1, data_2):
-        """Return all adjacent nodes."""
-        try:
-            return data_2 in self.graph[data_1] or data_1 in self.graph[data_2]
-        except KeyError as err:
-            raise KeyError('node ' + str(err.args[0]) + ' does not exist')
+        """Check that two nodes are adjacent."""
+        if data_2 in self.graph:
+            try:
+                return data_2 in self.graph[data_1]
+            except KeyError as err:
+                raise ValueError('node ' + str(err.args[0]) + ' does not exist')
+        else:
+            raise ValueError('node ' + str(data_2) + ' does not exist')

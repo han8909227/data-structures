@@ -52,8 +52,8 @@ def test_when_node_deleted_removed_from_neighbor(graph_1):
 
 
 def test_delete_node_from_empty_graph(graph_1):
-    """Test key error is raised when no node to delete."""
-    with pytest.raises(KeyError):
+    """Test value error is raised when no node to delete."""
+    with pytest.raises(ValueError):
         graph_1.del_node(3)
 
 
@@ -64,10 +64,30 @@ def test_del_edges(graph_5):
     assert all([graph_5.graph[num] == [] for num in graph_5.graph])
 
 
+def test_del_edge_when_node_does_not_exist(graph_1):
+    """Test that value error is raised when node does not exist."""
+    graph_1.add_node(1)
+    with pytest.raises(ValueError):
+        graph_1.del_edge(1, 2)
+
+
+def test_del_edge_when_edge_doesn_not_exist(graph_1):
+    """Test value error when no edge to delete."""
+    graph_1.add_node(1)
+    graph_1.add_node(2)
+    with pytest.raises(ValueError):
+        graph_1.del_edge(1, 2)
+
+
 def test_has_node(graph_5):
     """Test if the has_node method works."""
     for num in range(1, 6):
         assert graph_5.has_node(num)
+
+
+def test_has_node_returns_false_when_node_does_not_exist(graph_1):
+    """Test the has node method returns False when node doesn't exist."""
+    assert not graph_1.has_node(1)
 
 
 def test_nodes(graph_1):
@@ -87,6 +107,23 @@ def test_neighbors(graph_5):
     assert graph_5.neighbors(1) == [2]
 
 
+def test_value_error_when_no_node(graph_5):
+    """Test for value error when the node does not exist."""
+    with pytest.raises(ValueError):
+        graph_5.neighbors(88)
+
+
 def test_adjacent(graph_5):
     """Test if the adjacent method works."""
     assert graph_5.adjacent(1, 2)
+
+
+def test_not_adjacent(graph_5):
+    """Test that 1 and 3 are not adjacent."""
+    assert not graph_5.adjacent(1, 3)
+
+
+def test_value_error_when_no_node_exists_adjacent(graph_5):
+    """Test for value error when a node does not exist."""
+    with pytest.raises(ValueError):
+        graph_5.adjacent(1, 90)
