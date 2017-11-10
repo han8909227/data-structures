@@ -50,7 +50,7 @@ def test_dequeue_raises_error_if_no_item_left(q):
 
 def test_peek_raises_error_if_no_item_there(q):
     """Test if peek raises an error if there is nothing in the queue."""
-    with pytest.raises(AttributeError):
+    with pytest.raises(ValueError):
         q.peek()
 
 
