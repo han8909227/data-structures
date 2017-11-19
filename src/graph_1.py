@@ -1,5 +1,6 @@
 """Graph_1 data strcture."""
 from numbers import Number
+from priorityq import Priorityq
 
 
 class Graph:
@@ -96,51 +97,36 @@ class Graph:
                 que = [key for key in self.graph[node]] + que
         return result
 
-    def sp_dijkstra(self, start, end):
+    def sp_dijkstra(self, start, end=None):
         """Return shortest path using dijkstra alogorithem."""
-        visted = set()
-        dist = {}
-        pred = {}
-        if not self.has_node(start) or not self.has_node(end):
-            raise KeyError('no such node exist.')
-        if not visted:
-            dist[start] = 0
-            current = start
-        for neighbor in self.graph[current]:
-            if neighbor not in visted:
-                dist.setdefault(neighbor, float('inf'))
-                new_dist = dist[current] + self.graph[current][neighbor]
-                if new_dist < dist[neighbor]:
-                    dist[neighbor] = new_dist
-                    pred[neighbor] = current
-        visted.add(current)
+        dist = {start: 0}
+        pq = Priorityq()
 
+        prev = {}
+        inf = float('inf')
 
-
-
-
-
-
-
-
-
-
-
+        for edge in self.graph[start]:
+            dist[edge] = float("inf")
+            prev[edge] = None
+        dist[start] = 0
+        Q = self.grpah.keys()
+        while Q:
+            u =
 
 
 
 if __name__ == '__main__':  # pragma: no cover
     g = Graph()
-    g.add_edge('A', 'B')
-    g.add_edge('A', 'C')
-    g.add_edge('B', 'D')
-    g.add_edge('B', 'E')
-    g.add_edge('C', 'F')
-    g.add_edge('C', 'G')
-    g.add_edge('D', 'H')
-    g.add_edge('D', 'C')
-    g.add_edge('H', 'A')
-    g.add_edge('F', 'D')
+    g.add_edge('A', 'B', 2)
+    g.add_edge('A', 'C', 3)
+    g.add_edge('B', 'D', 3)
+    g.add_edge('B', 'E', 1)
+    g.add_edge('C', 'F', 2)
+    g.add_edge('C', 'G', 8)
+    g.add_edge('D', 'H', 6)
+    g.add_edge('D', 'C', 4)
+    g.add_edge('H', 'A', 1)
+    g.add_edge('F', 'D', 2)
 
     print('Graph structure: ' + str(g.graph))
     print('List of edges: ' + str(g.edges()))
