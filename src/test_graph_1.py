@@ -205,6 +205,12 @@ def test_non_int_entered_for_weight(graph_1):
         graph_1.add_edge(1, 2, 'A')
 
 
+def test_non_int_entered_for_weight_next(graph_1):
+    """Test that value error is raised when A is weight."""
+    with pytest.raises(ValueError):
+        graph_1.add_edge(1, 2, '&')
+
+
 def test_wieght_defaults_to_zero(graph_1):
     """Test that the defalut wieght is applied to edge."""
     graph_1.add_edge(1, 2)
