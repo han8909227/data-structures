@@ -19,6 +19,8 @@ class Deque(object):
         """Will remove the head value."""
         if self._dll.head:
             self._counter -= 1
+        else:
+            raise ValueError('no value left to pop')
         return self._dll.pop()
 
     def append_left(self, data):
@@ -30,15 +32,23 @@ class Deque(object):
         """Pop a value from the end."""
         if self._dll.tail:
             self._counter -= 1
+        else:
+            raise ValueError('no value left to pop')
         return self._dll.shift()
 
     def peek_left(self):
         """Will return the value that pop_left would return."""
-        return self._dll.head.data
+        if self._dll.head:
+            return self._dll.head.data
+        else:
+            raise ValueError('no value in the deque to peek')
 
     def peek(self):
         """Will return the value that pop would return."""
-        return self._dll.tail.data
+        if self._dll.head:
+            return self._dll.tail.data
+        else:
+            raise ValueError('no value in the deof correct typeque to peek')
 
     def size(self):
         """Return the size of the deque."""
