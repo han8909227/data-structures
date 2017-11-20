@@ -23,7 +23,7 @@ class Priorityq:
         """Will pop the first inserted instances of the highest priority and return the value."""
         if self.q == {}:
             raise ValueError('need value to pop')
-        pri_to_pop = sorted(self.q.keys())[-1]
+        pri_to_pop = sorted(self.q.keys())[0]
         q_pop = self.q[pri_to_pop].dequeue()
         try:
             self.q[pri_to_pop].peek()
@@ -35,5 +35,5 @@ class Priorityq:
         """Return the next priority item that will be popped without popping the item."""
         if self.q == {}:
             raise ValueError('no values available')
-        pri_to_peek = sorted(self.q.keys())[-1]
+        pri_to_peek = sorted(self.q.keys())[0]
         return self.q[pri_to_peek].peek()
