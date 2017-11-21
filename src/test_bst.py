@@ -78,37 +78,104 @@ def test_search_on_single_depth_bst(bst):
     assert result.data == 10
 
 
-def test_search_on_four_deep_bst(bst_2):
+def test_search_on_twp_deep_bst(bst_2):
     """Test if searching a val from two deep tree returns node with the val."""
     result = bst_2.search(12)
     assert isinstance(result, Node)
     assert result.data == 12
 
 
-def test_searching_invalid_on_single_depth_bst(bst):
-    """Test if searching val from single depth."""
-    with pytest.raises(ValueError):
-        bst.search('non_exist_val')
+def test_searching_invalid_on_two_deep_bst(bst_2):
+    """Test if searching val not in tree from a two deep bst return None."""
+    result = bst_2.search(200)
+    assert result is None
 
 
-# def test_add_edge(graph_1):
-#     """Test adding a edge to the graph."""
-#     g = graph_1
-#     g.add_edge(1, 2)
-#     assert 2 in g.graph[1]
+def test_size_method_on_mt_bst():
+    """Test if the size method works on mt bst."""
+    new_bst = BinarySearchTree()
+    assert new_bst.size() == 0
 
 
-# def test_del_node(graph_5):
-#     """Test if del node method works."""
-#     for num in range(1, 7):
-#         graph_5.del_node(num)
-#     assert graph_5.nodes() == []
+def test_size_method_on_populated_bst(bst_2):
+    """Test if the size method works on a populated bst."""
+    assert bst_2.size() == 7
 
 
-# def test_when_node_deleted_removed_from_edges(graph_1):
-#     """Test that after a node is deleted it is removed from edges list."""
-#     g = graph_1
-#     g.add_edge(1, 2)
-#     g.add_edge(1, 3)
-#     g.del_node(1)
-#     assert g.edges() == [(2, {}), (3, {})]
+def test_size_method_on_root_only_bst(bst):
+    """Test if the size method works on a bst with only the root."""
+    assert bst.size() == 1
+
+
+def test_contain_method_on_populated_bst_return_true(bst_2):
+    """Test if the contain method works properly, and return True for containing value."""
+    for num in range(8, 14):
+        assert bst_2.contains(num)
+
+
+def test_contain_method_on_populated_bst_return_false(bst_2):
+    """Test if the contian method returns False for non containing value."""
+    assert not bst_2.contains(15)
+
+
+def test_depth_method_on_mt_bst():
+    """Test if the depth method return 0 on mt bst from root."""
+    new_bst = BinarySearchTree()
+    assert new_bst.depth(new_bst.root) == 0
+
+
+def test_depth_method_on_single_depth_bst(bst):
+    """Test if the depth method return 0 on single level bst."""
+    assert bst.depth(bst.root) == 0
+
+
+def test_depth_method_on_populated_bst(bst_2):
+    """Test if the depth method return correct depth."""
+    assert bst_2.depth(bst_2.root) == 2
+
+
+def test_balance_method_on_balanced_bst(bst_2):
+    """Test the balance method on a balanced bst."""
+    assert bst_2.balance() == 0
+
+
+def test_balance_method_on_mt_bst():
+    """Test the balane method on a mt bst."""
+    new_bst = BinarySearchTree()
+    assert new_bst.balance() == 0
+
+
+def test_balance_method_on_neg_balance():
+    """Test the balance method on a negatively balanced bst."""
+    new_bst = BinarySearchTree(10)
+    new_bst.insert(20)
+    new_bst.insert(30)
+    assert new_bst.balance() == -2
+
+
+def test_balance_method_on_neg_balance_with_two_sides():
+    """Test the balance method on a negatively balanced bst."""
+    new_bst = BinarySearchTree(10)
+    new_bst.insert(20)
+    new_bst.insert(30)
+    new_bst.insert(0)
+    assert new_bst.balance() == -1
+
+
+def test_balance_method_on_pos_balance():
+    """Test the balance method on a positively balanced bst."""
+    new_bst = BinarySearchTree(10)
+    new_bst.insert(0)
+    new_bst.insert(-10)
+    new_bst.insert(-20)
+    assert new_bst.balance() == 3
+
+
+def test_balance_method_on_pos_balance_with_two_sides():
+    """Test the balance method on a positively balanced bst."""
+    new_bst = BinarySearchTree(10)
+    new_bst.insert(0)
+    new_bst.insert(-10)
+    new_bst.insert(-20)
+    new_bst.insert(20)
+    assert new_bst.balance() == 2

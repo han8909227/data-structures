@@ -16,12 +16,12 @@ class BinarySearchTree(object):
 
     def __init__(self, root=None):
         """Init the bst class."""
-        self.size = 0
+        self.count = 0
         if root is None:
             self.root = root
         elif isinstance(root, int) or isinstance(root, float):
             self.root = Node(root)
-            self.size += 1
+            self.count += 1
         else:
             raise ValueError('root value must be a number!')
 
@@ -29,21 +29,21 @@ class BinarySearchTree(object):
         """Insert a value/node into the tree."""
         if self.root is None:
             self.root = Node(item)
-            self.size += 1
+            self.count += 1
         elif isinstance(item, int) or isinstance(item, float):
             curr_data = self.root
             while curr_data is not None:
                 if item < curr_data.data:
                     if curr_data.left is None:
                         curr_data.left = Node(item)
-                        self.size += 1
+                        self.count += 1
                         return
                     else:
                         curr_data = curr_data.left
                 else:  # greater than current node
                     if curr_data.right is None:
                         curr_data.right = Node(item)
-                        self.size += 1
+                        self.count += 1
                         return
                     else:
                         curr_data = curr_data.right
@@ -64,9 +64,9 @@ class BinarySearchTree(object):
                 continue
         return
 
-    def size(self, item):
+    def size(self):
         """Return the size of the current tree."""
-        return self.size
+        return self.count
 
     def contains(self, item):
         """Return a boolean value if a node is in the tree."""
@@ -74,7 +74,7 @@ class BinarySearchTree(object):
 
     def depth(self, root):
         """Return the depth of the current tree."""
-        if self.size == 0 or self.size == 1:
+        if self.count == 0 or self.count == 1:
             return 0
         elif root is None:
             return -1
@@ -83,6 +83,13 @@ class BinarySearchTree(object):
 
     def balance(self):
         """Return the current balance of the tree."""
-        left_depth = self.depth(self.root.left)
-        right_depth = self.depth(self.root.right)
-        return left_depth - right_depth
+        if self.root is None:
+            return 0
+        elif hasattr(self.root, 'left') and hasattr(self.root, 'right'):
+            left_depth = self.depth(self.root.left)
+            right_depth = self.depth(self.root.right)
+            return left_depth - right_depth
+        elif hasattr(self.root, 'right'):
+            return self.depth(self.root.right)
+        else:
+            return self.depth(self.root.left)
