@@ -1,5 +1,6 @@
 """Graph_1 data strcture."""
 from numbers import Number
+from priorityq import Priorityq
 
 
 class Graph:
@@ -96,19 +97,59 @@ class Graph:
                 que = [key for key in self.graph[node]] + que
         return result
 
+    def sp_dijkstra(self, start, end=None):
+        """Return shortest path using dijkstra alogorithem."""
+        visited = set()
+        dist = {}
+        for node in self.nodes():
+            dist[node] = float("inf")
+        dist[start] = 0
+        current = start
+
+        while current != end:
+            neighbors = self.neighbors(current)
+            for neighbor in neighbors:
+                dist_curr_to_neigh = self.graph[current][neighbor]
+                if dist[neighbor] > (dist[current] + dist_curr_to_neigh):
+                    dist[neighbor] = (dist[current] + dist_curr_to_neigh)
+            visited.add(current)
+            min_dist = float("inf")
+            for key in dist:
+                if key not in visited:
+                    if dist[key] < min_dist:
+                        min_dist = dist[key]
+                        min_key = key
+            current = min_key
+        return dist[end]
+
+    # def sp_bellmanford(self, start, end=None):
+    #     """Return the shortest path value using bellmanford."""
+    #     dist = {}
+    #     for node in self.nodes():
+    #         dist[node] = float("inf")
+    #     dist[start] = 0
+    #     for _ in range(len(self.nodes()) - 1):
+    #         for u, v, w in self.edges():
+    #             if dist[u] != float("inf") and (dist[u] + w) < dist[v]:
+    #                 dist[v] = dist[u] + w
+    #     for u, v, w in self.edges():
+    #         if dist[u] + w < dist[v]:
+    #             raise ValueError("negative weight in graph.")
+    #     return dist[end]
+
 
 if __name__ == '__main__':  # pragma: no cover
     g = Graph()
-    g.add_edge('A', 'B')
-    g.add_edge('A', 'C')
-    g.add_edge('B', 'D')
-    g.add_edge('B', 'E')
-    g.add_edge('C', 'F')
-    g.add_edge('C', 'G')
-    g.add_edge('D', 'H')
-    g.add_edge('D', 'C')
-    g.add_edge('H', 'A')
-    g.add_edge('F', 'D')
+    g.add_edge('A', 'B', 2)
+    g.add_edge('A', 'C', 3)
+    g.add_edge('B', 'D', 3)
+    g.add_edge('B', 'E', 1)
+    g.add_edge('C', 'F', 2)
+    g.add_edge('C', 'G', 8)
+    g.add_edge('D', 'H', 6)
+    g.add_edge('D', 'C', 4)
+    g.add_edge('H', 'A', 1)
+    g.add_edge('F', 'D', 2)
 
     print('Graph structure: ' + str(g.graph))
     print('List of edges: ' + str(g.edges()))

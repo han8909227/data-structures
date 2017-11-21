@@ -253,4 +253,5 @@ def test_weight_removed_when_node_deleted(graph_1):
     graph_1.add_edge(1, 2, 9)
     graph_1.add_edge(1, 3, 6)
     graph_1.del_node(1)
-    assert graph_1.edges() == [(2, {}), (3, {})]
+    assert graph_1.edges() == [(2, {}), (3, {})]=======
+

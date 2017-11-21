@@ -4,7 +4,7 @@ Various data structure written in python by Han Bao and Phillip Werner
 
 # Linked-Lists
 
-Ordered list, where each node has a one way reference to the next.
+Linked list, where each node has a one way reference to the next.
 
 - Push: O(1)
     - Insert given value to the head
@@ -30,7 +30,7 @@ Ordered list, where each node has a one way reference to the next.
 
 # Doubly-Linked-Lists
 
-Ordered list, where each node has two way reference to its previous and next node.
+Doubly-Linked-Lists, where each node has two way reference to its previous and next node.
 
 - Push: O(1)
     - Insert given value to the head
@@ -167,3 +167,25 @@ An queue where data is sorted by the priority level which it was passed in with,
 
 - Peek: O(n log(n))
     - Peek at the value that is about to be popped.
+
+
+# Binary search tree(non self-balancing)
+A binary tree search non self balacing data structure
+
+- Insert: O(log(n)
+    - Insert the value into the binary search tree.
+
+- Search: O(log(n))
+    - Search for a node containing the value being search.
+
+- Size: O(1)
+    - Return the current size of the tree.
+
+- Depth: O(n)
+    - Return the current depth (deepst) of the tree structure. (0 for no root or root only tree)
+
+- Contains: O(n)
+    - Return boolean value for wehther the value exists in the tree.
+
+- Balance: O(n)
+    - Return the current balance state of the tree, negative if tree is higher on the left and positive otherwise. Balanced tree will have a value of zero.
