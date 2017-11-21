@@ -99,20 +99,43 @@ class Graph:
 
     def sp_dijkstra(self, start, end=None):
         """Return shortest path using dijkstra alogorithem."""
-        dist = {start: 0}
-        pq = Priorityq()
-
-        prev = {}
-        inf = float('inf')
-
-        for edge in self.graph[start]:
-            dist[edge] = float("inf")
-            prev[edge] = None
+        visited = set()
+        dist = {}
+        for node in self.nodes():
+            dist[node] = float("inf")
         dist[start] = 0
-        Q = self.grpah.keys()
-        while Q:
-            u =
+        current = start
 
+        while current != end:
+            neighbors = self.neighbors(current)
+            for neighbor in neighbors:
+                dist_curr_to_neigh = self.graph[current][neighbor]
+                if dist[neighbor] > (dist[current] + dist_curr_to_neigh):
+                    dist[neighbor] = (dist[current] + dist_curr_to_neigh)
+            visited.add(current)
+            min_dist = float("inf")
+            for key in dist:
+                if key not in visited:
+                    if dist[key] < min_dist:
+                        min_dist = dist[key]
+                        min_key = key
+            current = min_key
+        return dist[end]
+
+    # def sp_bellmanford(self, start, end=None):
+    #     """Return the shortest path value using bellmanford."""
+    #     dist = {}
+    #     for node in self.nodes():
+    #         dist[node] = float("inf")
+    #     dist[start] = 0
+    #     for _ in range(len(self.nodes()) - 1):
+    #         for u, v, w in self.edges():
+    #             if dist[u] != float("inf") and (dist[u] + w) < dist[v]:
+    #                 dist[v] = dist[u] + w
+    #     for u, v, w in self.edges():
+    #         if dist[u] + w < dist[v]:
+    #             raise ValueError("negative weight in graph.")
+    #     return dist[end]
 
 
 if __name__ == '__main__':  # pragma: no cover
