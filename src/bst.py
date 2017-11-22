@@ -57,9 +57,9 @@ class BinarySearchTree(object):
         """Search a value in the tree."""
         node = self.root
         while node is not None:
-            if node.data == item:
+            if node.data == int(item):  # in py2.6 item is str & node.data is int
                 return node
-            elif node.data < item:
+            elif node.data < int(item):
                 node = node.right
                 continue
             else:
