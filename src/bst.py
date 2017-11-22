@@ -123,7 +123,7 @@ class BinarySearchTree(object):
                 yield val
 
 if __name__ == '__main__':  # pragma: no cover
-    b = BinarySearchTree(20)
+    b = BinarySearchTree(20)  # balanced tree depth 3
     b.insert(10)
     b.insert(5)
     b.insert(15)
@@ -139,7 +139,7 @@ if __name__ == '__main__':  # pragma: no cover
     b.insert(37)
     b.insert(33)
 
-    a = BinarySearchTree(0)
+    a = BinarySearchTree(0)  # all right node tree
     for num in range(1, 15):
         a.insert(num)
 

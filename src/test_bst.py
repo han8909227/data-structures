@@ -144,6 +144,22 @@ def test_depth_method_on_populated_bst(bst_2):
     assert bst_2.depth(bst_2.root) == 2
 
 
+def test_dun_depth_method_on_mt_bst():
+    """Test the _depth method on mt bst."""
+    new_bst = BinarySearchTree()
+    assert new_bst._depth(new_bst.root) == 0
+
+
+def test_dun_depth_method_on_single_bst(bst):
+    """Test the _depth method on single bst."""
+    assert bst._depth(bst.root) == 1
+
+
+def test_dun_depth_method_on_populated_bst(bst_2):
+    """Test the _depth method on populated bst."""
+    assert bst_2._depth(bst_2.root) == 3
+
+
 def test_balance_method_on_balanced_bst(bst_2):
     """Test the balance method on a balanced bst."""
     assert bst_2.balance() == 0
@@ -234,5 +250,4 @@ def test_pre_order_method(bst_2):
     for _ in range(7):
         result.append(next(a))
     assert result == [10, 8, 7, 9, 12, 11, 13]
-
 
