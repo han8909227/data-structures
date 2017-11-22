@@ -4,7 +4,7 @@ Various data structure written in python by Han Bao and Phillip Werner
 
 # Linked-Lists
 
-Ordered list, where each node has a one way reference to the next.
+Linked list, where each node has a one way reference to the next.
 
 - Push: O(1)
     - Insert given value to the head
@@ -30,7 +30,7 @@ Ordered list, where each node has a one way reference to the next.
 
 # Doubly-Linked-Lists
 
-Ordered list, where each node has two way reference to its previous and next node.
+Doubly-Linked-Lists, where each node has two way reference to its previous and next node.
 
 - Push: O(1)
     - Insert given value to the head
@@ -119,7 +119,7 @@ Min heap that stores value using min-heap artictiure
     - Pop the top value from the heap(min value for min heap)
 
 
-# Graph (unweighted & directional)
+# Graph (weighted & directional)
 
 A graph structure where each node can be direct/point to another node.
 
@@ -149,6 +149,12 @@ A graph structure where each node can be direct/point to another node.
 
 - adjacent: O(1):
     - return true if an edge exist between node 1 and node 2 (either direction), false otherwise.
+
+- breath_first_traversal: O(n)
+    - return values from the starting node using BFT
+
+- depth_first_traversal: O(log(n))
+    - return values from the starting node using DFT
 
 # Priority Queues
 An queue where data is sorted by the priority level which it was passed in with, the one with highest priority and earliest entered is removed first. (FIFO with priority)

@@ -29,17 +29,18 @@ class Graph:
             for key in self.graph:
                 if data in self.graph[key]:
                     del self.graph[key][data]
-
         except KeyError:
-            raise KeyError('no such node exists')
+            raise ValueError('no such node exists')
 
     def del_edge(self, data_1, data_2):
         """Delete a edge between data_1 and data_2."""
+        if not self.has_node(data_1) or not self.has_node(data_2):
+            raise ValueError('node(s) must exist in the graph')
         for edge in self.graph[data_1]:
             if data_2 == edge:
                 del self.graph[data_1][data_2]
                 return
-        raise KeyError('no such edge exists')
+        raise ValueError('no such edge exist')
 
     def has_node(self, data):
         """Check if node is in graph."""
@@ -58,14 +59,13 @@ class Graph:
         try:
             return self.graph[data]
         except KeyError:
-            raise KeyError('no such node exists')
+            raise ValueError('no such node exists')
 
     def adjacent(self, data_1, data_2):
         """Return all adjacent nodes."""
-        try:
-            return data_2 in self.graph[data_1] or data_1 in self.graph[data_2]
-        except KeyError as err:
-            raise KeyError('node ' + str(err.args[0]) + ' does not exist')
+        if not self.has_node(data_1) or not self.has_node(data_2):
+            raise ValueError('node does not exist')
+        return data_2 in self.graph[data_1] or data_1 in self.graph[data_2]
 
     def breadth_first_traversal(self, start):
         """Return all value from the start using breadth first traversal."""
@@ -73,7 +73,7 @@ class Graph:
         que = [start]
         repeat = set()
         if not self.has_node(start):
-            raise KeyError('no such node in the graph')
+            raise ValueError('no such node in the graph')
         while que:
             pop = que.pop(0)
             edges = self.neighbors(pop)
@@ -89,7 +89,7 @@ class Graph:
         que = [start]
         result = []
         if not self.has_node(start):
-            raise KeyError('no such node in the graph')
+            raise ValueError('no such node in the graph')
         while que:
             node = que.pop(0)
             if node not in result:

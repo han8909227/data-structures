@@ -66,7 +66,7 @@ def test_when_node_deleted_removed_from_edges(graph_1):
 
 def test_delete_node_from_empty_graph(graph_1):
     """Test key error is raised when no node to delete."""
-    with pytest.raises(KeyError):
+    with pytest.raises(ValueError):
         graph_1.del_node(3)
 
 
@@ -97,6 +97,18 @@ def test_edges(graph_5):
     assert graph_5.edges() == result
 
 
+def test_del_edge_with_val_not_in_graph(graph_5):
+    """Test if we can del node not in the graph."""
+    with pytest.raises(ValueError):
+        graph_5.del_edge(100, 200)
+
+
+def test_del_edge_from_no_edge_nodes(graph_5):
+    """Test if can delete an edge that doesn't exist."""
+    with pytest.raises(ValueError):
+        graph_5.del_edge(1, 6)
+
+
 def test_neighbors(graph_5):
     """Test if the neighbors methods works."""
     assert graph_5.neighbors(1) == {2: 0}
@@ -107,15 +119,21 @@ def test_adjacent(graph_5):
     assert graph_5.adjacent(1, 2)
 
 
+def test_adjacent_method_on_not_error(graph_5):
+    """Test if key error gets raised if val not in graph."""
+    with pytest.raises(ValueError):
+        graph_5.adjacent(200, 300)
+
+
 def test_bft_no_node_exist(graph_1):
     """Test bft for key error when node doesn't exist."""
-    with pytest.raises(KeyError):
+    with pytest.raises(ValueError):
         graph_1.breadth_first_traversal(3)
 
 
 def test_dft_no_node_exist(graph_1):
     """Test dft for key error when node doesn't exist."""
-    with pytest.raises(KeyError):
+    with pytest.raises(ValueError):
         graph_1.depth_first_traversal(3)
 
 
@@ -191,6 +209,12 @@ def test_non_int_entered_for_weight(graph_1):
         graph_1.add_edge(1, 2, 'A')
 
 
+def test_non_int_entered_for_weight_next(graph_1):
+    """Test that value error is raised when A is weight."""
+    with pytest.raises(ValueError):
+        graph_1.add_edge(1, 2, '&')
+
+
 def test_wieght_defaults_to_zero(graph_1):
     """Test that the defalut wieght is applied to edge."""
     graph_1.add_edge(1, 2)
@@ -215,4 +239,5 @@ def test_weight_removed_when_node_deleted(graph_1):
     graph_1.add_edge(1, 2, 9)
     graph_1.add_edge(1, 3, 6)
     graph_1.del_node(1)
-    assert graph_1.edges() == [(2, {}), (3, {})]
+    assert graph_1.edges() == [(2, {}), (3, {})]=======
+
