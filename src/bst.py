@@ -1,14 +1,15 @@
 """BST data structure."""
+import timeit
 
 
 class Node(object):
     """Node class used for the bst."""
 
-    def __init__(self, data=None, left=None, right=None):
+    def __init__(self, data=None):
         """Init node."""
         self.data = data
-        self.left = left
-        self.right = right
+        self.left = None
+        self.right = None
 
 
 class BinarySearchTree(object):
@@ -30,6 +31,8 @@ class BinarySearchTree(object):
         if self.root is None:
             self.root = Node(item)
             self.count += 1
+        elif self.search(item):
+            return
         elif isinstance(item, int) or isinstance(item, float):
             curr_data = self.root
             while curr_data is not None:
@@ -73,23 +76,75 @@ class BinarySearchTree(object):
         return isinstance(self.search(item), Node)
 
     def depth(self, root):
-        """Return the depth of the current tree."""
-        if self.count == 0 or self.count == 1:
+        """Return the depth of the current tree (o for root only tree)."""
+        return max(0, self._depth(root) - 1)
+
+    def _depth(self, root):
+        """Return the depth of the current tree internal use only."""
+        if root is None:
             return 0
-        elif root is None:
-            return -1
         else:
-            return max(self.depth(root.left), self.depth(root.right)) + 1
+            return max(self._depth(root.left), self._depth(root.right)) + 1
 
     def balance(self):
         """Return the current balance of the tree."""
         if self.root is None:
             return 0
-        elif hasattr(self.root, 'left') and hasattr(self.root, 'right'):
-            left_depth = self.depth(self.root.left)
-            right_depth = self.depth(self.root.right)
-            return left_depth - right_depth
-        elif hasattr(self.root, 'right'):
-            return self.depth(self.root.right)
         else:
-            return self.depth(self.root.left)
+            left_depth = self._depth(self.root.left)
+            right_depth = self._depth(self.root.right)
+            return left_depth - right_depth
+
+    def in_order(self, root):
+        """Return val of tree in-order traversal one at a time."""
+        if root is not None:
+            for val in self.in_order(root.left):
+                yield val
+            yield root.data
+            for val in self.in_order(root.right):
+                yield val
+
+    def post_order(self, root):
+        """Return val of tree post-order traversal one at a time."""
+        if root is not None:
+            for val in self.post_order(root.left):
+                yield val
+            for val in self.post_order(root.right):
+                yield val
+            yield root.data
+
+    def pre_order(self, root):
+        """Return val of tree pre-order traversal one at a time."""
+        if root is not None:
+            yield root.data
+            for val in self.pre_order(root.left):
+                yield val
+            for val in self.pre_order(root.right):
+                yield val
+
+if __name__ == '__main__':  # pragma: no cover
+    b = BinarySearchTree(20)
+    b.insert(10)
+    b.insert(5)
+    b.insert(15)
+    b.insert(3)
+    b.insert(7)
+    b.insert(13)
+    b.insert(17)
+    b.insert(30)
+    b.insert(25)
+    b.insert(23)
+    b.insert(27)
+    b.insert(35)
+    b.insert(37)
+    b.insert(33)
+
+    a = BinarySearchTree(0)
+    for num in range(1, 15):
+        a.insert(num)
+
+    t_s = timeit.timeit('b.search(30) ', setup='from __main__ import b')
+    print('shortest search time for my unbalanced tree of size 15 is ' + str(t_s) + ' seconds')
+    t_l = timeit.timeit('a.search(14)', setup='from __main__ import a')
+    print('longest search time for my unbalanced tree of size 15 is ' + str(t_l) + ' seconds')
+
