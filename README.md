@@ -189,3 +189,12 @@ A binary tree search non self balacing data structure
 
 - Balance: O(n)
     - Return the current balance state of the tree, negative if tree is higher on the left and positive otherwise. Balanced tree will have a value of zero.
+
+- In Order Traversal: O(n)
+    - Return a generator object that goes through values in the tree via in order traversal
+
+- Post Order Traversal: O(n)
+    - Return a generator object that goes through values in the tree via post order traversal
+
+- Pre Order Traversal: O(n)
+    - Return a generator object that goes through values in the tree via pre order traversal

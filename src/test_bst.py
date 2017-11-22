@@ -2,6 +2,7 @@
 import pytest
 from bst import BinarySearchTree
 from bst import Node
+from types import GeneratorType
 
 
 @pytest.fixture(scope='function')
@@ -57,6 +58,15 @@ def test_insertion_to_right_of_tree_works(bst):
     bst.insert(15)
     assert isinstance(bst.root.right, Node)
     assert bst.root.right.data == 15
+
+
+def test_insert_duplicate_vals():
+    """Test if we can insert duplicate value into the tree."""
+    bst = BinarySearchTree()
+    bst.insert(15)
+    bst.insert(15)
+    bst.insert(15)
+    assert bst.size() == 1
 
 
 def test_insert_non_numeric(bst):
@@ -134,6 +144,22 @@ def test_depth_method_on_populated_bst(bst_2):
     assert bst_2.depth(bst_2.root) == 2
 
 
+def test_dun_depth_method_on_mt_bst():
+    """Test the _depth method on mt bst."""
+    new_bst = BinarySearchTree()
+    assert new_bst._depth(new_bst.root) == 0
+
+
+def test_dun_depth_method_on_single_bst(bst):
+    """Test the _depth method on single bst."""
+    assert bst._depth(bst.root) == 1
+
+
+def test_dun_depth_method_on_populated_bst(bst_2):
+    """Test the _depth method on populated bst."""
+    assert bst_2._depth(bst_2.root) == 3
+
+
 def test_balance_method_on_balanced_bst(bst_2):
     """Test the balance method on a balanced bst."""
     assert bst_2.balance() == 0
@@ -179,3 +205,49 @@ def test_balance_method_on_pos_balance_with_two_sides():
     new_bst.insert(-20)
     new_bst.insert(20)
     assert new_bst.balance() == 2
+
+
+def test_in_order_forms_generator_obj(bst_2):
+    """Test if the method returns a generator obj."""
+    a = bst_2.in_order(bst_2.root)
+    assert isinstance(a, GeneratorType)
+
+
+def test_post_order_forms_generator_obj(bst_2):
+    """Test if the method returns a generator obj."""
+    a = bst_2.post_order(bst_2.root)
+    assert isinstance(a, GeneratorType)
+
+
+def test_pre_order_forms_generator_obj(bst_2):
+    """Test if the method returns a generator obj."""
+    a = bst_2.pre_order(bst_2.root)
+    assert isinstance(a, GeneratorType)
+
+
+def test_in_order_method(bst_2):
+    """Test the in order method."""
+    a = bst_2.in_order(bst_2.root)
+    result = []
+    for _ in range(7):
+        result.append(next(a))
+    assert result == [7, 8, 9, 10, 11, 12, 13]
+
+
+def test_post_order_method(bst_2):
+    """Test the post order method."""
+    a = bst_2.post_order(bst_2.root)
+    result = []
+    for _ in range(7):
+        result.append(next(a))
+    assert result == [7, 9, 8, 11, 13, 12, 10]
+
+
+def test_pre_order_method(bst_2):
+    """Test the pre order method."""
+    a = bst_2.pre_order(bst_2.root)
+    result = []
+    for _ in range(7):
+        result.append(next(a))
+    assert result == [10, 8, 7, 9, 12, 11, 13]
+
