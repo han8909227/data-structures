@@ -9,5 +9,6 @@ setup(
     author_email='hbao2016@hotmail.com',
     description='Data structure graph.',
     install_requires=[],
-    extras_require={'test': ['pytest', 'pytest-watch', 'pytest-cov', 'tox']}
-
+    extras_require={
+        "test": ["pytest", "pytest-cov", "tox"]
+    })
