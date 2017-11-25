@@ -2,7 +2,6 @@
 language: python
 python:
     - "2.7"
-    - "3.5"
     - "3.6"
 #command to install dependencies
 install:
@@ -12,3 +11,10 @@ script: py.test --cov=. --cov-report term-missing
 
 notifications:
   email: false
+
+env:
+  global:
+    - CI=true
+  matrix:
+    - TEST_DOC=false
+    - TEST_DOC=true

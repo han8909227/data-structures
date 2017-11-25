@@ -10,4 +10,3 @@ setup(
     description='Data structure graph.',
     install_requires=[],
     extras_require={'test': ['pytest', 'pytest-watch', 'pytest-cov', 'tox']}
-
