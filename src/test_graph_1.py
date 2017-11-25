@@ -61,7 +61,7 @@ def test_when_node_deleted_removed_from_edges(graph_1):
     g.add_edge(1, 2)
     g.add_edge(1, 3)
     g.del_node(1)
-    assert g.edges() == [(2, {}), (3, {})]
+    assert g.edges() == []
 
 
 def test_delete_node_from_empty_graph(graph_1):
@@ -75,7 +75,7 @@ def test_del_edges(graph_1):
     graph_1.add_edge(1, 2)
     graph_1.add_edge(1, 3)
     graph_1.del_edge(1, 3)
-    assert graph_1.edges() == [(1, {2: 0}), (2, {}), (3, {})]
+    assert graph_1.edges() == [(1, 2, 0)]
 
 
 def test_has_node(graph_5):
@@ -93,7 +93,7 @@ def test_nodes(graph_1):
 
 def test_edges(graph_5):
     """Test if the edges method works."""
-    result = [(1, {2: 0}), (2, {3: 0}), (3, {4: 0}), (4, {5: 0}), (5, {6: 0}), (6, {})]
+    result = [(1, 2, 0), (2, 3, 0), (3, 4, 0), (4, 5, 0), (5, 6, 0)]
     assert graph_5.edges() == result
 
 
@@ -194,20 +194,20 @@ def test_non_int_entered_for_weight(graph_1):
 def test_wieght_defaults_to_zero(graph_1):
     """Test that the defalut wieght is applied to edge."""
     graph_1.add_edge(1, 2)
-    assert graph_1.edges() == [(1, {2: 0}), (2, {})]
+    assert graph_1.edges() == [(1, 2, 0)]
 
 
 def test_added_weight_displayed(graph_1):
     """Test weight is added to edge."""
     graph_1.add_edge(1, 2, 10)
-    assert graph_1.edges() == [(1, {2: 10}), (2, {})]
+    assert graph_1.edges() == [(1, 2, 10)]
 
 
 def test_weight_removed_when_edge_deleted(graph_1):
     """Test that weight is removed after deleting edge."""
     graph_1.add_edge(1, 2, 9)
     graph_1.del_edge(1, 2)
-    assert graph_1.edges() == [(1, {}), (2, {})]
+    assert graph_1.edges() == []
 
 
 def test_weight_removed_when_node_deleted(graph_1):
@@ -215,5 +215,53 @@ def test_weight_removed_when_node_deleted(graph_1):
     graph_1.add_edge(1, 2, 9)
     graph_1.add_edge(1, 3, 6)
     graph_1.del_node(1)
-    assert graph_1.edges() == [(2, {}), (3, {})]=======
+    assert graph_1.edges() == []
+
+
+def test_dijkstra_with_wrong_node(t_graph):
+    """Test dijkstra work properly."""
+    with pytest.raises(ValueError):
+        t_graph.sp_dijkstra(1, 100)
+
+
+def test_bellman_ford_with_wrong_node(t_graph):
+    """Test bellman_ford work properly."""
+    with pytest.raises(ValueError):
+        t_graph.sp_bellman_ford(1, 100)
+
+
+def test_dijkstra_find_path(t_graph):
+    """Test dijkstra work properly."""
+    path = t_graph.sp_dijkstra(1, 4)
+    assert path == 9
+
+
+def test_bellman_ford_find_path(t_graph):
+    """Test bellman_ford work properly."""
+    path = t_graph.sp_bellman_ford(1, 4)
+    assert path == 9
+
+
+def test_dijkstra_find_path_1(t_graph):
+    """Test dijkstra work properly."""
+    path = t_graph.sp_dijkstra(1, 6)
+    assert path == 10
+
+
+def test_bellman_ford_find_path_1(t_graph):
+    """Test bellman_ford work properly."""
+    path = t_graph.sp_bellman_ford(1, 6)
+    assert path == 10
+
+
+def test_dijkstra_find_path_self(t_graph):
+    """Test dijkstra work properly."""
+    path = t_graph.sp_dijkstra(1, 1)
+    assert path == 0
+
+
+def test_bellman_ford_find_path_self(t_graph):
+    """Test bellman_ford work properly."""
+    path = t_graph.sp_bellman_ford(1, 1)
+    assert path == 0
 

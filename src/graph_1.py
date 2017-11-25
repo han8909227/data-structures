@@ -108,8 +108,6 @@ class Graph:
             dist[node] = float("inf")
         dist[start] = 0
         curr = start
-        min_path = [start]
-        min_dist = float("inf")
         if start not in self.graph or end not in self.graph:
             raise ValueError('no such node exist')
         while curr != end:
@@ -120,22 +118,21 @@ class Graph:
                 if dist[neighbor] > (dist[curr] + dist_curr_to_neigh):
                     dist[neighbor] = (dist[curr] + dist_curr_to_neigh)
             visited.add(curr)
+            min_dist = float("inf")
             for key in dist:
                 if key not in visited:
                     if dist[key] < min_dist:
                         min_dist = dist[key]
                         min_key = key
             curr = min_key
-            if curr is not None:
-                min_path.append(curr)
-        return list(min_path)
+        return dist[end]
 
     def sp_bellman_ford(self, start, end):
             """Return shortest path using bellman ford."""
             if start not in self.graph or end not in self.graph:
                 raise ValueError('no such node exist')
             if start == end:
-                return [start]
+                return 0
 
             prev = {n: None for n in self.graph}
             dist = {n: float('inf') for n in self.graph}
@@ -146,15 +143,15 @@ class Graph:
                     if dist[edge_end] > dist[edge_start] + weight:
                         dist[edge_end] = dist[edge_start] + weight
                         prev[edge_end] = edge_start
-
-            min_path = []
-            curr = end
-            if prev[curr] is None:
-                raise ValueError('no path between these nodes')
-            while curr is not None:
-                min_path.append(curr)
-                curr = prev[curr]
-            return list(reversed(min_path))
+            return dist[end]
+            # min_path = []
+            # curr = end
+            # if prev[curr] is None:
+            #     raise ValueError('no path between these nodes')
+            # while curr is not None:
+            #     min_path.append(curr)
+            #     curr = prev[curr]
+            # return list(reversed(min_path))
 
 if __name__ == '__main__':  # pragma: no cover
     g = Graph()
