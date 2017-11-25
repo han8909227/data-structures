@@ -4,8 +4,7 @@ setup(
     name='data structure',
     package_dir={'': 'src'},
     py_modules=['bst', 'graph_1', 'dll', 'stack', 'deque', 'binheap', 'deque', 'que', 'priorityq'],
-
-    author='Han and Phillip',
+    author='Han',
     author_email='hbao2016@hotmail.com',
     description='Data structure graph.',
     install_requires=[],
