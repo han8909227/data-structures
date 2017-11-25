@@ -1,6 +1,5 @@
 """Graph_1 data strcture."""
 from numbers import Number
-from priorityq import Priorityq
 
 
 class Graph:
@@ -51,8 +50,12 @@ class Graph:
         return list(self.graph.keys())
 
     def edges(self):
-        """Return a list of tuples showing the relations."""
-        return list(self.graph.items())
+        """Return node, edge, weight relation in a tuple."""
+        result = []
+        for node in self.graph:
+            for edge in self.graph[node]:
+                result.append((node, edge, self.graph[node][edge]))
+        return result
 
     def neighbors(self, data):
         """Return all the nodes the data is pointing to."""
@@ -97,46 +100,58 @@ class Graph:
                 que = [key for key in self.graph[node]] + que
         return result
 
-    def sp_dijkstra(self, start, end=None):
-        """Return shortest path using dijkstra alogorithem."""
+    def sp_dijkstra(self, start, end):
+        """Return shortest path using dijkstra."""
         visited = set()
         dist = {}
         for node in self.nodes():
             dist[node] = float("inf")
         dist[start] = 0
-        current = start
+        curr = start
+        if start not in self.graph or end not in self.graph:
+            raise ValueError('no such node exist')
+        while curr != end:
+            neighbors = self.neighbors(curr)
 
-        while current != end:
-            neighbors = self.neighbors(current)
             for neighbor in neighbors:
-                dist_curr_to_neigh = self.graph[current][neighbor]
-                if dist[neighbor] > (dist[current] + dist_curr_to_neigh):
-                    dist[neighbor] = (dist[current] + dist_curr_to_neigh)
-            visited.add(current)
+                dist_curr_to_neigh = self.graph[curr][neighbor]
+                if dist[neighbor] > (dist[curr] + dist_curr_to_neigh):
+                    dist[neighbor] = (dist[curr] + dist_curr_to_neigh)
+            visited.add(curr)
             min_dist = float("inf")
             for key in dist:
                 if key not in visited:
                     if dist[key] < min_dist:
                         min_dist = dist[key]
                         min_key = key
-            current = min_key
+            curr = min_key
         return dist[end]
 
-    # def sp_bellmanford(self, start, end=None):
-    #     """Return the shortest path value using bellmanford."""
-    #     dist = {}
-    #     for node in self.nodes():
-    #         dist[node] = float("inf")
-    #     dist[start] = 0
-    #     for _ in range(len(self.nodes()) - 1):
-    #         for u, v, w in self.edges():
-    #             if dist[u] != float("inf") and (dist[u] + w) < dist[v]:
-    #                 dist[v] = dist[u] + w
-    #     for u, v, w in self.edges():
-    #         if dist[u] + w < dist[v]:
-    #             raise ValueError("negative weight in graph.")
-    #     return dist[end]
+    def sp_bellman_ford(self, start, end):
+            """Return shortest path using bellman ford."""
+            if start not in self.graph or end not in self.graph:
+                raise ValueError('no such node exist')
+            if start == end:
+                return 0
 
+            prev = {n: None for n in self.graph}
+            dist = {n: float('inf') for n in self.graph}
+            dist[start] = 0
+
+            for _ in range(len(self.graph) - 1):
+                for edge_start, edge_end, weight in self.edges():
+                    if dist[edge_end] > dist[edge_start] + weight:
+                        dist[edge_end] = dist[edge_start] + weight
+                        prev[edge_end] = edge_start
+            return dist[end]
+            # min_path = []
+            # curr = end
+            # if prev[curr] is None:
+            #     raise ValueError('no path between these nodes')
+            # while curr is not None:
+            #     min_path.append(curr)
+            #     curr = prev[curr]
+            # return list(reversed(min_path))
 
 if __name__ == '__main__':  # pragma: no cover
     g = Graph()
