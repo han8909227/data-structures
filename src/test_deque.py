@@ -130,3 +130,27 @@ def test_len_method_works_on_append_left_list(deque):
     deque.append_left(2)
     assert len(deque) == 2
 
+
+def test_empty_deque_raise_error_when_peek(deque):
+    """Test if error is raised if peek empty deque."""
+    with pytest.raises(ValueError):
+        deque.peek()
+
+
+def test_empty_deque_raise_error_when_pop(deque):
+    """Test if error is raised if pop empty deque."""
+    with pytest.raises(ValueError):
+        deque.pop()
+
+
+def test_empty_deque_raise_error_when_pop_left(deque):
+    """Test if error is raised if pop left empty deque."""
+    with pytest.raises(ValueError):
+        deque.peek_left()
+
+
+def test_empty_deque_raise_error_when_peek_left(deque):
+    """Test if error is raised if peek left empty deque."""
+    with pytest.raises(ValueError):
+        deque.peek_left()
+

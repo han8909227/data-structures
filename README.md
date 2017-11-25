@@ -4,7 +4,7 @@ Various data structure written in python by Han Bao and Phillip Werner
 
 # Linked-Lists
 
-Ordered list, where each node has a one way reference to the next.
+Linked list, where each node has a one way reference to the next.
 
 - Push: O(1)
     - Insert given value to the head
@@ -30,7 +30,7 @@ Ordered list, where each node has a one way reference to the next.
 
 # Doubly-Linked-Lists
 
-Ordered list, where each node has two way reference to its previous and next node.
+Doubly-Linked-Lists, where each node has two way reference to its previous and next node.
 
 - Push: O(1)
     - Insert given value to the head
