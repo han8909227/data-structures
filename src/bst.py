@@ -95,10 +95,15 @@ class BinarySearchTree(object):
             else:
                 self.root = replacer
                 self.root.parent = None
+            return
         else:
-            replacer = self._delete_helper(self.root.right)
+            replacer = self._delete_helper(target.right)
             target.data = replacer.data
-            replacer.parent.left = None
+            if replacer is target.right:
+                replacer.parent.right = None
+            else:
+                replacer.parent.left = None
+            return
 
     def _delete_helper(self, node):
         """Return the smallest node on right side of bst from the biggest right side node(passed in)."""
