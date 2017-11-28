@@ -44,13 +44,13 @@ def test_dequeue_removes_first_in_item(q_20):
 
 def test_dequeue_raises_error_if_no_item_left(q):
     """Will test that an error is raised if no value left to dequeue."""
-    with pytest.raises(ValueError):
+    with pytest.raises(IndexError):
         q.dequeue()
 
 
 def test_peek_raises_error_if_no_item_there(q):
     """Test if peek raises an error if there is nothing in the queue."""
-    with pytest.raises(ValueError):
+    with pytest.raises(IndexError):
         q.peek()
 
 

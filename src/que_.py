@@ -20,13 +20,13 @@ class Queue(object):
         if self._dll.head:
             self._counter -= 1
         else:
-            raise ValueError('no value in the queue to pop')
+            raise IndexError('no value in the queue to pop')
         return self._dll.pop()
 
     def peek(self):
         """Will return the next value in the Queue."""
         if not self._dll.head:
-            raise ValueError('no value in the queue to peek')
+            raise IndexError('no value in the queue to peek')
         return self._dll.head.data
 
     def size(self):

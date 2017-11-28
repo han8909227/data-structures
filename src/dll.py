@@ -34,7 +34,7 @@ class DoubleLinkedList(object):
     def pop(self):
         """Pop the first value from the dll."""
         if not self.head:
-            raise ValueError('No val to pop')
+            raise IndexError('No val to pop')
         elif self.head == self.tail:
             result = self.head.data
             self.head = None
@@ -48,7 +48,7 @@ class DoubleLinkedList(object):
     def shift(self):
         """Pop the last value from the dll."""
         if not self.tail:
-            raise ValueError('No tail to shift')
+            raise IndexError('No tail to shift')
         else:
             if self.head == self.tail:
                 result = self.tail
