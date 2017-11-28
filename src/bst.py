@@ -10,6 +10,7 @@ class Node(object):
         self.data = data
         self.left = None
         self.right = None
+        self.parent = None
 
 
 class BinarySearchTree(object):
@@ -39,6 +40,7 @@ class BinarySearchTree(object):
                 if item < curr_data.data:
                     if curr_data.left is None:
                         curr_data.left = Node(item)
+                        curr_data.left.parent = curr_data
                         self.count += 1
                         return
                     else:
@@ -46,6 +48,7 @@ class BinarySearchTree(object):
                 else:  # greater than current node
                     if curr_data.right is None:
                         curr_data.right = Node(item)
+                        curr_data.right.parent = curr_data
                         self.count += 1
                         return
                     else:
@@ -66,6 +69,42 @@ class BinarySearchTree(object):
                 node = node.left
                 continue
         return
+
+    def delete(self, item):
+        """Delete a node from the tree."""
+        target = self.search(item)
+        if target is None:
+            raise ValueError('val not in bst')
+        elif target.left is None and target.right is None:
+            if item > target.parent.data:
+                target.parent.right = None
+            else:
+                target.parent.left = None
+            return
+        elif target.left is None or target.right is None:
+            if target.left:
+                replacer = target.left
+            else:
+                replacer = target.right
+            if target.parent:
+                if target.parent.left is target:
+                    target.parent.left = replacer
+                else:
+                    target.parent.right = replacer
+                replacer.parent = target.parent
+            else:
+                self.root = replacer
+                self.root.parent = None
+        else:
+            replacer = self._delete_helper(self.root.right)
+            target.data = replacer.data
+            replacer.parent.left = None
+
+    def _delete_helper(self, node):
+        """Return the smallest node on right side of bst from the biggest right side node(passed in)."""
+        if node.left is None:
+            return node
+        return self._delete_helper(node.left)
 
     def size(self):
         """Return the size of the current tree."""
