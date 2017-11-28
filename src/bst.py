@@ -26,6 +26,8 @@ class BinarySearchTree(object):
                     self.insert(val)
                 else:
                     raise ValueError('value(s) must be a number!')
+        else:
+            raise ValueError('must be a list, str or tuple')
 
     def insert(self, item):
         """Insert a value/node into the tree."""
@@ -76,10 +78,15 @@ class BinarySearchTree(object):
         if target is None:
             raise ValueError('val not in bst')
         elif target.left is None and target.right is None:
-            if item > target.parent.data:
+            if target is self.root:
+                self.root = None
+                self.count = 0
+                return
+            elif item > target.parent.data:
                 target.parent.right = None
             else:
                 target.parent.left = None
+            self.count -= 1
             return
         elif target.left is None or target.right is None:
             if target.left:
@@ -95,6 +102,7 @@ class BinarySearchTree(object):
             else:
                 self.root = replacer
                 self.root.parent = None
+            self.count -= 1
             return
         else:
             replacer = self._delete_helper(target.right)
@@ -103,6 +111,7 @@ class BinarySearchTree(object):
                 replacer.parent.right = None
             else:
                 replacer.parent.left = None
+            self.count -= 1
             return
 
     def _delete_helper(self, node):
