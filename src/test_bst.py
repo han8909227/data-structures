@@ -8,19 +8,13 @@ from types import GeneratorType
 @pytest.fixture(scope='function')
 def bst():
     """Making one empty BinarySearchTree instance per test."""
-    return BinarySearchTree(10)
+    return BinarySearchTree([10])
 
 
 @pytest.fixture(scope='function')
 def bst_2():
     """Making one BinarySearchTree instance, full tree depth 2."""
-    bst = BinarySearchTree(10)
-    bst.insert(8)
-    bst.insert(7)
-    bst.insert(9)
-    bst.insert(12)
-    bst.insert(11)
-    bst.insert(13)
+    bst = BinarySearchTree([10, 8, 7, 9, 12, 11, 13])
     return bst
 
 
@@ -173,37 +167,25 @@ def test_balance_method_on_mt_bst():
 
 def test_balance_method_on_neg_balance():
     """Test the balance method on a negatively balanced bst."""
-    new_bst = BinarySearchTree(10)
-    new_bst.insert(20)
-    new_bst.insert(30)
+    new_bst = BinarySearchTree([10, 20, 30])
     assert new_bst.balance() == -2
 
 
 def test_balance_method_on_neg_balance_with_two_sides():
     """Test the balance method on a negatively balanced bst."""
-    new_bst = BinarySearchTree(10)
-    new_bst.insert(20)
-    new_bst.insert(30)
-    new_bst.insert(0)
+    new_bst = BinarySearchTree([10, 20, 30, 0])
     assert new_bst.balance() == -1
 
 
 def test_balance_method_on_pos_balance():
     """Test the balance method on a positively balanced bst."""
-    new_bst = BinarySearchTree(10)
-    new_bst.insert(0)
-    new_bst.insert(-10)
-    new_bst.insert(-20)
+    new_bst = BinarySearchTree([10, 0, -10, -20])
     assert new_bst.balance() == 3
 
 
 def test_balance_method_on_pos_balance_with_two_sides():
     """Test the balance method on a positively balanced bst."""
-    new_bst = BinarySearchTree(10)
-    new_bst.insert(0)
-    new_bst.insert(-10)
-    new_bst.insert(-20)
-    new_bst.insert(20)
+    new_bst = BinarySearchTree([10, 0, -10, -20, 20])
     assert new_bst.balance() == 2
 
 

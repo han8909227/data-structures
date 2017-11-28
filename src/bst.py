@@ -16,16 +16,16 @@ class Node(object):
 class BinarySearchTree(object):
     """Binary search tree class."""
 
-    def __init__(self, root=None):
+    def __init__(self, iterable=()):
         """Init the bst class."""
+        self.root = None
         self.count = 0
-        if root is None:
-            self.root = root
-        elif isinstance(root, int) or isinstance(root, float):
-            self.root = Node(root)
-            self.count += 1
-        else:
-            raise ValueError('root value must be a number!')
+        if isinstance(iterable, (str, list, tuple)):
+            for val in iterable:
+                if isinstance(val, int) or isinstance(val, float):
+                    self.insert(val)
+                else:
+                    raise ValueError('value(s) must be a number!')
 
     def insert(self, item):
         """Insert a value/node into the tree."""
@@ -167,24 +167,10 @@ class BinarySearchTree(object):
                 yield val
 
 if __name__ == '__main__':  # pragma: no cover
-    b = BinarySearchTree(20)  # balanced tree depth 3
-    b.insert(10)
-    b.insert(5)
-    b.insert(15)
-    b.insert(3)
-    b.insert(7)
-    b.insert(13)
-    b.insert(17)
-    b.insert(30)
-    b.insert(25)
-    b.insert(23)
-    b.insert(27)
-    b.insert(35)
-    b.insert(37)
-    b.insert(33)
+    b = BinarySearchTree([20, 10, 5, 15, 3, 7, 13, 17, 30, 25, 23, 27, 35, 37, 23])  # balanced tree depth 3
 
-    a = BinarySearchTree(0)  # all right node tree
-    for num in range(1, 15):
+    a = BinarySearchTree()  # all right node tree
+    for num in range(0, 15):
         a.insert(num)
 
     t_s = timeit.timeit('b.search(30) ', setup='from __main__ import b')
