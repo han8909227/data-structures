@@ -199,3 +199,6 @@ A binary tree search non self balacing data structure
 
 - Pre Order Traversal: O(n)
     - Return a generator object that goes through values in the tree via pre order traversal
+
+- Delete: O(log(n))
+    - Delete the node with value being passed in
