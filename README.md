@@ -202,3 +202,13 @@ A binary tree search non self balacing data structure
 
 - Delete: O(log(n))
     - Delete the node with value being passed in
+
+
+# Hash table
+A Hash table that acts like python dictionary, insert keys via hashed locations.
+
+- Set: O(1)
+    - Insert a key, value pair into the current hash table
+
+- Get: O(n)
+    - Extract the value corresponding to the key givne
