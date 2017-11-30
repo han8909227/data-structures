@@ -58,9 +58,9 @@ class HashTable:
 
     def _djb2_hash(self, key_str):
         """Hashing algorithm created by Dan Bernstein."""
-        h = 6820  # any large int
+        h = 682034123453423  # any large int
         for char in key_str:
-            h += ((h << 1) * 33) + ord(char)
+            h = ((h << 1) * 33) + ord(char)
         return h % self.bucket_count
 
     def _hash_djb2(self, key):
@@ -70,6 +70,13 @@ class HashTable:
     def __repr__(self):
         """Repr fun."""
         return '{ ' + ', '.join([key + ':' + str(self.get(key)) for key in self._keys]) + ' }'
+
+    def _hash_jsw(self, key_str):
+        """Basic JSW hasing."""
+        h = 59207892748932
+        for char in key_str:
+            h = ((h << 1 | h >> 31 & 0xffffffff) ^ ord(char))
+        return h % self.bucket_count
 
 # if __name__ == "__main__":
 
