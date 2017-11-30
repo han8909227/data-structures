@@ -129,7 +129,7 @@ class BinarySearchTree(object):
         return isinstance(self.search(item), Node)
 
     def depth(self, root):
-        """Return the depth of the current tree (o for root only tree)."""
+        """Return the depth of the current tree (0 for root only tree as required by assignment)."""
         return max(0, self._depth(root) - 1)
 
     def _depth(self, root):
@@ -147,6 +147,12 @@ class BinarySearchTree(object):
             left_depth = self._depth(self.root.left)
             right_depth = self._depth(self.root.right)
             return left_depth - right_depth
+
+    def _balance(self, node):
+        """Ck balance of the node to decide rotation."""
+        left_depth = self._depth(node.left)
+        right_depth = self._depth(node.right)
+        return left_depth - right_depth
 
     def in_order(self, root):
         """Return val of tree in-order traversal one at a time."""
@@ -174,6 +180,20 @@ class BinarySearchTree(object):
                 yield val
             for val in self.pre_order(root.right):
                 yield val
+
+    def _rotate_left(self, node):
+        """Rotate left, node is inserting node's parent."""
+        node.left = node.parent
+        node.parent = node.parent.parent
+        node.left.parent = node
+        node.left.right = None
+
+    def _rotate_right(self, node):
+        """Rotate right, node is inserting node's partent."""
+        node.right = node.parent
+        node.parent = node.parent.parent
+        node.right.parent = node
+        node.right.left = None
 
 if __name__ == '__main__':  # pragma: no cover
     b = BinarySearchTree([20, 10, 5, 15, 3, 7, 13, 17, 30, 25, 23, 27, 35, 37, 23])  # balanced tree depth 3
