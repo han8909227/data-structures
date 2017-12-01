@@ -4,12 +4,17 @@
 class HashTable:
     """Hash table use str for keys, val can be anything."""
 
-    def __init__(self, bucket_count=100):
+    def __init__(self, bucket_count=100, hash_fun=None):
         """Init an instance of Hash Table."""
         self.bucket_count = int(bucket_count)  # must be whole num
         self.size = 0
         self.data = [[] for _ in range(self.bucket_count)]
         self.keys = []
+        hashs = {'additive': self._additive_hash, 'djb2': self._djb2_hash, 'jsw': self._hash_jsw}
+        if hash_fun is None:
+            self.hash_fun = self._additive_hash
+        else:
+            self.hash_fun = hashs[hash_fun]
 
     def set(self, key, val):
         """Insert key val pair to the hash table."""
@@ -27,7 +32,7 @@ class HashTable:
 
     def _find_by_key(self, key):
         """Find val, bucket from key in current table."""
-        index = self._additive_hash(key)
+        index = self.hash_fun(key)
         bucket = self.data[index]  # Corresponding bucket from hashed result
         found_cell = None
         for item in bucket:  # find cell by loop through bucket

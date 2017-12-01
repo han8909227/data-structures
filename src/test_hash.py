@@ -21,6 +21,17 @@ def ht_26():
     return ht
 
 
+@pytest.fixture(scope='session')
+def ht_dic():
+    """Making a HT with all words from build in dic in format key:word val:word."""
+    ht = HashTable(1000)
+    with open('/usr/share/dict/words', 'r') as f:
+        data = f.read().split("\n")
+        for word in data:
+            ht.set(word, word)
+    return ht
+
+
 def test_init_with_int_size():
     """Test if init method work properly."""
     a = HashTable(1000)
@@ -33,21 +44,21 @@ def test_init_with_str_size():
     assert a.bucket_count == 1500
 
 
-def test_get_method_with_valid_key(ht_26):
+def test_get_method_with_valid_key(ht_dic):
     """Test get method work properly."""
-    assert ht_26.get('g') == 7
+    assert ht_dic.get('zombie') == 'zombie'
 
 
-def test_get_method_with_invalid_str_key(ht_26):
+def test_get_method_with_invalid_str_key(ht_dic):
     """Test get method raises error."""
     with pytest.raises(KeyError):
-        ht_26.get('G')
+        ht_dic.get('not_exist')
 
 
-def test_get_method_with_invalid_int_key(ht_26):
+def test_get_method_with_invalid_int_key(ht_dic):
     """"Test get method raises error."""
     with pytest.raises(ValueError):
-        ht_26.get(99)
+        ht_dic.get(99)
 
 
 def test_set_method_with_valid_key_str_val(ht):
@@ -56,16 +67,16 @@ def test_set_method_with_valid_key_str_val(ht):
     assert ht.get('HELLO') == 'WORLD' and ht.size == 1
 
 
-def test_set_method_with_valid_key_int_val(ht_26):
+def test_set_method_with_valid_key_int_val(ht):
     """Test set method works properly."""
-    ht_26.set('HELLO', 1234)
-    assert ht_26.get('HELLO') == 1234
+    ht.set('HELLO', 1234)
+    assert ht.get('HELLO') == 1234
 
 
-def test_set_method_with_valid_key_float_val(ht_26):
+def test_set_method_with_valid_key_float_val(ht):
     """Test set method works properly."""
-    ht_26.set('HELLO', 1.234)
-    assert ht_26.get('HELLO') == 1.234
+    ht.set('HELLO', 1.234)
+    assert ht.get('HELLO') == 1.234
 
 
 def test_set_method_with_invalid_key(ht):
@@ -74,10 +85,10 @@ def test_set_method_with_invalid_key(ht):
         ht.set(1234, 'hello')
 
 
-def test__find_by_key_method(ht_26):
+def test__find_by_key_method(ht_dic):
     """Test _find_by_key method finds the key."""
-    cell, bucket = ht_26._find_by_key('a')
-    assert cell == ['a', 1] and bucket in ht_26.data
+    cell, bucket = ht_dic._find_by_key('maroons')
+    assert cell == ['maroons', 'maroons'] and bucket in ht_dic.data
 
 
 def test__set_helper_method(ht):
@@ -103,14 +114,14 @@ def test__get__helper_method_with_no_found_cell(ht_26):
         ht_26._get_helper(None)
 
 
-def test__additive_hash(ht_26):
+def test__additive_hash(ht):
     """Test _addive_hash method work properly."""
-    assert ht_26._additive_hash('a') == 97
+    assert ht._additive_hash('wriggle') == 53
 
 
-def test__hash(ht_26):
+def test__hash(ht):
     """Test _hash method work properly."""
-    assert ht_26._hash('a') == 97
+    assert ht._hash('wriggle') == 53
 
 
 def test__djb2_hash(ht_26):
