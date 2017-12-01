@@ -1,4 +1,5 @@
 """Hash table in python."""
+import timeit
 
 
 class HashTable:
@@ -84,9 +85,21 @@ class HashTable:
         return '{ ' + ', '.join([key + ':' + str(self.get(key)) for key in self.keys]) + ' }'
 
 if __name__ == "__main__":
-    a = HashTable()  # create ht size 100
-    a.set('t', 1)
-    a.set('te', 10)
-    a.set('tes', 100)
-    a.set('test', 1000)
 
+    ht_1 = HashTable(1000)
+    ht_set_add = timeit.timeit('ht_1.set("key", "val")', setup='from __main__ import ht_1')
+    print('It takes ' + str(ht_set_add) + ' sec to SET key,val with additive hashing')
+    ht_get_add = timeit.timeit('ht_1.get("key")', setup='from __main__ import ht_1')
+    print('It takes ' + str(ht_get_add) + ' sec to GET key,val from additive hashed map')
+
+    ht_2 = HashTable(1000, 'djb2')
+    ht_set_djb = timeit.timeit('ht_2.set("key", "val")', setup='from __main__ import ht_2')
+    print('It takes ' + str(ht_set_djb) + ' sec to SET key,val with additive hashing')
+    ht_get_add = timeit.timeit('ht_2.get("key")', setup='from __main__ import ht_2')
+    print('It takes ' + str(ht_get_add) + ' sec to GET key,val from djb2 hashed map')
+
+    ht_3 = HashTable(1000, 'jsw')
+    ht_set_jsw = timeit.timeit('ht_3.set("key", "val")', setup='from __main__ import ht_3')
+    print('It takes ' + str(ht_set_jsw) + ' sec to SET key,val with additive hashing')
+    ht_get_add = timeit.timeit('ht_3.get("key")', setup='from __main__ import ht_3')
+    print('It takes ' + str(ht_get_add) + ' sec to GET key,val from additive hashed map')
