@@ -217,6 +217,9 @@ class BinarySearchTree(object):
         root.parent = new_root
         return new_root
 
+    def _rotate_right_right(self, root):
+        """Rotate right and right again."""
+        left_depth
 
 # if __name__ == '__main__':  # pragma: no cover
 #     b = BinarySearchTree([20, 10, 5, 15, 3, 7, 13, 17, 30, 25, 23, 27, 35, 37, 23])  # balanced tree depth 3
