@@ -217,9 +217,46 @@ class BinarySearchTree(object):
         root.parent = new_root
         return new_root
 
-    def _rotate_right_right(self, root):
-        """Rotate right and right again."""
-        left_depth
+    def _rotate_lr(self, root):
+        """Rotate left and right."""
+        left_root = root.left
+        new_root = left_root.right
+        left_root.right = new_root.left
+        root.left = new_root.right
+        if new_root.left:
+            new_root.left.parent = left_root
+        if new_root.right:
+            new_root.right.parent = root
+        root._set_child(new_root)
+        if root.parent is None:
+            self.root = new_root
+        new_root.parent = root.parent
+        new_root.right = root
+        new_root.left = left_root
+        root.parent = new_root
+        left_root.parent = new_root
+        return new_root
+
+    def _rotate_rl(self, root):
+        """"Rotate right and left."""
+        right_root = root.right
+        new_root = right_root.left
+        right_root.left = new_root.right
+        root.right = new_root.left
+        if new_root.right:
+            new_root.right.parent = right_root
+        if new_root.left:
+            new_root.left.parent = root
+        root._set_child(new_root)
+        if root.parent is None:
+            self.root = new_root
+        new_root.parent = root.parent
+        new_root.left = root
+        new_root.right = right_root
+        root.parent = new_root
+        right_root.parent = new_root
+        return new_root
+
 
 # if __name__ == '__main__':  # pragma: no cover
 #     b = BinarySearchTree([20, 10, 5, 15, 3, 7, 13, 17, 30, 25, 23, 27, 35, 37, 23])  # balanced tree depth 3
