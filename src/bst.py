@@ -12,6 +12,14 @@ class Node(object):
         self.right = None
         self.parent = None
 
+    def _set_child(self, child):
+        """Set child to the parent(leaf node)."""
+        if self.parent:
+            if self.parent.left is self:
+                self.parent.left = child
+            else:
+                self.parent.right = child
+
 
 class BinarySearchTree(object):
     """Binary search tree class."""
@@ -181,29 +189,44 @@ class BinarySearchTree(object):
             for val in self.pre_order(root.right):
                 yield val
 
-    def _rotate_left(self, node):
-        """Rotate left, node is inserting node's parent."""
-        node.left = node.parent
-        node.parent = node.parent.parent
-        node.left.parent = node
-        node.left.right = None
+    def _rotate_left(self, root):
+        """Rotate left.."""
+        new_root = root.right
+        root.right = new_root.left
+        if new_root.left:
+            new_root.left.parent = root
+        if root.parent is None:
+            self.root = new_root
+        root._set_child(new_root)
+        new_root.parent = root.parent
+        new_root.left = root
+        root.parent = new_root
+        return new_root
 
-    def _rotate_right(self, node):
-        """Rotate right, node is inserting node's partent."""
-        node.right = node.parent
-        node.parent = node.parent.parent
-        node.right.parent = node
-        node.right.left = None
+    def _rotate_right(self, root):
+        """Rotate right."""
+        new_root = root.left
+        root.left = new_root.root
+        if new_root.right:
+            new_root.right.parent = root
+        if root.parent is None:
+            self.root = new_root
+        root._set_child(new_root)
+        new_root.right = root
+        new_root.parent = root.parent
+        root.parent = new_root
+        return new_root
 
-if __name__ == '__main__':  # pragma: no cover
-    b = BinarySearchTree([20, 10, 5, 15, 3, 7, 13, 17, 30, 25, 23, 27, 35, 37, 23])  # balanced tree depth 3
 
-    a = BinarySearchTree()  # all right node tree
-    for num in range(0, 15):
-        a.insert(num)
+# if __name__ == '__main__':  # pragma: no cover
+#     b = BinarySearchTree([20, 10, 5, 15, 3, 7, 13, 17, 30, 25, 23, 27, 35, 37, 23])  # balanced tree depth 3
 
-    t_s = timeit.timeit('b.search(30) ', setup='from __main__ import b')
-    print('shortest search time for my unbalanced tree of size 15 is ' + str(t_s) + ' seconds')
-    t_l = timeit.timeit('a.search(14)', setup='from __main__ import a')
-    print('longest search time for my unbalanced tree of size 15 is ' + str(t_l) + ' seconds')
+#     a = BinarySearchTree()  # all right node tree
+#     for num in range(0, 15):
+#         a.insert(num)
+
+#     t_s = timeit.timeit('b.search(30) ', setup='from __main__ import b')
+#     print('shortest search time for my unbalanced tree of size 15 is ' + str(t_s) + ' seconds')
+#     t_l = timeit.timeit('a.search(14)', setup='from __main__ import a')
+#     print('longest search time for my unbalanced tree of size 15 is ' + str(t_l) + ' seconds')
 
