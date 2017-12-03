@@ -11,6 +11,7 @@ class Node(object):
         self.left = None
         self.right = None
         self.parent = None
+        self.depth = 1
 
     def _set_child(self, child):
         """Set child to the parent(leaf node)."""
@@ -51,12 +52,14 @@ class BinarySearchTree(object):
             return
         elif isinstance(item, int) or isinstance(item, float):
             curr_data = self.root
+            new_node = None
             while curr_data is not None:
                 if item < curr_data.data:
                     if curr_data.left is None:
                         curr_data.left = Node(item)
                         curr_data.left.parent = curr_data
                         self.count += 1
+                        new_node = curr_data.left
                         return
                     else:
                         curr_data = curr_data.left
@@ -65,9 +68,14 @@ class BinarySearchTree(object):
                         curr_data.right = Node(item)
                         curr_data.right.parent = curr_data
                         self.count += 1
+                        new_node = curr_data.right
                         return
                     else:
                         curr_data = curr_data.right
+
+            root = self._find_unbalanced(new_node)
+            if root:
+                self._rebalance(root)
         else:
             raise ValueError('can only insert number')
 
@@ -286,10 +294,19 @@ class BinarySearchTree(object):
 
     def _traverse_depth(self, node):
         """Traverse up to find the depth."""
-        if node.left or node.right:
+        children = node.children()
+        node.depth = 1
+        if children:
+            node.depth += max(child.depth for child in children)
+        if node.parent:
             self._traverse_depth(node.parent)
 
-
+    def _find_unbalanced(self, node):
+        """Ck if tree is unbalanced."""
+        while node:
+            if abs(self.balance(node)) > 1:
+                return node
+            node = node.parent
 
 # if __name__ == '__main__':  # pragma: no cover
 #     b = BinarySearchTree([20, 10, 5, 15, 3, 7, 13, 17, 30, 25, 23, 27, 35, 37, 23])  # balanced tree depth 3
