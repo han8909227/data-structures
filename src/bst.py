@@ -20,6 +20,10 @@ class Node(object):
             else:
                 self.parent.right = child
 
+    def children(self):
+        """Return all children node of the current node."""
+        return [child for child in [self.right, self.left] if child]
+
 
 class BinarySearchTree(object):
     """Binary search tree class."""
@@ -28,6 +32,7 @@ class BinarySearchTree(object):
         """Init the bst class."""
         self.root = None
         self.count = 0
+        self.rotation = 0
         if isinstance(iterable, (str, list, tuple)):
             for val in iterable:
                 if isinstance(val, int) or isinstance(val, float):
@@ -156,8 +161,12 @@ class BinarySearchTree(object):
             right_depth = self._depth(self.root.right)
             return left_depth - right_depth
 
-    def _balance(self, node):
+    def _balance(self, node='root'):
         """Ck balance of the node to decide rotation."""
+        if node == 'roto':
+            node = self.root
+        if node is None:
+            return 0
         left_depth = self._depth(node.left)
         right_depth = self._depth(node.right)
         return left_depth - right_depth
@@ -256,6 +265,30 @@ class BinarySearchTree(object):
         root.parent = new_root
         right_root.parent = new_root
         return new_root
+
+    def _rebalance(self, node):
+        """Rebalance the tree from self.root."""
+        self.rotation += 1
+        if self._balance(node) < 0:
+            if self._balance(node.right) <= 0:
+                root = self._rotate_left(node)
+            else:
+                root = self._rotate_rl(node)
+        else:
+            if self._balance(node.left) >= 0:
+                root = self._rotate_right(node)
+            else:
+                root = self._rotate_lr(node)
+        self._traverse_depth(root)
+        next_ = self._find_unbalance(node)
+        if next_:
+            self._rebalance(next_)
+
+    def _traverse_depth(self, node):
+        """Traverse up to find the depth."""
+        if node.left or node.right:
+            self._traverse_depth(node.parent)
+
 
 
 # if __name__ == '__main__':  # pragma: no cover
