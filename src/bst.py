@@ -308,15 +308,15 @@ class BinarySearchTree(object):
                 return node
             node = node.parent
 
-# if __name__ == '__main__':  # pragma: no cover
-#     b = BinarySearchTree([20, 10, 5, 15, 3, 7, 13, 17, 30, 25, 23, 27, 35, 37, 23])  # balanced tree depth 3
+if __name__ == '__main__':  # pragma: no cover
+    b = BinarySearchTree([20, 10, 5, 15, 3, 7, 13, 17, 30, 25, 23, 27, 35, 37, 23])  # balanced tree depth 3
 
-#     a = BinarySearchTree()  # all right node tree
-#     for num in range(0, 15):
-#         a.insert(num)
+    a = BinarySearchTree()  # all right node tree
+    for num in range(0, 15):
+        a.insert(num)
 
-#     t_s = timeit.timeit('b.search(30) ', setup='from __main__ import b')
-#     print('shortest search time for my unbalanced tree of size 15 is ' + str(t_s) + ' seconds')
-#     t_l = timeit.timeit('a.search(14)', setup='from __main__ import a')
-#     print('longest search time for my unbalanced tree of size 15 is ' + str(t_l) + ' seconds')
+    t_s = timeit.timeit('b.search(30) ', setup='from __main__ import b')
+    print('shortest search time for my unbalanced tree of size 15 is ' + str(t_s) + ' seconds')
+    t_l = timeit.timeit('a.search(14)', setup='from __main__ import a')
+    print('longest search time for my unbalanced tree of size 15 is ' + str(t_l) + ' seconds')
 

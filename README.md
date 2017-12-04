@@ -211,4 +211,20 @@ A Hash table that acts like python dictionary, insert keys via hashed locations.
     - Insert a key, value pair into the current hash table
 
 - Get: O(n)
-    - Extract the value corresponding to the key givne
+    - Extract the value corresponding to the key given
+
+
+# Trie
+A prefix tree that allows insertion and deletion of worfds
+
+- Insert: O(1)
+    - Insert a word or string into the prefix tree
+
+- Contains: O(n)
+    - Return True if word/str passed in is in the tree, False otherwise
+
+- Remove: O(n)
+    - Remove an existing word/str from the tree
+
+- Size: O(1)
+    - Look up the current size(num of words) in the tree
