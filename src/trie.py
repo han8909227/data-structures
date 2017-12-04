@@ -48,6 +48,8 @@ class Trie(object):
 
     def remove(self, string):
         """Remove an word from the tree."""
+        if not isinstance(string, str):
+            raise ValueError('can only search string')
         curr = self.root
         stack = []
         for letter in string:
