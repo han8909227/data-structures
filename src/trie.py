@@ -26,13 +26,13 @@ class Trie(object):
         curr = self.root
         for letter in string:
             if letter not in curr.children:
-                curr[letter] = Node()
+                curr.children[letter] = Node()
             curr = curr.children[letter]
             curr.prefix_count += 1
         curr.assert_end = True
         self.size += 1
 
-    def search(self, string):
+    def contains(self, string):
         """Search for a word in the tree."""
         if not isinstance(string, str):
             raise ValueError('can only search string')
@@ -42,6 +42,16 @@ class Trie(object):
                 return False
             curr = curr.children[letter]
         return curr.assert_end
+
+    def remove(self, string):
+        """Remove an word from the tree."""
+        curr = self.root
+        for letter in string:
+            if letter not in curr.children:
+                raise ValueError('no such word exist in trie')
+
+
+
 
     def size(self):
         """Return the size of current prefix tree."""
