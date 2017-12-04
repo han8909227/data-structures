@@ -14,10 +14,13 @@ class Node(object):
 class Trie(object):
     """Trie (prefix tree) in python."""
 
-    def __init__(self):
+    def __init__(self, iterable=()):
         """Init a trie instance."""
         self.root = Node()
         self.size = 0
+        if isinstance(iterable, (str, list, tuple)):
+            for word in iterable:
+                self.insert(word)
 
     def insert(self, string):
         """Insert a word into the tree."""
@@ -60,18 +63,16 @@ class Trie(object):
     def _erase_children(self, stack, string):
         """Remove the word in the tree."""
         reverse_word = string[::-1]
-        i = -2
+        i = -1
         for letter in reverse_word:
-            del stack[i].children[letter]
+            if len(stack[i].children[letter].children) == 0:
+                del stack[i].children[letter]
+            else:
+                stack[i].children[letter].assert_end = False
+                break
             i -= 1
-
-
+        self.size -= 1
 
     def size(self):
         """Return the size of current prefix tree."""
         return self.size
-
-# insert(self, string)
-# contains(self, string)
-# size(self)
-# remove(self, string)
