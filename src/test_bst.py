@@ -8,19 +8,13 @@ from types import GeneratorType
 @pytest.fixture(scope='function')
 def bst():
     """Making one empty BinarySearchTree instance per test."""
-    return BinarySearchTree(10)
+    return BinarySearchTree([10])
 
 
 @pytest.fixture(scope='function')
 def bst_2():
     """Making one BinarySearchTree instance, full tree depth 2."""
-    bst = BinarySearchTree(10)
-    bst.insert(8)
-    bst.insert(7)
-    bst.insert(9)
-    bst.insert(12)
-    bst.insert(11)
-    bst.insert(13)
+    bst = BinarySearchTree([10, 8, 7, 9, 12, 11, 13])
     return bst
 
 
@@ -44,6 +38,12 @@ def test_init_with_non_numeric():
     """Test if value error gets raised with non numeric root."""
     with pytest.raises(ValueError):
         BinarySearchTree('root')
+
+
+def test_init_with_invalid_list():
+    """Test if we can init bst with invalid list."""
+    with pytest.raises(ValueError):
+        BinarySearchTree(['val'])
 
 
 def test_insertion_to_left_of_tree_works(bst):
@@ -173,37 +173,25 @@ def test_balance_method_on_mt_bst():
 
 def test_balance_method_on_neg_balance():
     """Test the balance method on a negatively balanced bst."""
-    new_bst = BinarySearchTree(10)
-    new_bst.insert(20)
-    new_bst.insert(30)
+    new_bst = BinarySearchTree([10, 20, 30])
     assert new_bst.balance() == -2
 
 
 def test_balance_method_on_neg_balance_with_two_sides():
     """Test the balance method on a negatively balanced bst."""
-    new_bst = BinarySearchTree(10)
-    new_bst.insert(20)
-    new_bst.insert(30)
-    new_bst.insert(0)
+    new_bst = BinarySearchTree([10, 20, 30, 0])
     assert new_bst.balance() == -1
 
 
 def test_balance_method_on_pos_balance():
     """Test the balance method on a positively balanced bst."""
-    new_bst = BinarySearchTree(10)
-    new_bst.insert(0)
-    new_bst.insert(-10)
-    new_bst.insert(-20)
+    new_bst = BinarySearchTree([10, 0, -10, -20])
     assert new_bst.balance() == 3
 
 
 def test_balance_method_on_pos_balance_with_two_sides():
     """Test the balance method on a positively balanced bst."""
-    new_bst = BinarySearchTree(10)
-    new_bst.insert(0)
-    new_bst.insert(-10)
-    new_bst.insert(-20)
-    new_bst.insert(20)
+    new_bst = BinarySearchTree([10, 0, -10, -20, 20])
     assert new_bst.balance() == 2
 
 
@@ -250,4 +238,62 @@ def test_pre_order_method(bst_2):
     for _ in range(7):
         result.append(next(a))
     assert result == [10, 8, 7, 9, 12, 11, 13]
+
+
+def test_delete_method_sig_leaf_case(bst_2):
+    """Test the bst node eletion method."""
+    bst_2.delete(13)  # now 12 is single leaf
+    bst_2.delete(12)
+    assert bst_2.search(12) is None and bst_2.count == 5
+
+
+def test_delete_method_sig_leaf_case_child_still_exist_after_del(bst_2):
+    """Test the bst node eletion method."""
+    bst_2.delete(13)  # now 12 is single leaf
+    bst_2.delete(12)
+    assert bst_2.search(11)
+
+
+def test_delete_method_sig_leaf_case_del_root():
+    """Test the bst node eletion method."""
+    bst = BinarySearchTree([10, 20])
+    bst.delete(10)
+    assert bst.search(10) is None and bst.count == 1
+    assert bst.root.data == 20
+
+
+def test_delete_method_no_leaf_case():
+    """Test the bst node eletion method."""
+    bst = BinarySearchTree([10, 5, 15])
+    bst.delete(5)
+    assert bst.search(5) is None and bst.count == 2
+
+
+def test_delete_method_no_leaf_case_del_root():
+    """Test the bst node eletion method."""
+    bst = BinarySearchTree([10])
+    bst.delete(10)
+    assert bst.search(10) is None and not bst.count
+    assert bst.root is None
+
+
+def test_delete_method_doub_leaf_case(bst_2):
+    """Test the bst node eletion method."""
+    old_parent = bst_2.search(12).parent
+    bst_2.delete(12)
+    assert bst_2.search(12) is None and bst_2.count == 6
+    assert bst_2.search(13).parent == old_parent
+
+
+def test_delete_method_doub_leaf_case_children_still_exist_after_del(bst_2):
+    """Test the bst node eletion method."""
+    bst_2.delete(12)
+    assert bst_2.search(11) and bst_2.search(13)
+
+
+def test_delete_method_doub_leaf_case_del_root():
+    """Test the bst node eletion method."""
+    bst = BinarySearchTree([10, 15, 5])
+    bst.delete(10)
+    assert bst.count == 2 and bst.root.data == 15
 

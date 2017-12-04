@@ -10,21 +10,24 @@ class Node(object):
         self.data = data
         self.left = None
         self.right = None
+        self.parent = None
 
 
 class BinarySearchTree(object):
     """Binary search tree class."""
 
-    def __init__(self, root=None):
+    def __init__(self, iterable=()):
         """Init the bst class."""
+        self.root = None
         self.count = 0
-        if root is None:
-            self.root = root
-        elif isinstance(root, int) or isinstance(root, float):
-            self.root = Node(root)
-            self.count += 1
+        if isinstance(iterable, (str, list, tuple)):
+            for val in iterable:
+                if isinstance(val, int) or isinstance(val, float):
+                    self.insert(val)
+                else:
+                    raise ValueError('value(s) must be a number!')
         else:
-            raise ValueError('root value must be a number!')
+            raise ValueError('must be a list, str or tuple')
 
     def insert(self, item):
         """Insert a value/node into the tree."""
@@ -39,6 +42,7 @@ class BinarySearchTree(object):
                 if item < curr_data.data:
                     if curr_data.left is None:
                         curr_data.left = Node(item)
+                        curr_data.left.parent = curr_data
                         self.count += 1
                         return
                     else:
@@ -46,6 +50,7 @@ class BinarySearchTree(object):
                 else:  # greater than current node
                     if curr_data.right is None:
                         curr_data.right = Node(item)
+                        curr_data.right.parent = curr_data
                         self.count += 1
                         return
                     else:
@@ -67,6 +72,54 @@ class BinarySearchTree(object):
                 continue
         return
 
+    def delete(self, item):
+        """Delete a node from the tree."""
+        target = self.search(item)
+        if target is None:
+            raise ValueError('val not in bst')
+        elif target.left is None and target.right is None:
+            if target is self.root:
+                self.root = None
+                self.count = 0
+                return
+            elif item > target.parent.data:
+                target.parent.right = None
+            else:
+                target.parent.left = None
+            self.count -= 1
+            return
+        elif target.left is None or target.right is None:
+            if target.left:
+                replacer = target.left
+            else:
+                replacer = target.right
+            if target.parent:
+                if target.parent.left is target:
+                    target.parent.left = replacer
+                else:
+                    target.parent.right = replacer
+                replacer.parent = target.parent
+            else:
+                self.root = replacer
+                self.root.parent = None
+            self.count -= 1
+            return
+        else:
+            replacer = self._delete_helper(target.right)
+            target.data = replacer.data
+            if replacer is target.right:
+                replacer.parent.right = None
+            else:
+                replacer.parent.left = None
+            self.count -= 1
+            return
+
+    def _delete_helper(self, node):
+        """Return the smallest node on right side of bst from the biggest right side node(passed in)."""
+        if node.left is None:
+            return node
+        return self._delete_helper(node.left)
+
     def size(self):
         """Return the size of the current tree."""
         return self.count
@@ -76,7 +129,7 @@ class BinarySearchTree(object):
         return isinstance(self.search(item), Node)
 
     def depth(self, root):
-        """Return the depth of the current tree (o for root only tree)."""
+        """Return the depth of the current tree (0 for root only tree as required by assignment)."""
         return max(0, self._depth(root) - 1)
 
     def _depth(self, root):
@@ -94,6 +147,12 @@ class BinarySearchTree(object):
             left_depth = self._depth(self.root.left)
             right_depth = self._depth(self.root.right)
             return left_depth - right_depth
+
+    def _balance(self, node):
+        """Ck balance of the node to decide rotation."""
+        left_depth = self._depth(node.left)
+        right_depth = self._depth(node.right)
+        return left_depth - right_depth
 
     def in_order(self, root):
         """Return val of tree in-order traversal one at a time."""
@@ -122,25 +181,25 @@ class BinarySearchTree(object):
             for val in self.pre_order(root.right):
                 yield val
 
-if __name__ == '__main__':  # pragma: no cover
-    b = BinarySearchTree(20)  # balanced tree depth 3
-    b.insert(10)
-    b.insert(5)
-    b.insert(15)
-    b.insert(3)
-    b.insert(7)
-    b.insert(13)
-    b.insert(17)
-    b.insert(30)
-    b.insert(25)
-    b.insert(23)
-    b.insert(27)
-    b.insert(35)
-    b.insert(37)
-    b.insert(33)
+    def _rotate_left(self, node):
+        """Rotate left, node is inserting node's parent."""
+        node.left = node.parent
+        node.parent = node.parent.parent
+        node.left.parent = node
+        node.left.right = None
 
-    a = BinarySearchTree(0)  # all right node tree
-    for num in range(1, 15):
+    def _rotate_right(self, node):
+        """Rotate right, node is inserting node's partent."""
+        node.right = node.parent
+        node.parent = node.parent.parent
+        node.right.parent = node
+        node.right.left = None
+
+if __name__ == '__main__':  # pragma: no cover
+    b = BinarySearchTree([20, 10, 5, 15, 3, 7, 13, 17, 30, 25, 23, 27, 35, 37, 23])  # balanced tree depth 3
+
+    a = BinarySearchTree()  # all right node tree
+    for num in range(0, 15):
         a.insert(num)
 
     t_s = timeit.timeit('b.search(30) ', setup='from __main__ import b')
