@@ -11,6 +11,19 @@ class Node(object):
         self.left = None
         self.right = None
         self.parent = None
+        self.depth = 1
+
+    def _set_child(self, child):
+        """Set child to the parent(leaf node)."""
+        if self.parent:
+            if self.parent.left is self:
+                self.parent.left = child
+            else:
+                self.parent.right = child
+
+    def children(self):
+        """Return all children node of the current node."""
+        return [child for child in [self.right, self.left] if child]
 
 
 class BinarySearchTree(object):
@@ -20,6 +33,7 @@ class BinarySearchTree(object):
         """Init the bst class."""
         self.root = None
         self.count = 0
+        self.rotation = 0
         if isinstance(iterable, (str, list, tuple)):
             for val in iterable:
                 if isinstance(val, int) or isinstance(val, float):
@@ -38,12 +52,14 @@ class BinarySearchTree(object):
             return
         elif isinstance(item, int) or isinstance(item, float):
             curr_data = self.root
+            new_node = None
             while curr_data is not None:
                 if item < curr_data.data:
                     if curr_data.left is None:
                         curr_data.left = Node(item)
                         curr_data.left.parent = curr_data
                         self.count += 1
+                        new_node = curr_data.left
                         return
                     else:
                         curr_data = curr_data.left
@@ -52,9 +68,14 @@ class BinarySearchTree(object):
                         curr_data.right = Node(item)
                         curr_data.right.parent = curr_data
                         self.count += 1
+                        new_node = curr_data.right
                         return
                     else:
                         curr_data = curr_data.right
+
+            root = self._find_unbalanced(new_node)
+            if root:
+                self._rebalance(root)
         else:
             raise ValueError('can only insert number')
 
@@ -148,8 +169,12 @@ class BinarySearchTree(object):
             right_depth = self._depth(self.root.right)
             return left_depth - right_depth
 
-    def _balance(self, node):
+    def _balance(self, node='root'):
         """Ck balance of the node to decide rotation."""
+        if node == 'roto':
+            node = self.root
+        if node is None:
+            return 0
         left_depth = self._depth(node.left)
         right_depth = self._depth(node.right)
         return left_depth - right_depth
@@ -181,29 +206,117 @@ class BinarySearchTree(object):
             for val in self.pre_order(root.right):
                 yield val
 
-    def _rotate_left(self, node):
-        """Rotate left, node is inserting node's parent."""
-        node.left = node.parent
-        node.parent = node.parent.parent
-        node.left.parent = node
-        node.left.right = None
+    def _rotate_left(self, root):
+        """Rotate left.."""
+        new_root = root.right
+        root.right = new_root.left
+        if new_root.left:
+            new_root.left.parent = root
+        if root.parent is None:
+            self.root = new_root
+        root._set_child(new_root)
+        new_root.parent = root.parent
+        new_root.left = root
+        root.parent = new_root
+        return new_root
 
-    def _rotate_right(self, node):
-        """Rotate right, node is inserting node's partent."""
-        node.right = node.parent
-        node.parent = node.parent.parent
-        node.right.parent = node
-        node.right.left = None
+    def _rotate_right(self, root):
+        """Rotate right."""
+        new_root = root.left
+        root.left = new_root.root
+        if new_root.right:
+            new_root.right.parent = root
+        if root.parent is None:
+            self.root = new_root
+        root._set_child(new_root)
+        new_root.right = root
+        new_root.parent = root.parent
+        root.parent = new_root
+        return new_root
 
-if __name__ == '__main__':  # pragma: no cover
-    b = BinarySearchTree([20, 10, 5, 15, 3, 7, 13, 17, 30, 25, 23, 27, 35, 37, 23])  # balanced tree depth 3
+    def _rotate_lr(self, root):
+        """Rotate left and right."""
+        left_root = root.left
+        new_root = left_root.right
+        left_root.right = new_root.left
+        root.left = new_root.right
+        if new_root.left:
+            new_root.left.parent = left_root
+        if new_root.right:
+            new_root.right.parent = root
+        root._set_child(new_root)
+        if root.parent is None:
+            self.root = new_root
+        new_root.parent = root.parent
+        new_root.right = root
+        new_root.left = left_root
+        root.parent = new_root
+        left_root.parent = new_root
+        return new_root
 
-    a = BinarySearchTree()  # all right node tree
-    for num in range(0, 15):
-        a.insert(num)
+    def _rotate_rl(self, root):
+        """"Rotate right and left."""
+        right_root = root.right
+        new_root = right_root.left
+        right_root.left = new_root.right
+        root.right = new_root.left
+        if new_root.right:
+            new_root.right.parent = right_root
+        if new_root.left:
+            new_root.left.parent = root
+        root._set_child(new_root)
+        if root.parent is None:
+            self.root = new_root
+        new_root.parent = root.parent
+        new_root.left = root
+        new_root.right = right_root
+        root.parent = new_root
+        right_root.parent = new_root
+        return new_root
 
-    t_s = timeit.timeit('b.search(30) ', setup='from __main__ import b')
-    print('shortest search time for my unbalanced tree of size 15 is ' + str(t_s) + ' seconds')
-    t_l = timeit.timeit('a.search(14)', setup='from __main__ import a')
-    print('longest search time for my unbalanced tree of size 15 is ' + str(t_l) + ' seconds')
+    def _rebalance(self, node):
+        """Rebalance the tree from self.root."""
+        self.rotation += 1
+        if self._balance(node) < 0:
+            if self._balance(node.right) <= 0:
+                root = self._rotate_left(node)
+            else:
+                root = self._rotate_rl(node)
+        else:
+            if self._balance(node.left) >= 0:
+                root = self._rotate_right(node)
+            else:
+                root = self._rotate_lr(node)
+        self._traverse_depth(root)
+        next_ = self._find_unbalance(node)
+        if next_:
+            self._rebalance(next_)
+
+    def _traverse_depth(self, node):
+        """Traverse up to find the depth."""
+        children = node.children()
+        node.depth = 1
+        if children:
+            node.depth += max(child.depth for child in children)
+        if node.parent:
+            self._traverse_depth(node.parent)
+
+    def _find_unbalanced(self, node):
+        """Ck if tree is unbalanced."""
+        while node:
+            if abs(self.balance(node)) > 1:
+                return node
+            node = node.parent
+
+# if __name__ == '__main__':  # pragma: no cover
+#     b = BinarySearchTree([20, 10, 5, 15, 3, 7, 13, 17, 30, 25, 23, 27, 35, 37, 23])  # balanced tree depth 3
+
+#     a = BinarySearchTree()  # all right node tree
+#     for num in range(0, 15):
+#         a.insert(num)
+
+#     t_s = timeit.timeit('b.search(30) ', setup='from __main__ import b')
+#     print('shortest search time for my unbalanced tree of size 15 is ' + str(t_s) + ' seconds')
+#     t_l = timeit.timeit('a.search(14)', setup='from __main__ import a')
+#     print('longest search time for my unbalanced tree of size 15 is ' + str(t_l) + ' seconds')
 
