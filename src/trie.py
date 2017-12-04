@@ -46,10 +46,24 @@ class Trie(object):
     def remove(self, string):
         """Remove an word from the tree."""
         curr = self.root
+        stack = []
         for letter in string:
             if letter not in curr.children:
                 raise ValueError('no such word exist in trie')
+            stack.append(curr)
+            curr = curr.children[letter]
+        if curr.assert_end:
+            self._erase_children(stack, string)
+        else:
+            raise ValueError('no such word exist in trie')
 
+    def _erase_children(self, stack, string):
+        """Remove the word in the tree."""
+        reverse_word = string[::-1]
+        i = -2
+        for letter in reverse_word:
+            del stack[i].children[letter]
+            i -= 1
 
 
 
