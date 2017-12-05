@@ -91,3 +91,38 @@ def test_size_method_after_deletion(trie_5):
     trie_5.remove('hello')
     assert trie_5.size == 4
 
+
+def test_traverse_method_on_partial_prefix(trie_5):
+    """Test the traversal method works properly."""
+    result = trie_5.traversal('he')
+    assert 'hello' and 'help' in result
+
+
+def test_traverse_method_word(trie_5):
+    """Test the traversal method works properly."""
+    assert trie_5.traversal('hello') == ['hello']
+
+
+def test_traverse_method_letter(trie_5):
+    """Test the traversal method works properly."""
+    result = trie_5.traversal('he')
+    assert 'hello' and 'help' in result
+
+
+def test_traverse_method_non_existing_prefix(trie_5):
+    """Test the traversal method works properly."""
+    assert trie_5.traversal('nonexist') == []
+
+
+def test_traverse_method_raise_error(trie_5):
+    """Test the traversal method works properly."""
+    with pytest.raises(ValueError):
+        trie_5.traversal(100)
+
+
+def test__dfs_method(trie_5):
+    """Test _dfs method working properly."""
+    node = trie_5.root.children['h'].children['e']
+    result = trie_5._dfs(node, 'he')
+    assert 'hello' and 'help' in result
+
