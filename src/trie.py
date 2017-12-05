@@ -1,5 +1,4 @@
 """Trie in python."""
-import timeit
 
 
 class Node(object):
@@ -100,11 +99,3 @@ class Trie(object):
     def size(self):
         """Return the size of current prefix tree."""
         return self.size
-
-# if __name__ == '__main__':  # pragma: no cover
-#     t = Trie(['help', 'henery', 'hex', 'hope'])
-#     t_s = timeit.timeit('t.insert(\'hello\') ', setup='from __main__ import t')
-#     print('insertion time: ' + str(t_s) + ' seconds')
-
-#     t_search = timeit.timeit('t.contains(\'hope\') ', setup='from __main__ import t')
-#     print('search time: ' + str(t_search) + ' seconds')
