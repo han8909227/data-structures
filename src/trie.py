@@ -75,6 +75,25 @@ class Trie(object):
             i -= 1
         self.size -= 1
 
+    def traversal(self, start):
+        """Generator for words with prefix of start or part of start."""
+        curr = self.root
+        for letter in start:
+            if letter not in curr.children:
+                return []
+            curr = curr.children[letter]
+        return self._dfs(curr, start)
+
+    def _dfs(self, node, start):
+        """Search the tree with dfs."""
+        result = []
+        if node.assert_end:
+            result.append(start)
+        for letter in node.children:
+            word = self._dfs(node.children[letter], start + letter)
+            result.extend(word)
+        return result
+
     def size(self):
         """Return the size of current prefix tree."""
         return self.size
