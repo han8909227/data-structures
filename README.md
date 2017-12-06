@@ -228,3 +228,6 @@ A prefix tree that allows insertion and deletion of worfds
 
 - Size: O(1)
     - Look up the current size(num of words) in the tree
+
+- Traversal: O(n)
+    - Return a generator object generate through words in the trie one at a time

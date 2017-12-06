@@ -88,13 +88,11 @@ class Trie(object):
 
     def _dfs(self, node, start):
         """Search the tree with dfs."""
-        result = []
         if node.assert_end:
-            result.append(start)
+            yield start
         for letter in node.children:
-            word = self._dfs(node.children[letter], start + letter)
-            result.extend(word)
-        return result
+            for word in self._dfs(node.children[letter], start + letter):
+                yield word
 
     def size(self):
         """Return the size of current prefix tree."""
