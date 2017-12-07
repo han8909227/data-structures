@@ -1,4 +1,6 @@
 """My Bubble sort."""
+import timeit
+from random import randint
 
 
 def bubble_sort(input_list):
@@ -23,4 +25,10 @@ def bubble_sort(input_list):
                 changed = True
         if not changed:
             return bubble
+
+if __name__ == '__main__':  # pragma: no cover
+    vals = [randint(0, 1000) for _ in range(10)]
+    result = bubble_sort(vals)
+    t_s = timeit.timeit('bubble_sort(vals) ', setup='from __main__ import bubble_sort, vals')
+    print('Input: ' + str(vals) + '\n    average sorting time: ' + str(t_s) + ' seconds')
 
