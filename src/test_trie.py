@@ -93,32 +93,54 @@ def test_size_method_after_deletion(trie_5):
     assert trie_5.size == 4
 
 
+def test_traversal_letter_method_on_partial_prefix(trie_5):
+    """Test the traversal_word method works properly."""
+    result = trie_5.traversal_letter('hell')
+    assert 'o' in next(result)
+
+
+def test_traversal_letter_method_letter(trie_5):
+    """Test the traversal_letter method works properly."""
+    assert 'l' in next(trie_5.traversal_letter('wor'))
+
+
+def test_traversal_letter_method_non_existing_prefix(trie_5):
+    """Test the traversal_letter method works properly."""
+    assert trie_5.traversal_letter('nonexist') == []
+
+
+def test_traversal_letter_method_raise_error(trie_5):
+    """Test the traversal_letter method works properly."""
+    with pytest.raises(ValueError):
+        trie_5.traversal_letter(100)
+
+
 def test_traverse_method_on_partial_prefix(trie_5):
-    """Test the traversal method works properly."""
-    result = trie_5.traversal('he')
+    """Test the traversal_word method works properly."""
+    result = trie_5.traversal_word('he')
     assert 'hello' and 'help' in result
 
 
 def test_traverse_method_word(trie_5):
-    """Test the traversal method works properly."""
-    assert next(trie_5.traversal('hello')) == 'hello'
+    """Test the traversal_word method works properly."""
+    assert next(trie_5.traversal_word('hello')) == 'hello'
 
 
 def test_traverse_method_letter(trie_5):
-    """Test the traversal method works properly."""
-    result = trie_5.traversal('he')
+    """Test the traversal_word method works properly."""
+    result = trie_5.traversal_word('he')
     assert 'hello' or 'help' in next(result)
 
 
 def test_traverse_method_non_existing_prefix(trie_5):
-    """Test the traversal method works properly."""
-    assert trie_5.traversal('nonexist') == []
+    """Test the traversal_word method works properly."""
+    assert trie_5.traversal_word('nonexist') == []
 
 
 def test_traverse_method_raise_error(trie_5):
-    """Test the traversal method works properly."""
+    """Test the traversal_word method works properly."""
     with pytest.raises(ValueError):
-        trie_5.traversal(100)
+        trie_5.traversal_word(100)
 
 
 def test__dfs_method(trie_5):
