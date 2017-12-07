@@ -231,3 +231,8 @@ A prefix tree that allows insertion and deletion of worfds
 
 - Traversal: O(n)
     - Return a generator object generate through words in the trie one at a time
+
+
+# Bubble Sort O(n^2)
+A sorting algorithm taking a list or tuple of numbers and sort
+them according to respective numerical values.
