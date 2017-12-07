@@ -27,8 +27,14 @@ def bubble_sort(input_list):
             return bubble
 
 if __name__ == '__main__':  # pragma: no cover
-    vals = [randint(0, 1000) for _ in range(10)]
-    result = bubble_sort(vals)
-    t_s = timeit.timeit('bubble_sort(vals) ', setup='from __main__ import bubble_sort, vals')
-    print('Input: ' + str(vals) + '\n    average sorting time: ' + str(t_s) + ' seconds')
+    ordered_list = [num for num in range(10)]
+    t_s = timeit.timeit('bubble_sort(ordered_list) ', setup='from __main__ import bubble_sort, ordered_list')
+    print('BestCase:\n      average sorting time: ' + str(t_s) + ' seconds')
 
+    reversed_list = ordered_list[::-1]
+    t_s = timeit.timeit('bubble_sort(reversed_list) ', setup='from __main__ import bubble_sort, reversed_list')
+    print('WroseCase:\n     average sorting time: ' + str(t_s) + ' seconds')
+
+    vals = [randint(0, 1000) for _ in range(10)]
+    t_s = timeit.timeit('bubble_sort(vals) ', setup='from __main__ import bubble_sort, vals')
+    print('RandomCase:\n    average sorting time: ' + str(t_s) + ' seconds')
