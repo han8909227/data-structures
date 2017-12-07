@@ -35,4 +35,13 @@ def test_sort_method_raises_error_val():
         bubble_sort([1, 2, '3'])
 
 
+def test_sort_method_raise_error_dic():
+    """Test if error gets raised for invalid type."""
+    with pytest.raises(ValueError):
+        bubble_sort({1, 2, 3})
 
+
+def test_sort_method_raise_error_fun():
+    """Test if error gets raised for invalid type."""
+    with pytest.raises(ValueError):
+        bubble_sort([1, 2, 3, 'p'])
