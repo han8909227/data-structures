@@ -236,3 +236,8 @@ A prefix tree that allows insertion and deletion of worfds
 # Bubble Sort O(n^2)
 A sorting algorithm taking a list or tuple of numbers and sort
 them according to respective numerical values.
+
+
+# Insertion Sort O(n^2)
+A sorting algorithm taking a list or tuple of numbers and sort
+them according to respective numerical values.
