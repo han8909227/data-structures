@@ -2,6 +2,7 @@
 
 from trie import Trie
 import pytest
+from types import GeneratorType
 
 
 @pytest.fixture(scope='function')
@@ -100,13 +101,13 @@ def test_traverse_method_on_partial_prefix(trie_5):
 
 def test_traverse_method_word(trie_5):
     """Test the traversal method works properly."""
-    assert trie_5.traversal('hello') == ['hello']
+    assert next(trie_5.traversal('hello')) == 'hello'
 
 
 def test_traverse_method_letter(trie_5):
     """Test the traversal method works properly."""
     result = trie_5.traversal('he')
-    assert 'hello' and 'help' in result
+    assert 'hello' or 'help' in next(result)
 
 
 def test_traverse_method_non_existing_prefix(trie_5):
@@ -124,5 +125,6 @@ def test__dfs_method(trie_5):
     """Test _dfs method working properly."""
     node = trie_5.root.children['h'].children['e']
     result = trie_5._dfs(node, 'he')
-    assert 'hello' and 'help' in result
+    assert isinstance(result, GeneratorType)
+    assert 'help' or 'hellow' in next(result)
 
