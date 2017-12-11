@@ -21,22 +21,44 @@ def merge_sort(input_list):
 
 
 def _merge_sort(input_list):
-    """Helper: split list."""
-    if len(input_list) <= 1:
+    """Helper."""
+    if len(input_list) < 2:
         return input_list
-    else:
-        mid_index = len(input_list) // 2
-        left_list = _merge_sort(input_list[:mid_index])
-        right_list = _merge_sort(input_list[mid_index:])
-        return _merge(left_list, right_list)
+
+    mid_idx = len(input_list) // 2
+    left = merge_sort(input_list[:mid_idx])
+    right = merge_sort(input_list[mid_idx:])
+
+    return _merge(left, right)
 
 
-def _merge(left_list, right_list):
-    """Helper: sort the splitted lists."""
-    if not left_list:
-        return right_list
-    elif not right_list:
-        return left_list
-    elif left_list[0] < right_list[0]:
-        return left_list[0] + _merge(left_list[1:], right_list)
-    return list(right_list[0]) + _merge(left_list, right_list[1:])
+def _merge(left, right):
+    """Merger helper."""
+    result = []
+    while left and right:
+        if left[0] <= right[0]:
+            result.append(left[0])
+            left = left[1:]
+        else:
+            result.append(right[0])
+            right = right[1:]
+    while left:
+        result.append(left[0])
+        left = left[1:]
+    while right:
+        result.append(right[0])
+        right = right[1:]
+    return result
+
+if __name__ == '__main__':  # pragma: no cover
+    ordered_list = [num for num in range(10)]
+    t_s = timeit.timeit('merge_sort(ordered_list) ', setup='from __main__ import merge_sort, ordered_list')
+    print('BestCase:\n       sorting time: ' + str(t_s) + ' seconds')
+
+    reversed_list = ordered_list[::-1]
+    t_s = timeit.timeit('merge_sort(reversed_list) ', setup='from __main__ import merge_sort, reversed_list')
+    print('WroseCase:\n      sorting time: ' + str(t_s) + ' seconds')
+
+    vals = [randint(0, 1000) for _ in range(10)]
+    t_s = timeit.timeit('merge_sort(vals) ', setup='from __main__ import merge_sort, vals')
+    print('RandomCase:\n     sorting time: ' + str(t_s) + ' seconds')
