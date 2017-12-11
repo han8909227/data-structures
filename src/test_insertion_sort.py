@@ -1,4 +1,4 @@
-"""Test my bubble sort algorithm."""
+"""Test my insertion sort algorithm tests."""
 from insertion_sort import insertion_sort
 import pytest
 
@@ -45,3 +45,5 @@ def test_sort_method_raise_error_fun():
     """Test if error gets raised for invalid type."""
     with pytest.raises(ValueError):
         insertion_sort([1, 2, 3, 'p'])
+
+
