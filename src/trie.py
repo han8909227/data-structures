@@ -18,9 +18,11 @@ class Trie(object):
         """Init a trie instance."""
         self.root = Node()
         self.size = 0
-        if isinstance(iterable, (str, list, tuple)):
+        if isinstance(iterable, (list, tuple)):
             for word in iterable:
                 self.insert(word)
+        else:
+            raise ValueError('can only init with list or tuple')
 
     def insert(self, string):
         """Insert a word into the tree."""
@@ -75,8 +77,28 @@ class Trie(object):
             i -= 1
         self.size -= 1
 
-    def traversal(self, start):
-        """Generator for words with prefix of start or part of start."""
+    def traversal_letter(self, start, curr=None):
+        """Generate generator that generate 1 letter at a time through depth first traversal."""
+        if not isinstance(start, str):
+            raise ValueError('can only traverse form a string')
+        curr = self.root
+        for letter in start:
+            if letter not in curr.children:
+                return []
+            curr = curr.children[letter]
+        return self._dfs_letter(curr, start)
+
+    def _dfs_letter(self, node, start):
+        """Search the tree with dfs to get letters."""
+        if node.assert_end:
+            yield start
+        for letter in node.children:
+            for word in self._dfs(node.children[letter], letter):
+                for letter in word:
+                    yield letter
+
+    def traversal_word(self, start):
+        """Extra Credit: Generator for words with prefix of start or part of start."""
         if not isinstance(start, str):
             raise ValueError('can only traverse form a string')
         curr = self.root
@@ -87,7 +109,7 @@ class Trie(object):
         return self._dfs(curr, start)
 
     def _dfs(self, node, start):
-        """Search the tree with dfs."""
+        """Extra Credit: Search the tree with dfs to form words."""
         if node.assert_end:
             yield start
         for letter in node.children:
