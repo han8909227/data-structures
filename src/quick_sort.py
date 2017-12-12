@@ -4,7 +4,7 @@ from random import randint
 
 
 def quick_sort(input_list):
-    """quick sort."""
+    """Quick sort."""
     if not isinstance(input_list, (list, tuple)):
         raise ValueError('input takes list/tuple only')
 
@@ -20,6 +20,7 @@ def quick_sort(input_list):
 
 
 def _quicksort(unsorted):
+    """Quick sort helper."""
     if len(unsorted) == 1 or len(unsorted) == 0:
         return unsorted
     else:
@@ -35,3 +36,15 @@ def _quicksort(unsorted):
         left.append(unsorted[i])
         return left + right
 
+if __name__ == '__main__':  # pragma: no cover
+    ordered_list = [num for num in range(10)]
+    t_s = timeit.timeit('quick_sort(ordered_list) ', setup='from __main__ import quick_sort, ordered_list')
+    print('BestCase:\n       sorting time: ' + str(t_s) + ' seconds')
+
+    reversed_list = ordered_list[::-1]
+    t_s = timeit.timeit('quick_sort(reversed_list) ', setup='from __main__ import quick_sort, reversed_list')
+    print('WroseCase:\n      sorting time: ' + str(t_s) + ' seconds')
+
+    vals = [randint(0, 1000) for _ in range(10)]
+    t_s = timeit.timeit('quick_sort(vals) ', setup='from __main__ import quick_sort, vals')
+    print('RandomCase:\n     sorting time: ' + str(t_s) + ' seconds')

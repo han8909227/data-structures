@@ -1,6 +1,7 @@
 """Test my merge sort algorithm tests."""
 from merge_sort import merge_sort, _merge_sort, _merge
 import pytest
+from random import randint
 
 
 @pytest.fixture(scope='function')
@@ -9,14 +10,35 @@ def list_ten():
     return [x for x in range(10)]
 
 
-def test_sort_nums_in_list(list_ten):
+@pytest.fixture(scope='function')
+def rand_ten():
+    """Make a random list of length 10."""
+    return [randint(0, 1000) for _ in range(10)]
+
+
+def test_sort_nums_in_list_random_case(rand_ten):
+    """Test merge sort function."""
+    result = merge_sort(rand_ten)
+    key = sorted(rand_ten)
+    assert result == key
+
+
+def test_sort_nums_in_tuple_random_case(rand_ten):
+    """Test merge sort function."""
+    rand = tuple(rand_ten)
+    result = merge_sort(rand)
+    key = sorted(rand)
+    assert result == key
+
+
+def test_sort_nums_in_list_wrose_case(list_ten):
     """Test merge sort function."""
     reverse = list(reversed(list_ten))
     result = merge_sort(reverse)
     assert result == list_ten
 
 
-def test_sort_nums_in_tuple(list_ten):
+def test_sort_nums_in_tuple_wrose_case(list_ten):
     """Test merge sort function."""
     reverse = tuple(reversed(list_ten))
     result = merge_sort(reverse)
