@@ -233,16 +233,34 @@ A prefix tree that allows insertion and deletion of worfds
     - Return a generator object generate through words in the trie one at a time
 
 
-# Bubble Sort O(n^2)
+# Bubble Sort
+- Best Case: O(n)
+- Wrose Case: O(n^2)
 A sorting algorithm taking a list or tuple of numbers and sort
 them according to respective numerical values.
 
 
-# Insertion Sort O(n^2)
+# Insertion Sort
+- Best Case: O(n)
+- Wrose Case: O(n^2)
 A sorting algorithm taking a list or tuple of numbers and sort
 them according to respective numerical values.
 
 
-# Merge Sort O(n^2)
+# Merge Sort
+- Best Case: O(nlogn)
+- Wrose Case: O(nlogn)
+A sorting algorithm taking a list or tuple of numbers and sort
+them according to respective numerical values.
+
+# Quick Sort
+- Best Case: O(nlogn)
+- Wrose Case: O(n^2)
+A sorting algorithm taking a list or tuple of numbers and sort
+them according to respective numerical values.
+
+# Radix Sort BestCase
+- Best Case: O(nk)
+- Wrose Case: O(nk)
 A sorting algorithm taking a list or tuple of numbers and sort
 them according to respective numerical values.
