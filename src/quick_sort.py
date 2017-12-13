@@ -9,10 +9,7 @@ def quick_sort(input_list):
         raise ValueError('input takes list/tuple only')
 
     if isinstance(input_list, (tuple)):
-        temp = []
-        for val in input_list:
-            temp.append(val)
-        input_list = temp
+        input_list = list(input_list)
 
     if not all(isinstance(val, (int, float)) for val in input_list):
         raise ValueError('all items in list must be a number')
@@ -25,15 +22,15 @@ def _quicksort(unsorted):
         return unsorted
     else:
         pivot = unsorted[0]
-        i = 0
-        for j in range(len(unsorted) - 1):
-            if unsorted[j + 1] < pivot:
-                unsorted[j + 1], unsorted[i + 1] = unsorted[i + 1], unsorted[j + 1]
-                i += 1
-        unsorted[0], unsorted[i] = unsorted[i], unsorted[0]
-        left = _quicksort(unsorted[:i])
-        right = _quicksort(unsorted[i + 1:])
-        left.append(unsorted[i])
+        swap_at = 0
+        for idx in range(len(unsorted) - 1):
+            if unsorted[idx + 1] < pivot:
+                unsorted[idx + 1], unsorted[swap_at + 1] = unsorted[swap_at + 1], unsorted[idx + 1]
+                swap_at += 1
+        unsorted[0], unsorted[swap_at] = unsorted[swap_at], unsorted[0]
+        left = _quicksort(unsorted[:swap_at])
+        right = _quicksort(unsorted[swap_at + 1:])
+        left.append(unsorted[swap_at])
         return left + right
 
 if __name__ == '__main__':  # pragma: no cover

@@ -3,7 +3,7 @@ from numbers import Number
 
 
 class Graph:
-    """Directive graph."""
+    """Directive & weighed graph."""
 
     def __init__(self):
         """Create a instance of the graph class."""
