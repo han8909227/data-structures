@@ -1,5 +1,5 @@
-"""Test my insertion sort algorithm tests."""
-from insertion_sort import insertion_sort
+"""Test my quick sort algorithm tests."""
+from quick_sort import quick_sort, _quicksort
 import pytest
 from random import randint
 
@@ -25,60 +25,73 @@ def rand_neg():
 def test_sort_list_with_neg_values(rand_neg):
     """Test if sorting method sorts negative values."""
     key = sorted(rand_neg)
-    result = insertion_sort(rand_neg)
+    result = quick_sort(rand_neg)
     assert key == result
 
 
 def test_sort_nums_in_list_random_case(rand_ten):
-    """Test insertion sort function."""
-    result = insertion_sort(rand_ten)
+    """Test quick sort function."""
+    result = quick_sort(rand_ten)
     key = sorted(rand_ten)
     assert result == key
 
 
 def test_sort_nums_in_tuple_random_case(rand_ten):
-    """Test insertion sort function."""
+    """Test quick sort function."""
     rand = tuple(rand_ten)
-    result = insertion_sort(rand)
+    result = quick_sort(rand)
     key = sorted(rand)
     assert result == key
 
 
-def test_sort_nums_in_list(list_ten):
-    """Test insertion sort function."""
+def test_sort_nums_in_list_wrose_case(list_ten):
+    """Test quick sort function."""
     reverse = list(reversed(list_ten))
-    result = insertion_sort(reverse)
+    result = quick_sort(reverse)
     assert result == list_ten
 
 
-def test_sort_nums_in_tuple(list_ten):
-    """Test insertion sort function."""
+def test_sort_nums_in_tuple_wrose_case(list_ten):
+    """Test quick sort function."""
     reverse = tuple(reversed(list_ten))
-    result = insertion_sort(reverse)
+    result = quick_sort(reverse)
     assert result == list_ten
 
 
 def test_sort_method_raises_error():
     """Test if error gets raised for invalid type."""
     with pytest.raises(ValueError):
-        insertion_sort('12345')
+        quick_sort('12345')
 
 
 def test_sort_method_raises_error_val():
     """Test if error gets raised for invalid type."""
     with pytest.raises(ValueError):
-        insertion_sort([1, 2, '3'])
+        quick_sort([1, 2, '3'])
 
 
 def test_sort_method_raise_error_dic():
     """Test if error gets raised for invalid type."""
     with pytest.raises(ValueError):
-        insertion_sort({1, 2, 3})
+        quick_sort({1, 2, 3})
 
 
 def test_sort_method_raise_error_fun():
     """Test if error gets raised for invalid type."""
     with pytest.raises(ValueError):
-        insertion_sort([1, 2, 3, 'p'])
+        quick_sort([1, 2, 3, 'p'])
 
+
+def test_sort_nums_in_list_random_case_helper(rand_ten):
+    """Test quick sort function."""
+    result = quick_sort(rand_ten)
+    key = sorted(rand_ten)
+    assert result == key
+
+
+def test_sort_nums_in_list_wrose_case_helper(list_ten):
+    """Test _quick sort function."""
+    reverse = list(reversed(list_ten))
+    result = _quicksort(reverse)
+    assert result == list_ten
 

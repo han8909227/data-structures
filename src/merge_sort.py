@@ -26,8 +26,8 @@ def _merge_sort(input_list):
         return input_list
 
     mid_idx = len(input_list) // 2
-    left = merge_sort(input_list[:mid_idx])
-    right = merge_sort(input_list[mid_idx:])
+    left = _merge_sort(input_list[:mid_idx])
+    right = _merge_sort(input_list[mid_idx:])
 
     return _merge(left, right)
 
