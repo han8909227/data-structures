@@ -101,7 +101,7 @@ def test_traversal_letter_method_on_partial_prefix(trie_5):
 
 def test_traversal_letter_method_letter(trie_5):
     """Test the traversal_letter method works properly."""
-    assert 'k' in next(trie_5.traversal_letter('wor'))
+    assert 'd' in next(trie_5.traversal_letter('worl'))
 
 
 def test_traversal_letter_method_non_existing_prefix(trie_5):
