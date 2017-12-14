@@ -13,7 +13,8 @@ def quick_sort(input_list):
 
     if not all(isinstance(val, (int, float)) for val in input_list):
         raise ValueError('all items in list must be a number')
-    return _quicksort(input_list)
+    quick_list = input_list[:]
+    return _quicksort(quick_list)
 
 
 def _quicksort(unsorted):
@@ -34,7 +35,7 @@ def _quicksort(unsorted):
         return left + right
 
 if __name__ == '__main__':  # pragma: no cover
-    ordered_list = [num for num in range(10)]
+    ordered_list = [num for num in range(100)]
     t_s = timeit.timeit('quick_sort(ordered_list) ', setup='from __main__ import quick_sort, ordered_list')
     print('BestCase:\n       sorting time: ' + str(t_s) + ' seconds')
 
@@ -42,6 +43,6 @@ if __name__ == '__main__':  # pragma: no cover
     t_s = timeit.timeit('quick_sort(reversed_list) ', setup='from __main__ import quick_sort, reversed_list')
     print('WroseCase:\n      sorting time: ' + str(t_s) + ' seconds')
 
-    vals = [randint(0, 1000) for _ in range(10)]
+    vals = [randint(0, 1000) for _ in range(100)]
     t_s = timeit.timeit('quick_sort(vals) ', setup='from __main__ import quick_sort, vals')
     print('RandomCase:\n     sorting time: ' + str(t_s) + ' seconds')

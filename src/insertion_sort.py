@@ -9,23 +9,21 @@ def insertion_sort(input_list):
         raise ValueError('input takes list/tuple only')
 
     if isinstance(input_list, (tuple)):
-        temp = []
-        for val in input_list:
-            temp.append(val)
-        input_list = temp
+        input_list = list(input_list)
 
     if not all(isinstance(val, (int, float)) for val in input_list):
         raise ValueError('all items in list must be a number')
 
-    for index in range(1, len(input_list)):
-        curr = input_list[index]
+    insertion_list = input_list[:]
+    for index in range(1, len(insertion_list)):
+        curr = insertion_list[index]
         pos = index
 
-        while pos > 0 and input_list[pos - 1] > curr:
-            input_list[pos] = input_list[pos - 1]
+        while pos > 0 and insertion_list[pos - 1] > curr:
+            insertion_list[pos] = insertion_list[pos - 1]
             pos -= 1
-        input_list[pos] = curr
-    return input_list
+        insertion_list[pos] = curr
+    return insertion_list
 
 
 if __name__ == '__main__':  # pragma: no cover
