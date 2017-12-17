@@ -15,9 +15,9 @@ class Binheap(object):
         self.size += 1
         self._perc_up(self.size)
 
-    def _swap(self, last, parent):
+    def _swap(self, a, b):
         """Swap function for swapping parent and child(internal use)."""
-        self.list[last], self.list[parent] = self.list[parent], self.list[last]
+        self.list[a], self.list[b] = self.list[b], self.list[a]
 
     def _perc_up(self, i):
         """Bubble up the heap."""

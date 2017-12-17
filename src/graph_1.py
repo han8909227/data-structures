@@ -1,5 +1,6 @@
 """Graph_1 data strcture."""
 from numbers import Number
+from binheap import Binheap
 
 
 class Graph:
@@ -127,31 +128,39 @@ class Graph:
             curr = min_key
         return dist[end]
 
-    def sp_bellman_ford(self, start, end):
-            """Return shortest path using bellman ford."""
-            if start not in self.graph or end not in self.graph:
-                raise ValueError('no such node exist')
-            if start == end:
-                return 0
+    def dijkstra(self, start, end):
+        """Awasome dijkstra using min heap."""
+        if start not in self.graph or end not in self.graph:
+            raise ValueError('no such node exist')
+        min_heap = Binheap()
+        dist = []
+        path = []
+        curr = start
+        for n in range(self.neighbors(start)):
+            dist.append(float("inf"))
+            heap_path.push(dist[n])
 
-            prev = {n: None for n in self.graph}
-            dist = {n: float('inf') for n in self.graph}
-            dist[start] = 0
 
-            for _ in range(len(self.graph) - 1):
-                for edge_start, edge_end, weight in self.edges():
-                    if dist[edge_end] > dist[edge_start] + weight:
-                        dist[edge_end] = dist[edge_start] + weight
-                        prev[edge_end] = edge_start
-            return dist[end]
-            # min_path = []
-            # curr = end
-            # if prev[curr] is None:
-            #     raise ValueError('no path between these nodes')
-            # while curr is not None:
-            #     min_path.append(curr)
-            #     curr = prev[curr]
-            # return list(reversed(min_path))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':  # pragma: no cover
     g = Graph()

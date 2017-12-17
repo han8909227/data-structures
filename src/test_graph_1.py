@@ -242,51 +242,51 @@ def test_weight_removed_when_node_deleted(graph_1):
     assert graph_1.edges() == []
 
 
-def test_dijkstra_with_wrong_node(t_graph):
-    """Test dijkstra work properly."""
-    with pytest.raises(ValueError):
-        t_graph.sp_dijkstra(1, 100)
+# def test_dijkstra_with_wrong_node(t_graph):
+#     """Test dijkstra work properly."""
+#     with pytest.raises(ValueError):
+#         t_graph.sp_dijkstra(1, 100)
 
 
-def test_bellman_ford_with_wrong_node(t_graph):
-    """Test bellman_ford work properly."""
-    with pytest.raises(ValueError):
-        t_graph.sp_bellman_ford(1, 100)
+# def test_bellman_ford_with_wrong_node(t_graph):
+#     """Test bellman_ford work properly."""
+#     with pytest.raises(ValueError):
+#         t_graph.sp_bellman_ford(1, 100)
 
 
-def test_dijkstra_find_path(t_graph):
-    """Test dijkstra work properly."""
-    path = t_graph.sp_dijkstra(1, 4)
-    assert path == 9
+# def test_dijkstra_find_path(t_graph):
+#     """Test dijkstra work properly."""
+#     path = t_graph.sp_dijkstra(1, 4)
+#     assert path == 9
 
 
-def test_bellman_ford_find_path(t_graph):
-    """Test bellman_ford work properly."""
-    path = t_graph.sp_bellman_ford(1, 4)
-    assert path == 9
+# def test_bellman_ford_find_path(t_graph):
+#     """Test bellman_ford work properly."""
+#     path = t_graph.sp_bellman_ford(1, 4)
+#     assert path == 9
 
 
-def test_dijkstra_find_path_1(t_graph):
-    """Test dijkstra work properly."""
-    path = t_graph.sp_dijkstra(1, 6)
-    assert path == 10
+# def test_dijkstra_find_path_1(t_graph):
+#     """Test dijkstra work properly."""
+#     path = t_graph.sp_dijkstra(1, 6)
+#     assert path == 10
 
 
-def test_bellman_ford_find_path_1(t_graph):
-    """Test bellman_ford work properly."""
-    path = t_graph.sp_bellman_ford(1, 6)
-    assert path == 10
+# def test_bellman_ford_find_path_1(t_graph):
+#     """Test bellman_ford work properly."""
+#     path = t_graph.sp_bellman_ford(1, 6)
+#     assert path == 10
 
 
-def test_dijkstra_find_path_self(t_graph):
-    """Test dijkstra work properly."""
-    path = t_graph.sp_dijkstra(1, 1)
-    assert path == 0
+# def test_dijkstra_find_path_self(t_graph):
+#     """Test dijkstra work properly."""
+#     path = t_graph.sp_dijkstra(1, 1)
+#     assert path == 0
 
 
-def test_bellman_ford_find_path_self(t_graph):
-    """Test bellman_ford work properly."""
-    path = t_graph.sp_bellman_ford(1, 1)
-    assert path == 0
+# def test_bellman_ford_find_path_self(t_graph):
+#     """Test bellman_ford work properly."""
+#     path = t_graph.sp_bellman_ford(1, 1)
+#     assert path == 0
 
 
