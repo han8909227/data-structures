@@ -101,66 +101,51 @@ class Graph:
                 que = [key for key in self.graph[node]] + que
         return result
 
-    def sp_dijkstra(self, start, end):
-        """Return shortest path using dijkstra."""
-        visited = set()
-        dist = {}
-        for node in self.nodes():
-            dist[node] = float("inf")
-        dist[start] = 0
-        curr = start
-        if start not in self.graph or end not in self.graph:
-            raise ValueError('no such node exist')
-        while curr != end:
-            neighbors = self.neighbors(curr)
+    # def sp_dijkstra(self, start, end):
+    #     """Return shortest path using dijkstra."""
+    #     visited = set()
+    #     dist = {}
+    #     for node in self.nodes():
+    #         dist[node] = float("inf")
+    #     dist[start] = 0
+    #     curr = start
+    #     if start not in self.graph or end not in self.graph:
+    #         raise ValueError('no such node exist')
+    #     while curr != end:
+    #         neighbors = self.neighbors(curr)
 
-            for neighbor in neighbors:
-                dist_curr_to_neigh = self.graph[curr][neighbor]
-                if dist[neighbor] > (dist[curr] + dist_curr_to_neigh):
-                    dist[neighbor] = (dist[curr] + dist_curr_to_neigh)
-            visited.add(curr)
-            min_dist = float("inf")
-            for key in dist:
-                if key not in visited:
-                    if dist[key] < min_dist:
-                        min_dist = dist[key]
-                        min_key = key
-            curr = min_key
-        return dist[end]
+    #         for neighbor in neighbors:
+    #             dist_curr_to_neigh = self.graph[curr][neighbor]
+    #             if dist[neighbor] > (dist[curr] + dist_curr_to_neigh):
+    #                 dist[neighbor] = (dist[curr] + dist_curr_to_neigh)
+    #         visited.add(curr)
+    #         min_dist = float("inf")
+    #         for key in dist:
+    #             if key not in visited:
+    #                 if dist[key] < min_dist:
+    #                     min_dist = dist[key]
+    #                     min_key = key
+    #         curr = min_key
+    #     return dist[end]
 
     def dijkstra(self, start, end):
         """Awasome dijkstra using min heap."""
         if start not in self.graph or end not in self.graph:
             raise ValueError('no such node exist')
-        min_heap = Binheap()
-        dist = []
-        path = []
-        curr = start
-        for n in range(self.neighbors(start)):
-            dist.append(float("inf"))
-            heap_path.push(dist[n])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        heap, visited = Binheap(), set()
+        heap.push([0, start, []])
+        while heap:
+            curdist, node, path = heap.pop()
+            path = path + [node]
+            if node == end:
+                break
+            if node not in visited:
+                visited.add(node)
+                for neighbor, weight in self.neighbors(node).items():
+                    heap.push((curdist + weight, neighbor, path))
+        else:
+            return [], None
+        return curdist, path
 
 if __name__ == '__main__':  # pragma: no cover
     g = Graph()

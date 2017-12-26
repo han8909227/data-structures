@@ -6,8 +6,8 @@ class Binheap(object):
 
     def __init__(self, iterable=None):
         """Will init a new instance of the min heap."""
-        self.list = [None]
         self.size = 0
+        self.list = [None]
 
     def push(self, data):
         """Will push a value into the Binheap class."""
