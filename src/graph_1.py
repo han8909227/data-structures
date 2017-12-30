@@ -130,6 +130,12 @@ class Graph:
             return [], None
         return curdist, path
 
+    def ck_acylic_graph(self):
+        """Determine if there is a cycle in the graph."""
+        pass
+
+
+
 if __name__ == '__main__':  # pragma: no cover
     g = Graph()
     g.add_edge('A', 'B', 2)
