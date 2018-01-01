@@ -1,5 +1,6 @@
 """Graph_1 data strcture."""
 from numbers import Number
+from binheap import Binheap
 
 
 class Graph:
@@ -100,58 +101,40 @@ class Graph:
                 que = [key for key in self.graph[node]] + que
         return result
 
-    def sp_dijkstra(self, start, end):
-        """Return shortest path using dijkstra."""
+    def dfs_recursive(self, start):
+        """Implement dfs with recursive strategy."""
         visited = set()
-        dist = {}
-        for node in self.nodes():
-            dist[node] = float("inf")
-        dist[start] = 0
-        curr = start
+        result = []
+        for neighbor in self.neighbors(start):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                result.append(neighbor)
+                self.dfs_recursive(neighbor)
+
+    def dijkstra(self, start, end):
+        """Awasome dijkstra using min heap."""
         if start not in self.graph or end not in self.graph:
             raise ValueError('no such node exist')
-        while curr != end:
-            neighbors = self.neighbors(curr)
+        heap, visited = Binheap(), set()
+        heap.push([0, start, []])
+        while heap:
+            curdist, node, path = heap.pop()
+            path = path + [node]
+            if node == end:
+                break
+            if node not in visited:
+                visited.add(node)
+                for neighbor, weight in self.neighbors(node).items():
+                    heap.push((curdist + weight, neighbor, path))
+        else:
+            return [], None
+        return curdist, path
 
-            for neighbor in neighbors:
-                dist_curr_to_neigh = self.graph[curr][neighbor]
-                if dist[neighbor] > (dist[curr] + dist_curr_to_neigh):
-                    dist[neighbor] = (dist[curr] + dist_curr_to_neigh)
-            visited.add(curr)
-            min_dist = float("inf")
-            for key in dist:
-                if key not in visited:
-                    if dist[key] < min_dist:
-                        min_dist = dist[key]
-                        min_key = key
-            curr = min_key
-        return dist[end]
+    def ck_acylic_graph(self):
+        """Determine if there is a cycle in the graph."""
+        pass
 
-    def sp_bellman_ford(self, start, end):
-            """Return shortest path using bellman ford."""
-            if start not in self.graph or end not in self.graph:
-                raise ValueError('no such node exist')
-            if start == end:
-                return 0
 
-            prev = {n: None for n in self.graph}
-            dist = {n: float('inf') for n in self.graph}
-            dist[start] = 0
-
-            for _ in range(len(self.graph) - 1):
-                for edge_start, edge_end, weight in self.edges():
-                    if dist[edge_end] > dist[edge_start] + weight:
-                        dist[edge_end] = dist[edge_start] + weight
-                        prev[edge_end] = edge_start
-            return dist[end]
-            # min_path = []
-            # curr = end
-            # if prev[curr] is None:
-            #     raise ValueError('no path between these nodes')
-            # while curr is not None:
-            #     min_path.append(curr)
-            #     curr = prev[curr]
-            # return list(reversed(min_path))
 
 if __name__ == '__main__':  # pragma: no cover
     g = Graph()
