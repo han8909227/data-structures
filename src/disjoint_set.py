@@ -11,6 +11,8 @@ class DisjointSet(object):
     def __init__(self, iterable=None):
         """Init disjoint set."""
         self._sets = []
+        if not all(isinstance(val, (int, float)) for val in iterable):
+            raise ValueError('all items in list must be a number')
         for val in iterable:
             self._sets.append([val])
 
