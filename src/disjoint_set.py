@@ -1,8 +1,4 @@
-"""
-Disjoint set data structure.
-Disjoint Set data structure (Union–Find), is a data structure that keeps track of a
-set of elements partitioned into a number of disjoint (nonoverlapping) subsets.
-"""
+"""Disjoint set data structure, Disjoint Set data structure, is a data structure that keeps track of a set of elements partitioned into a number of disjoint subsets."""
 
 
 class DisjointSet(object):
